@@ -1,0 +1,56 @@
+思路
+在MySQL中创建一个事件，在事件里启动定时任务，执行删除
+
+前期准备，以“delete_data_t_carstop”事件为例
+
+1，查看Mysql事件是否开启
+show variables like '%scheduler%';    #或者 show variables like 'event_scheduler';
+set global event_scheduler = 1;       #这里把Value改为ON，开启
++-----------------+-------+
+| Variable_name   | Value |
++-----------------+-------+
+| event_scheduler | OFF   |  
++-----------------+-------+
+
+其它命令：
+show events : 查看已有的事件
+alter event delete_data_t_carstop disable : 手动关闭事件
+alter event delete_data_t_carstop enable ： 手动开启该事件
+drop event delete_data_t_carstop : 删除事件
+
+
+
+2,执行以下命令，#是sql脚本的注释
+
+例(1)，指定的时间执行命令
+drop event if exists delete_data_t_carstop;    #删除同名事件任务
+create event delete_data_t_carstop
+on schedule every 1 day 
+starts date_add(concat(current_date(), ' 23:59:00'), interval 0 second)   #每天的23：59：00删除表内数据，注意' 23:59:00'的23前有空格
+on completion preserve enable           #”on completion preserve enable“含义：创建完成后即启用，不需手动启动
+do truncate table t_car_stop;
+
+例(2)，每隔一段时间执行命令
+drop event if exists delete_data_t_carstop;    #删除同名事件任务
+create event delete_data_t_carstop
+on schedule every 10 second          #每隔10秒执行一次命令
+starts date_add(concat(current_date()), interval 0 second)   #以当前时间开始
+on completion preserve enable
+do truncate table t_car_stop;
+
+例(3)，加上root权限
+drop event if exists delete_data_t_carstop;    
+create DEFINER=`root`@`%` event delete_data_t_carstop
+on schedule every 1 day 
+starts date_add(concat(current_date(), ' 10:15:00'), interval 0 second)   
+on completion preserve enable           
+do truncate table t_car_stop;
+
+
+
+备注：
+
+参考网址
+https://www.cnblogs.com/luozx207/p/10607696.html
+https://www.cnblogs.com/luozx207/p/10607696.html
+https://blog.51cto.com/phpervip/2139750

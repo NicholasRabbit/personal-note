@@ -1,0 +1,84 @@
+实现思路：
+Mysql如何每天自动建表？
+一、新建事件每天调用存储过程
+二、存储过程里面建表
+1、获取当前时间，转换字符串
+2、拼接sql语句建表
+
+前期准备
+1，查看Mysql事件是否开启
+show variables like '%scheduler%';   #或者 show variables like 'event_scheduler';
+set global event_scheduler = 1;      #这里把Value改为ON
++-----------------+-------+
+| Variable_name   | Value |
++-----------------+-------+
+| event_scheduler |  ON   |  
++-----------------+-------+
+2，实现步骤  (加 DEFINER=`root`@`%`后 语法错误，原因待查)
+  (1)创建存储过程，以表“t_car_stop_日期”为例
+  drop procedure if exists  create_t_carstop_day;
+  delimiter //
+  create DEFINER=`root`@`%`  procedure create_t_carstop_day()    #definer后面是设置的用户权限，这里是指只有root才有权限执行
+  
+  begin
+
+  declare @suffix varchar(16);
+  declare @sqlstr varchar(2560);
+  set @suffix = DATE_FORMAT(DATE_ADD(NOW(),INTERVAL 1 DAY),'%Y%m%d');    #拼接表名，例如：f3_location_20210906
+  set @sqlstr = CONCAT(‘create table if not exists f3_location_’, ‘@suffix’ , like f3_location_YYmmdd);   #f3_location_YYmmdd是模板表，字段已经订好了，不用再写字段的方式创建了
+  prepare stmt1 from @sqlstr;
+  execute stmt1;
+  deallocate prepare stmt1;   #deallocate释放存储过程资源
+
+  end
+
+  //
+  delimiter ; 
+  
+  (2)创建事件，执行存储过程
+  create DEFINER=`root`@`%` event create_t_everyday
+  on schedule every 1 day starts '2021-10-13 00:00:00' 
+  on completion preserve enable   
+  do 
+  begin
+  call create_t_carstop_day();
+  end
+
+  # on completion preserve enable    #表示创建完事件自动执行
+
+常用命令:
+show procedure status;  查看当前数据库内现有的存储过程
+show procedure status like "c%" : 按名称模糊查询存储过程
+
+
+!!注意：在声明存储过程前要先用use database_name切换到想要应用的数据库，否则存储过程会应用到默认数据库中
+
+什么是存储过程？
+我们把若干条sql封装起来，取个名字，—过程。
+把此过程存储在数据库中，—存储过程。
+
+范例,创建一个删除的存储过程
+**注意DELIMITER 的用法**
+--------
+DELIMITER // 
+create procedure del_data()
+BEGIN
+	DELETE FROM table WHERE created_on < DATE_SUB(CURDATE(),INTERVAL 3 DAY);
+END//
+DELIMITER ;
+-------------
+DELIMITER是分割符的意思，声明存储过程前将"//"声明为分隔符，
+这样存储过程中的“;”才不会被当作分隔符处理。声明结束后再还原分隔符。
+存储过程也可以带参数，存储过程名(参数)
+在声明存储过程前要先用use database_name切换到想要应用的数据库，否则存储过程会应用到默认数据库中
+
+
+参考网址
+https://blog.51cto.com/phpervip/2139750
+https://www.cnblogs.com/luozx207/p/10607696.html
+
+
+
+
+
+

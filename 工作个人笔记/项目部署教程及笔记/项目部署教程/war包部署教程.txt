@@ -1,0 +1,6 @@
+（工作中总结）
+首先把项目打包成war包
+执行命令
+cd /home/iot-seal/
+./shutdown.sh  : 关闭tomcat
+./start.sh  : 开启tomcat

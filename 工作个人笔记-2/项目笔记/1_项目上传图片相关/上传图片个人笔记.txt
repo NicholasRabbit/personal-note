@@ -1,0 +1,8 @@
+1, 传回给前端的路径字段是项目根路径context-path后面的图片相对路径，
+   两个拼接起来才可访问服务器本地的映射好的图片
+   例：
+   项目根路径： http://localhost:8020/wx/
+   文件相对路径：/wxfiles/photos/recycleicon.jpg 
+   实际路径：E:\localfile\recycle\photos\recycleicon.jpg 
+   
+      

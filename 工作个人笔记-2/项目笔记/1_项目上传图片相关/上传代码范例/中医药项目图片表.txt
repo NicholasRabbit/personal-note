@@ -1,0 +1,18 @@
+表：
+yz_mobile_index_banner
+代码
+YzMobileIndexBannerController.java
+
+YzMobileIndexBannerService.java {
+/**
+	 * 保存数据（插入或更新）
+	 * @param yzMobileIndexBanner
+	 */
+	@Override
+	@Transactional(readOnly=false)
+	public void save(YzMobileIndexBanner yzMobileIndexBanner) {
+		super.save(yzMobileIndexBanner);
+		// 保存上传图片
+		FileUploadUtils.saveFileUpload(yzMobileIndexBanner.getId(), "yzMobileIndexBanner_image");
+	}
+}

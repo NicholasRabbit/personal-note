@@ -1,0 +1,59 @@
+
+ mysql 按照月份自动创建表，以年和月为表明，动态生成。
+
+需求：mysql5.5 数据库，想要根据月份自动创建表，每个月创建一张表，需要数据库自动创建，并根据当前年和月动态生成表名称。
+
+ 
+
+解决办法：1 连接数据库工具为Navicat
+
+ 　　　　  2  首先创建存储过程，然后通过创建定时事件执行存储过程。
+
+              3  先查看事件是否开启          show variables like '%scheduler%';
+
+　　　　　4  如果未开启则需要开启       set global event_scheduler = 1;
+
+ 
+
+创建存储过程：
+
+　1　点击查询--》新建查询--> 输入以下代码，然后在函数中就可以查看到建立的存储过程。
+
+   2   我这里利用循环一次建立了12张表，以年和月开头为表明。
+
+  3     PARTITION BY HASH(GTID)        PARTITIONS 100   利用哈希表的形式把每个表分为100个区，提高检索效率
+
+====================
+BEGIN
+declare i int;
+set i=0;
+while i<12 do  
+    set @sql_create_table_gpstrail = concat(  
+'CREATE TABLE IF NOT EXISTS xj_dt_gpstrail', date_format(date_add(curdate(), interval i month),'%Y%m'),  
+"(  
+    `GTID` int(11) NOT NULL AUTO_INCREMENT,
+  `DeviceId` varchar(32) DEFAULT NULL COMMENT '设备ID',
+  `Longitude` decimal(18,8) DEFAULT NULL COMMENT '经度',
+  `Latitude` decimal(18,8) DEFAULT NULL COMMENT '纬度',
+  `Speed` int(11) DEFAULT NULL COMMENT '速度', 
+  `LocationTime` datetime DEFAULT NULL COMMENT '定位时间',
+  `ReciveTime` datetime DEFAULT NULL COMMENT '接收时间',
+  `loginid` int(11) DEFAULT NULL COMMENT '登陆人账号',
+  `BdLon` decimal(18,8) DEFAULT NULL COMMENT '百度经度',
+  `BdLat` decimal(18,8) DEFAULT NULL COMMENT '百度纬度',
+  PRIMARY KEY (`GTID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='GPS轨迹'
+PARTITION BY HASH(GTID) 
+PARTITIONS 100
+");  
+  
+PREPARE sql_create_table_gpstrail FROM @sql_create_table_gpstrail;     
+EXECUTE sql_create_table_gpstrail;  
+set i=i+1;
+end while;
+END
+
+=======================
+
+参考网址：
+https://www.cnblogs.com/smile-wei/p/6424671.html

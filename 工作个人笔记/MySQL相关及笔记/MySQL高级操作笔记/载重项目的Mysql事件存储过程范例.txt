@@ -1,0 +1,26 @@
+
+载重项目f3_location_日期，事件
+CREATE DEFINER=`root`@`%` EVENT `create_table_day` ON SCHEDULE EVERY 1 DAY STARTS '2019-12-12 00:00:05' ON COMPLETION NOT PRESERVE ENABLE DO call table_yyyyddyy
+
+ 
+载重项目存储过程  PROCEDURE `table_yyyyddyy`
+CREATE DEFINER=`root`@`%` PROCEDURE `table_yyyyddyy`()   #definer后面是设置的用户权限，这里是指只有root才有权限执行
+begin  
+
+SET @v_sql_del = CONCAT('drop table if exists f3_location_',DATE_FORMAT(DATE_SUB(curdate(),INTERVAL 10 DAY),'%Y%m%d'));      
+       PREPARE stmt FROM @v_sql_del;
+       EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+															       #like的用法，这里按照”f3_location_yyyymmdd“表结构创建新的表				
+SET @v_sql_create = CONCAT('create table if not exists f3_location_',DATE_FORMAT(DATE_add(curdate(), INTERVAL 2 DAY),'%Y%m%d'),' like f3_location_yyyymmdd'); 
+PREPARE stmt1
+FROM @v_sql_create;
+EXECUTE stmt1; 
+DEALLOCATE PREPARE stmt1;
+
+end
+
+创建事件：
+CREATE DEFINER=`root`@`%` EVENT `create_table_day` 
+ON SCHEDULE EVERY 1 DAY STARTS '2019-12-12 00:00:05' 
+ON COMPLETION NOT PRESERVE ENABLE DO call table_yyyyddyy;

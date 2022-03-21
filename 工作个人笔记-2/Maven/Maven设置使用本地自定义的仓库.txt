@@ -1,0 +1,2 @@
+在Maven安装目录 conf/settings.xml文件里进行以下设置
+<localRepository>F:\Learning\Computer\Maven\maven_projects\maven_repository</localRepository>

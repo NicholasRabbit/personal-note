@@ -1,0 +1,9 @@
+
+
+用户-->角色（多个）-->菜单（多个）--->超链接，权限等
+
+相关表格：
+sys_user-->sys_user_role-->sys_role_menu-->sys_menu
+
+表格sys_menu里含有超链接，对应权限，菜单图标等
+						

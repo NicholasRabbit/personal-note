@@ -1,0 +1,18 @@
+
+hostnamectl / hostnamectl status : 查询主机信息
+
+hostnamectl set-hostname "tom" : 修改主机名字，即命令行的改为 root@tom
+
+~/.bash.profile : ~ 表示账户的home目录
+
+lastb | awk '{ print $3}' | sort | uniq -c | sort -n  ： 查看最近登录失败的ip地址，看谁袭击服务器
+
+lastb : 查看最近的登录信息
+
+lastlog : 查看登录日志
+
+last : 显示登录成功信息，具体选项可参照说明 man last
+
+cat /root/.bash_history : 查看操作记录
+cat ~/.bash_history : 查看操作记录
+
