@@ -32,7 +32,7 @@ IPADDR=192.168.139.129      上面的dhclient的地址
 
 NETMASK=255.255.255.0   子网掩码
 
-GATEWAY=192.168.139.1     配置网关    //一般网关是....  .1，最后是1, 虚拟机里有时候自动生成的是 .2，要注意
+GATEWAY=192.168.139.1     配置网关    //一般网关是....  .1，最后是1, 虚拟机里有时候自动生成的是 .2，要注意											(网关是192.168.xxx.2见虚拟机:编辑-->虚拟机网络编辑器-->VMNet8  nat设置里的数据)
 
 DNS1=119.29.29.29    配置DNS服务器
 
@@ -66,3 +66,21 @@ https://blog.csdn.net/linux2422988311/article/details/106578365
 
 （如果以上设置不行）要启动设备网络服务，再按照上面设置一边，重启。参照同目录vmware开启网络服务教程
 
+### 4, putty等SSH客户端链接不上虚拟机的Linux的解决方案
+
+ 	1), 首先查看防火墙是否开启22端口，firewall-cmd --list-ports，没有则开启
+
+​	 2), vi   /etc/ssh/sshd_config  :   打开此文件编辑
+
+```txt
+Port 22  //取消注释
+#AddressFamily any
+ListenAddress 0.0.0.0  //取消注释
+ListenAddress ::    //取消注释
+....
+LoginGraceTime 2m   //全部取消注释
+PermitRootLogin yes
+StrictModes yes
+```
+
+ 3), 如果还不管用，则在win物理主机网络中找到vmnet8，改为自动分配IP，自动DNS

@@ -1,0 +1,24 @@
+一，安装依赖包
+	1，下载pcre-8.45.tar.gz
+	   cd pcre-8.45 : 进入解压目录，然后执行 ./configure,检查安装环境
+	   make && make install :   安装
+	   或者：yum -y install pcre-devel
+    2，安装 openssl
+	   yum -y install make zlib zlib-devel gcc-c++ libtool openssl openssl-devel ： 安装了三个依赖包
+	   或者：yum -y install openssl openssl-devel : 执行此命令会把zlib 、 gcc 依赖也会自动安装
+
+二，安装nginx，并启动
+	1，进入解压包
+	   ./configure : 检查安装环境，如果出现“OpenSSL library is not used”，也没事，个人已验证安装成功
+	   make && make install :
+    2，启动，ngnix可执行文件位置默认在“/usr/local/nginx/sbin/”
+		/usr/local/nginx/sbin/nginx ： 启动nginx 
+
+三，开放防火墙端口
+    查看nginx配置文件.../nginx/conf/nginx.conf可知，nginx默认监听80端口，而浏览器http协议输入ip地址不加端口则默认也是访问80
+	firewall-cmd --list-all  : 查看开放的端口号
+	firewall-cmd --add-service=http –permanent : 开启http服务
+	firewall-cmd --add-port=80/tcp --permanent : 设置开放的端口号
+	firewall-cmd –reload : 重启防火墙
+
+最后直接输入Linux的ip地址可直接访问nginx，不用加80端口	
