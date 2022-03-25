@@ -14,7 +14,7 @@ rpm -e --nodeps + java包名 ：如果上条有查询结果，执行此命令卸载
 	   
 	   JRE_HOME=$JAVA_HOME/jre
 
-	b. CLASSPATH=$JAVA_HOME/lib/:$JAVA_HOME/jre/lib/:.   //注意加冒号：和点 .
+	b. CLASSPATH=$JAVA_HOME/lib/:$JRE_HOME/lib/:.   //注意加冒号：和点 .
 
 	c. PATH=$PATH:$JAVA_HOME/bin     //$PATH写在最前面
 

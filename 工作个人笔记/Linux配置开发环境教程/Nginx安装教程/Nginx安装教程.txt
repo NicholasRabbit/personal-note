@@ -13,6 +13,9 @@
 	   make && make install :
     2，启动，ngnix可执行文件位置默认在“/usr/local/nginx/sbin/”
 		/usr/local/nginx/sbin/nginx ： 启动nginx 
+    3，查看nginx是否启动
+		ps -ef | grep nginx
+		netstat -ntlp | grep 80 : nginx默认使用80端口
 
 三，开放防火墙端口
     查看nginx配置文件.../nginx/conf/nginx.conf可知，nginx默认监听80端口，而浏览器http协议输入ip地址不加端口则默认也是访问80
@@ -22,3 +25,7 @@
 	firewall-cmd –reload : 重启防火墙
 
 最后直接输入Linux的ip地址可直接访问nginx，不用加80端口	
+
+四，其它命令
+在/nginx/sbin/目录下执行
+./nginx -v : 查看版本号
