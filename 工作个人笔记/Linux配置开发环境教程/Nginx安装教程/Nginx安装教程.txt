@@ -22,7 +22,7 @@
 	firewall-cmd --list-all  : 查看开放的端口号
 	firewall-cmd --add-service=http –permanent : 开启http服务
 	firewall-cmd --add-port=80/tcp --permanent : 设置开放的端口号
-	firewall-cmd –reload : 重启防火墙
+	firewall-cmd –-reload : 重启防火墙
 
 最后直接输入Linux的ip地址可直接访问nginx，不用加80端口	
 

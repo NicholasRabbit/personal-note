@@ -17,11 +17,11 @@
    touch tomcat ： 新建文件tomcat
    chmod +x tomcat " 添加执行权限
    添加以下内容：
-        #!/bin/bash          
+    #!/bin/bash          
 	#chkconfig:- 20 90
 	#description:tomcat
 	#processname:tomcat
-	TOMCAT_HOME=/usr/local/tomcat/apache-tomcat-8.5.55    #此路径按照个人电脑的路径
+	TOMCAT_HOME=/usr/local/tomcat/apache-tomcat-8.5.55    #此路径按照个人电脑的路径,格式缩进要复制对，否则不起作用
 	case $1 in
 	 start) su root $TOMCAT_HOME/bin/startup.sh;;
 	 stop) su root $TOMCAT_HOME/bin/shutdown.sh;;

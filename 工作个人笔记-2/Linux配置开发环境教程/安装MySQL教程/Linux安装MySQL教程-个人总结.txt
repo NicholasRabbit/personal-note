@@ -1,5 +1,0 @@
-版本为MySql 5.7.34
-1，检查系统中是否有MariaDB如果有则卸载
-   rpm -qa | grep mariadb
-   例如： mariadb-libs.x86_64 1:5.5.41-2.el7_0
-   yum -y remove  mariadb-libs.x86_64 1:5.5.41-2.el7_0
