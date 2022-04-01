@@ -17,7 +17,7 @@
    自定义安装目录后，还需进行以下设置：
    mkdir  /usr/local/redis-3.0.4/bin/conf : 在自定义的目录的bin下新建目录conf
    cp  /usr/local/redis/redis-3.0.4/redis.conf   /usr/local/redis-3.0.4/bin/conf  : 把安装包下的redis.conf文件复制到安装目录下的conf文件夹里 
-    ./redis-server conf/redis.conf  ： 在bin目录下执行启动服务
+    ./redis-server conf/redis.conf  ： 在bin目录下执行启动服务（带着配置文件启动）
 
 5，配置Redis自动启动,以自定义按装在/usr/local/redis-3.0.4/bin目录下为例
    (1)vi  /usr/local/redis-3.0.4/bin/conf/redis.conf : 打开redis.conf文件
@@ -53,7 +53,7 @@
    需要修改的内容：
    保护模式: protected-mode yes # 需要修改为 no ，修改之后， Redis 服务将会在后台运行 
    绑定 ip: bind 127.0.0.1 # 默认监听本机 Redis, 修改为 bind 0.0.0.0 之后即可远程连接 Redis 
-   线程保护: daemonsize: no # 默认关闭,需要将其修改为 yes 
+   线程保护: daemonize: no # 默认关闭,需要将其修改为 yes 
    日志文件: logfile “” #默认在控制台打印，不会记录到文件，可以指定日志文件路径(日志文件的目录必须提前创建) :(log是log.log文件)
    logfile "/usr/local/redis/logs/log"
    数据持久化目录 dir ./ # 默认数据保存在当前目录，可以指定数据保存目录(目录也需要提前创建好),dir /usr/local/redis/datas/
