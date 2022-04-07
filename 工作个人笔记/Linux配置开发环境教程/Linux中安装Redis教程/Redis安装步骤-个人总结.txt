@@ -76,7 +76,7 @@
 9，设置redis密码
    vim /etc/redis/6379.conf
    #requirepass foobared
-   去掉注释，将 foobared 修改为⾃⼰想要的密码，保存即可。
+   去掉注释，将 foobared 修改为想要的密码，保存即可。
    ./redis-cli启动后输入密码
    127.0.0.1 > auth 123456
 
@@ -109,19 +109,29 @@ redis常用命令，“./”指的是在安装的bin目录下执行命令，redi
  # 当Redis编译出错时，使用命令清除已编译生成的文件（不执行也可以：不推荐）     
   make  distclean
 
-
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !!!快捷安装方式，按照程序羊的教程做完之后，还要配置开机启动
-vi /etc/init.d/redis_6379 : 打开这个脚本做以下修改
+(1)vi /etc/init.d/redis_6379 : 打开这个脚本做以下修改
       ==================================================
       #!/bin/sh			  //这是第一行，原先有
       #chkconfig: 2345 90 10      //这两行为新加
       #description: Redis is a persistent key-value database 
       ==================================================
+(2)修改配置
+修改6379.conf的配置信息：vim /etc/redis/6379.conf
+   需要修改的内容：
+   保护模式: protected-mode yes # 需要修改为 no ，修改之后， Redis 服务将会在后台运行 
+   绑定 ip: bind 127.0.0.1 # 默认监听本机 Redis, 修改为 bind 0.0.0.0 之后即可远程连接 Redis 
+   线程保护: daemonize: no # 默认关闭,需要将其修改为 yes 
+   日志文件: logfile “” #默认在控制台打印，不会记录到文件，可以指定日志文件路径(日志文件的目录必须提前创建) :(log是log.log文件)
+   logfile "/usr/local/redis/logs/log"
+   数据持久化目录 dir ./ # 默认数据保存在当前目录，可以指定数据保存目录(目录也需要提前创建好),dir /usr/local/redis/datas/
+(3)设置开机启动
 chkconfig --add redis_6379
 chkconfig redis_6379 on
 service redis_6379 start   : 默认启动关闭命令
 service redis_6379 stop
-
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 参考网址
