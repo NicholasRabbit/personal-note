@@ -1,0 +1,34 @@
+Redis设置开机自启动  systemctl的方式
+开启Redis进程守护
+
+修改 redis.conf 配置文件
+
+daemonize yes
+
+配置文件
+
+在目录 /lib/systemd/system 下新建文件 redis.service ：
+
+redis.service里添加以下内容：
+==================
+[Unit]
+Description=Redis
+After=network.target
+[Service]
+Type=forking
+PIDFile=/var/run/redis_6379.pid
+# redis-server redis.conf
+ExecStart=/usr/local/redis/bin/redis-server /usr/local/redis/conf/redis.conf   #这里路径改为自己的路径
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target
+========================
+
+
+重载服务
+# 重载服务
+systemctl daemon-reload
+# 开机自启
+systemctl enable redis
