@@ -232,3 +232,12 @@ public abstract class AuthenticatingFilter extends AuthenticationFilter {
     }
 ```
 
+### 4，JeeSite新增用户
+
+JeeSite前台不开放注册，需要管理员添加；
+
+![1650865634280](note-images/1650865634280.png)
+
+分配相应角色，默认初始密码是123456，用户首次登陆后会提示修改；
+
+![1650865656289](note-images/1650865656289.png)
