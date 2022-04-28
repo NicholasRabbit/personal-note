@@ -54,13 +54,15 @@ export CATALINA_HOME_8081 CATALINA_BASE_8081
 
 ### 3，Windows中开启多个Tomcat
 
-同理第2条，如果启动startup.bat时，会首先找系统变量CATALINA_HOME所指向的Tomcat根目录，如果无此变量才会在本目录下找，如果要启动多个Tomcat有两种方式
+同理第2条，如果启动startup.bat时，会首先找系统变量CATALINA_HOME所指向的Tomcat根目录，如果无此变量才会在本目录下找，如果要启动多个Tomcat有两种方式。
 
-一，删除系统变量CATALINA_HOME;
+方式一，删除系统变量CATALINA_HOME;
 
-二，修改这三个文件（shutdowm.bat、startup.bat、catalina.bat）启动的配置，并增加相应变量
+方式二，修改这三个文件（shutdowm.bat、startup.bat、catalina.bat）启动的配置，并增加相应变量
 
 将这些文件用记事本打开，将文件中CATALINA_HOME全部替换成CATALINA_HOME_8081（就是你配置的第二个Tomcat环境变量值，即第二个Tomcat安装路径）
+
+**注意server.xml里的端口号要改**
 
 ### 4，Tomcat启动界面乱码(Windows环境)
 
