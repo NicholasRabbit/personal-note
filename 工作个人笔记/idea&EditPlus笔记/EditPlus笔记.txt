@@ -1,0 +1,2 @@
+1,EditPlus添加语法高亮,在下面文件里添加类名即可
+  E:\Program Files (x86)\EditPlus 3\java.stx

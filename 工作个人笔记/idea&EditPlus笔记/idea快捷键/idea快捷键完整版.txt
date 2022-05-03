@@ -1,0 +1,294 @@
+本篇文章汇总了141个IDEA快捷键，其中包含了IDEA提高效率的快捷键，IDEA编辑快捷键，IDEA重构时用到的快捷键，IDEA编译和运行快捷键，IDEA Debug调试用到的快捷键，IDEA文件导航快捷键以及IDEA搜索快捷键。
+
+掌握了这些IDEA快捷键基本上可以告别鼠标了。
+1.IDEA提高效率的快捷键
+
+Ctrl+N 快速打开任何类文件.
+
+Ctrl+Shift+N  快速打开任何文件.
+
+Ctrl+Shift+F12 最大化代码窗口和最小化代码窗口来回切换.
+
+Ctrl+Space 代码自动补全
+
+Alt+F7 查找光标所位置的类、方法、变量，在整个项目中使用特定类、方法或变量的所有位置。
+
+Crtl+P 快速查看在编辑器的光标处使用的类或方法的文档。
+2.IDEA编辑快捷键
+
+Ctrl+Space 基本代码补全，包括任何类，任何方法，任何变量。
+
+Ctrl+Shift+Space 智能代码补全(按预期类型筛选方法和变量列表)
+
+Ctrl+Shift+Enter 完整的语句
+
+Ctrl+P 查看方法参数信息
+
+Ctrl+Q 快速查找文档
+
+Shift+F1 IDEA的外部文档
+
+Ctrl+ mouse 查看代码的信息
+
+Ctrl+F1 显示错误或警告的描述
+
+Alt+Insert 生成代码，包含：Getters, Setters, Constructors, hashCode/equals, toString
+
+Ctrl+O 覆盖方法
+
+Ctrl+I 实现接口中的方法
+
+Ctrl+Alt+T 选择条件语句 (if..else, try..catch, for, synchronized, etc.)
+
+Ctrl+/ 用行注释注释/取消注释
+
+Ctrl+Shift+/ 块注释/取消注释
+
+Ctrl+W 选择代码块，每按一次则不断像外扩张
+
+Ctrl+Shift+W 与上面相对应，不断缩小选择范围。
+
+Alt+Q 上下文信息
+
+Alt+Enter 显示意图、行动和快速修复
+
+Ctrl+Alt+L 重新格式化代码
+
+Ctrl+Alt+O 优化imports
+
+Ctrl+Alt+I 自动缩进
+
+Tab/Shift+Tab 缩进或者取消缩进已选择的行
+
+Ctrl+X/Shift+Delete 将当前行或选定块剪切到剪贴板
+
+Ctrl+C/Ctrl+Insert 将当前行或选定的块复制到剪贴板
+
+Ctrl+V/Shift+Insert 从剪贴板粘贴
+
+Ctrl+Shift+V 从最近的缓冲区粘贴。
+
+Ctrl+D 重复当前行或选定块
+
+Ctrl+Y 删除光标所在的行
+
+Ctrl+Shift+J 智能合并
+
+Ctrl+Enter 智能拆分
+
+Shift+Enter 新的行
+
+Ctrl+Shift+U 为光标或选定块的单词切换大小写
+
+Ctrl+Shift+]/[ 选择till代码块结束/开始
+
+Ctrl+Del 删除光标后的字符串，会自动判断。
+
+Ctrl+backspace 快速向前删除，会自动判断。
+
+Ctrl+ 加号/减号 展开/折叠代码块
+
+Ctrl+Shift+加号/减号 展开所有/折叠所有代码块
+
+Ctrl+F4 关闭活动编辑器选项卡
+
+Alt+F7/Ctrl+F7 查找在哪里使用/查找文件中的在哪里使用
+
+Ctrl+Shift+F7 高亮显示文件用到的地方，例如变量、方法
+
+Ctrl+Alt+F7 显示用到的地方
+
+F5 复制
+
+F6 移动
+
+Alt+Delete 安全删除
+
+Shift+F6 重命名文件
+
+Ctrl+F6 更改签名
+
+Ctrl+Alt+N Inline
+
+Ctrl+Alt+M 提取方法
+
+Ctrl+Alt+V 提取变量
+
+Ctrl+Alt+F 提取字段
+
+Ctrl+Alt+C 提取常量
+
+Ctrl+Alt+P 提取参数
+3.IDEA搜索和替换快捷键
+
+双击Shift 在整个项目中搜索文本、文件
+
+Ctrl+F 当前文件查找
+
+F3/Shift+F3 查找下一个或者上一个
+
+Ctrl+R 替换当前文件的某个字段
+
+Ctrl+Shift+F 在项目中查找文本
+
+Ctrl+Shift+R 在项目中替换文本
+4. IDEA编译和运行快捷键
+
+Ctrl+F9 Make项目(编译修改和依赖)
+
+Ctrl+Shift+F9 编译选定的文件、包或模块
+
+Alt+Shift+F10 选择配置并运行
+
+Alt+Shift+F9 选择配置和调试
+
+Shift+F10 运行
+
+Shift+F9 Debug
+
+Ctrl+Shift+F10 从编辑器运行上下文配置
+5.IDEA debug调试快捷键
+
+Ctrl+K Commit项目到VCS
+
+Ctrl+T 从VCS更新项目
+
+Alt+Shift+C 查看最近的更改
+
+Alt+` 快速弹出VCS
+
+F8 步出
+
+F7 步进
+
+Shift+F7 智能步进
+
+Shift+F8 智能步出
+
+Alt+F9 定位到光标地方
+
+Alt+F8 计算表达式
+
+F9 回复程序
+
+Ctrl+F8 切换断点
+
+Ctrl+Shift+F8 查看断点
+6.IDEA实时代码模板快捷键快捷键
+
+Ctrl+Alt+J 环绕活动模板
+
+Ctrl+J 插入实时代码模板
+
+Ctrl+J - iter 按照Java SDK 1.5的风格进行迭代
+
+Ctrl+J - inst 用instanceof检查对象类型并向下转换它
+
+Ctrl+J - itco Iterate Collection /迭代java.util.Collection的元素
+
+Ctrl+J - itit Iterate Itterator / IIterate elements of java.util.Iterator
+
+Ctrl+J - itli Iterate List /迭代java.util.List的元素
+
+Ctrl+J - psf Public static final
+
+Ctrl+J - thr throw new
+7.IDEA导航快捷键
+
+Ctrl+N 搜索类
+
+Ctrl+Shift+N 搜索文件
+
+Ctrl+Alt+Shift+N 搜索符号，不知道怎么用
+
+Alt+ Right/Left 转到下一个/上一个编辑器选项卡
+
+F12 回到上一个工具窗口
+
+Esc 进入编辑器(从工具窗口)
+
+Shift+Esc 隐藏活动窗口或上次活动窗口
+
+Ctrl+Shift+F4 关闭活动运行/信息/查找/…的选项卡
+
+Ctrl+G Go to line
+
+Ctrl+E 最近文件弹出
+
+Ctrl+Alt+Arrow 左/箭头向右向后/向前导航
+
+Ctrl+Shift+Backspace 导航到最后一个编辑位置
+
+Alt+F1 在任何视图中选择当前文件或符号
+
+Ctrl+B/Ctrl+ 点击去声明
+
+Ctrl+Alt+B 去实现
+
+Ctrl+Shift+I 打开快速定义查找
+
+Ctrl+Shift+B 转到类型声明
+
+Ctrl+U 父类方法/超类
+
+Alt+Arrow 向上/向下转到上一个/下一个方法
+
+Ctrl+]/[ 移动到代码块结束、移动到代码块开始
+
+Ctrl+F12 弹出文件结构
+
+Ctrl+H 类型层次结构
+
+Ctrl+Shift+H 方法层次结构
+
+Ctrl+Alt+H 调用层次结构
+
+F2/Shift+F2 上一个高亮的错误/下一个高亮错误
+
+F4/Ctrl+Enter 编辑资源/查看资源
+
+Alt+Home 显示导航栏
+
+F11 切换书签
+
+Ctrl+F11 切换书签与助记符
+
+Ctrl+0...9 定位书签
+
+Shift+F11 显卡书签
+8. IDEA常用快捷键
+
+Alt+0...9 打开相应的工具窗口
+
+Ctrl+S 保存所有
+
+Ctrl+Alt+Y 同步 
+
+Ctrl+Shift+F12 最大化切换编辑器
+
+Alt+Shift+F 添加到收藏夹”
+
+Alt+Shift+I 用当前配置文件检查当前文件
+
+Ctrl+` 快速切换当前方案
+
+Ctrl+Alt+S 打开设置对话框
+
+Ctrl+Alt+Shift+S 打开项目结构对话框
+
+Ctrl+Shift+A Find Action
+
+Ctrl+Tab 在选项卡和工具窗口之间切换
+
+Ctrl+Shift+Alt+Insert 创建新的划痕文件
+9. IDEA多处选择快捷键
+
+Alt+Shift+点击鼠标 添加或者删除一个选择
+
+Alt+J 选择下一个事件
+
+Shift+Alt+J 取消选择下一个事件
+
+Shift+Ctrl+Alt+J 选择所有事件
+
+Esc 取消所有选择
