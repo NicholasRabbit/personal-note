@@ -32,8 +32,9 @@ public class HttpPostUtil {
             httpClient = new DefaultHttpClient();
 
             //设置发送的数据
-            StringEntity s = new StringEntity(JSON.toJSONString(map));
-            s.setContentEncoding("UTF-8");
+            //StringEntity s = new StringEntity(JSON.toJSONString(map));  //这种写法会导致中文乱码
+			StringEntity s = new StringEntity(JSON.toJSONString(map),"UTF-8");  //设置编码格式防止中文乱码
+            //s.setContentEncoding("UTF-8");  //这里就不用设置了
             s.setContentType("application/json");//发送json数据需要设置contentType
             HttpPost httpPost = new HttpPost(url);
             httpPost.setConfig(requestConfig);
