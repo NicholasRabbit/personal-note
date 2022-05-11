@@ -1,14 +1,20 @@
-package com.jeesite.modules.util;
+package com.jeesite.modules.common.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jeesite.common.util.JsonResult;
 import com.jeesite.common.web.http.HttpClientUtils;
-import com.jeesite.modules.common.utill.UUIDUtil;
-import com.jeesite.modules.recycle.entity.RecycleSeller;
-import com.jeesite.modules.recycle.service.RecycleSellerService;
+import com.jeesite.modules.weixin.entity.RecycleSeller;
+import com.jeesite.modules.weixin.service.RecycleSellerService;
+import javafx.beans.binding.ObjectExpression;
+import org.apache.http.HttpEntity;
 
-import javax.servlet.http.HttpServletRequest;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WxInfoTool {
     private static volatile WxInfoTool instance;
@@ -61,21 +67,49 @@ public class WxInfoTool {
     }
 
 
-    //获取用户手机号,新版
-    /*private Object getPhoneInfo(String access_token){
-        String phoneUrl = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=ACCESS_TOKEN";  //替换ACCESS_TOKEN
-        Map<String,String>  dataMap = new HashMap<>();
-        dataMap.put("access_token", access_token);
-        Object phoneInfo =  HttpClientUtils.post(phoneUrl,dataMap);
-        return phoneInfo;
-    }*/
-
     //获取当前用户的access_token，以此来获取用户的手机号等关键信息
-    private String getAccessToken(String appid,String secret){
+    public String getAccessToken(String appid,String secret){
         String infoUrl02 = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+ appid +"&secret=" + secret;
         String userStr = HttpClientUtils.get(infoUrl02);
         JSONObject userInfo = JSONObject.parseObject(userStr);
         return userInfo.getString("access_token");
+    }
+
+
+
+    //获取小程序二维码
+    public String qrCodeUrl(String accessToken, String baseDir,String parentId){
+        String url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + accessToken;
+        //String json = "{\"scene\":\""+parentId+"\",\"width\":300,\"is_hyaline\":true}";
+        Map<String, Object> map = new HashMap<>();
+        map.put("scene",parentId);
+        map.put("page","user/bind-user/index");
+        map.put("width",300);
+        map.put("is_hyaline",true);
+        map.put("check_path",false);
+        byte[] buffer = HttpPostUtil.post(url,map);
+        String  qrCodePath = "/userfiles/weixin/feiluAppCode.png";
+        File file = new File(baseDir + qrCodePath);
+        if(!file.getParentFile().exists()) file.getParentFile().mkdirs();
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            out.write(buffer);
+            out.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            if(out != null){
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return qrCodePath;
     }
 
 
