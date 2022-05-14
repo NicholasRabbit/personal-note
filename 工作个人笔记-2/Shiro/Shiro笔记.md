@@ -99,6 +99,7 @@
 SpringBoot项目中找到Shiro配置类，在里面添加相应接口地址，不用写项目根路径，"anon"表示可匿名访问
 
 ```java
+//若以框架返利
 @Configuration
 public class ShiroConfig {
 	//放行小程序模块传送数据请求

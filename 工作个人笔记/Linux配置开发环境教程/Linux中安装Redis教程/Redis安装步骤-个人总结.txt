@@ -52,7 +52,7 @@
    修改6379.conf的配置信息：vim /etc/redis/6379.conf
    需要修改的内容：
    保护模式: protected-mode yes # 需要修改为 no ，修改之后， Redis 服务将会在后台运行 
-   绑定 ip: bind 127.0.0.1 # 默认监听本机 Redis, 修改为 bind 0.0.0.0 之后即可远程连接 Redis 
+   修改绑定 ip: bind 0.0.0.0 # 默认监听本机 Redis, 修改为 bind  之后即可远程连接 Redis 
    线程保护: daemonize: no # 默认关闭,需要将其修改为 yes 
    日志文件: logfile “” #默认在控制台打印，不会记录到文件，可以指定日志文件路径(日志文件的目录必须提前创建) :(log是log.log文件)
    logfile "/usr/local/redis/logs/log"

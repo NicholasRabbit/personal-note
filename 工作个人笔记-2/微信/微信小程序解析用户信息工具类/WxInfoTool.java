@@ -75,6 +75,13 @@ public class WxInfoTool {
         return userInfo.getString("access_token");
     }
 
+	//解密手机号,头像，昵称，性别等信息
+	public JSONObject getUserInfo(String session_key, String encryptedData, String iv){
+		JSONObject userInfo = WxDecodeUtil.getPhoneNumber(sessionKey, encryptedData, iv);
+		return  userInfo;
+	}
+	
+
 
 
     //获取小程序二维码
