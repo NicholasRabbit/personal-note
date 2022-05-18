@@ -14,5 +14,10 @@ lastlog : 查看登录日志
 last : 显示登录成功信息，具体选项可参照说明 man last
 
 cat /root/.bash_history : 查看操作记录
+
 cat ~/.bash_history : 查看操作记录
+
+truncate -s 0 base-mall-admin.out  : 清空日志文件内容，但不删除
+
+nohup java -jar base-mall-admin.jar > base-mall-admin.out &  ： 后台启动jar包项目，并打印日志
 
