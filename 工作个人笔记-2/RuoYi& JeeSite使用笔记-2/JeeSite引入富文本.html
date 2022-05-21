@@ -1,0 +1,14 @@
+<% layout('/layouts/default.html', {title: '文章管理', libs: ['validate','fileupload','ueditor']}){ %> <!--引入ueditor-->
+		
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<label class="control-label col-sm-2" title="">
+						<span class="required hide">*</span> ${text('文章内容')}：<i class="fa icon-question hide"></i></label>
+					<div class="col-sm-8">
+						<#form:ueditor name="content" path="content" maxlength="10000" height="200" class="required"
+						simpleToolbars="true" readonly="false" outline="false"/>
+					</div>
+				</div>
+			</div>
+		</div
