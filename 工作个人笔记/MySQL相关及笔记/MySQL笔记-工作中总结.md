@@ -173,3 +173,113 @@ left outer join emp  as e
 on d.deptno = e.DEPTNO
 ```
 
+### 11，MySQL查询同一张表，再更新
+
+注意，一定要先查出这个表的列，把这个查出的结果当作一个新的表，再进行查询，然后使得id=“查询结果”
+
+```sql
+-- 正确写法
+UPDATE flyl_user SET total_sales = total_sales + 10 
+WHERE id IN ( SELECT a.id FROM ( SELECT id FROM flyl_user WHERE id = #{memeberId} ) AS a )
+-- 错误写法
+UPDATE flyl_user SET total_sales = total_sales + 10 
+WHERE id IN ( SELECT id FROM flyl_user  )
+```
+
+错误写法汇报错： You can't specify target table 'result' for update in FROM clause  
+
+### 12，查询一年的数据，再按月划分
+
+思路，查询每个月的然后使用union all链接表
+
+```sql
+
+SELECT datemonth,money from
+
+(SELECT  '1月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-01%' )money from dual
+union all
+
+SELECT  '2月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-02%' )money from dual
+union all
+
+SELECT  '3月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-03%' )money from dual
+union all
+
+SELECT  '4月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-04%' )money from dual
+union all
+
+SELECT  '5月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-05%' )money from dual
+union all
+
+SELECT  '6月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-06%' )money from dual
+union all
+
+SELECT  '7月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-07%' )money from dual
+union all
+
+SELECT  '8月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-08%' )money from dual
+union all
+
+SELECT  '9月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-09%' )money from dual
+union all
+
+SELECT  '10月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-10%' )money from dual
+union all
+
+SELECT  '11月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-11%' )money from dual
+union all
+
+SELECT  '12月' datemonth,(select IFNULL(sum(money),0)money  from flyl_member_pay_record where member_id is not null and date_format(pay_time, '%Y-%m-%d %H:%i:%s') like '2022-12%' )money from dual) dd
+```
+
+### 13，FROM DUAL语法
+
+dual表是MySQL中的一个临时表，只有一行数据，为了满足业务中查询会计算数据到一个表里，然后再使用这个表。注意，这表只能有一行结果。
+
+例 ： SELECT  1  FROM  DUAL
+
+结果：
+
++---+
+| 1 |
++---+
+| 1 |
++---+
+
+SELECT  1+2  FROM DUAL  :   
+
++-----+
+| 1+2|
++-----+
+|   3 |
++-----+
+
+SELECT  *   FROM DUAL :错误
+
+SELECT curdate() FROM DUAL;    显示日期
+
+SELECT '员工名' AS empName, ( SELECT job FROM emp WHERE empno = 7369 ) AS job FROM DUAL; 查emp表
+
+### 14，CAST( )函数用法
+
+此函数用户转换数据类型，格式  CAST (xxx  AS TYPE);
+
+例：
+
+```sql
+SELECT ta.carNum, cast( sum( ta.fuel ) AS DECIMAL ( 15, 2 )) AS taskFuel, cast( sum( ta.load_mileage ) AS DECIMAL ( 15, 2 )) AS taskMileage FROM long_muck_task ta;
+```
+
+也可以把String类型的转为日期类型的
+
+```sql
+SELECT CAST("2022-02-03" AS datetime);
+```
+
+### 15，COALESCE(...)用法
+
+COALESCE(expr,expr, ....) ：  里面参数有多个，作用是返回第一个非空表达式
+
+例：SELECT   COALESCE (NULL, NULL, CURRENT_DATE)  :  返回当前日期
+
+其它用法参照：https://developer.aliyun.com/article/261901
