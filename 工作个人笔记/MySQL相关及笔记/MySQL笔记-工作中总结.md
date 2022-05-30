@@ -283,3 +283,11 @@ COALESCE(expr,expr, ....) ：  里面参数有多个，作用是返回第一个�
 例：SELECT   COALESCE (NULL, NULL, CURRENT_DATE)  :  返回当前日期
 
 其它用法参照：https://developer.aliyun.com/article/261901
+
+### 16，UNSIGNED含义
+
+UNSIGENEDD修饰的字段不能为负数
+
+例，CREATE TABLE file_entity (id INT UNSIGNED, user_name VARCHAR ( 50 ));
+
+执行：INSERT INTO file_entity (- 200, "Lily" );  报错 :  Out of range value for column 'id' at row 1
