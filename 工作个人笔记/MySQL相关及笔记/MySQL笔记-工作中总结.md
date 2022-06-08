@@ -291,3 +291,44 @@ UNSIGENEDD修饰的字段不能为负数
 例，CREATE TABLE file_entity (id INT UNSIGNED, user_name VARCHAR ( 50 ));
 
 执行：INSERT INTO file_entity (- 200, "Lily" );  报错 :  Out of range value for column 'id' at row 1
+
+### 17，MySQL按周，按月查询，并展示每天的数据
+
+注意，DAYOFWEEK(..)，DAYOFMONTH(..)函数的使用
+
+```sql
+<!--//查询返利列表:List<FlylMemberPayRecord> getPayList(FlylMemberPayRecord flylMemberPayRecord);-->
+	<select id="getPayList" resultType="FlylMemberPayRecord">
+		SELECT
+			p.pay_time, SUM(p.money * p.commission) as money, COUNT(p.id) as memberCount,DAYOFWEEK(p.pay_time)-1 as dayOfWeek,DAYOFMONTH(p.pay_time) as dayOfMonth,
+			fu.parent_id,GROUP_CONCAT(p.id) AS memberId
+		FROM
+			flyl_user AS fu
+		LEFT JOIN flyl_member_pay_record AS p ON fu.id = p.member_id AND p.content = '1'
+		LEFT JOIN flyl_user AS fu2 ON fu.parent_id = fu2.id
+		WHERE
+			p.status != '1'
+			AND p.state = '1'
+		<if test="parentId != null and parentId != ''">
+			AND fu2.id = #{parentId}
+		</if>
+		<if test="week != null and week != ''">
+			AND p.pay_time &gt;= ( SELECT DATE_FORMAT( DATE_SUB( CURDATE(), INTERVAL WEEKDAY( CURDATE()) DAY ), '%Y-%m-%d 00:00:00') )
+			AND p.pay_time &lt;= ( SELECT DATE_FORMAT( DATE_ADD( SUBDATE( CURDATE(), WEEKDAY( CURDATE())), INTERVAL 6 DAY ), '%Y-%m-%d 23:59:59') )
+		</if>
+		<if test="month != null and month != ''">
+			AND p.pay_time &gt;= (SELECT DATE_FORMAT( CURDATE(), '%Y-%m-01 00:00:00'))
+			AND p.pay_time &lt;= (SELECT DATE_FORMAT( LAST_DAY(CURDATE()), '%Y-%m-%d 23:59:59'))
+		</if>
+		<if test="lastWeek != null and lastWeek != ''">
+			AND p.pay_time &gt;= ( SELECT DATE_FORMAT( DATE_SUB( DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 1 WEEK), '%Y-%m-%d 00:00:00') )
+			AND p.pay_time &lt;= ( SELECT DATE_FORMAT( SUBDATE(CURDATE(), WEEKDAY(CURDATE()) + 1), '%Y-%m-%d 23:59:59') )
+		</if>
+		<if test="lastMonth != null and lastMonth != ''">
+			AND p.pay_time &gt;= (SELECT DATE_FORMAT( DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01 00:00:00'))
+			AND p.pay_time &lt;= (SELECT DATE_FORMAT( LAST_DAY(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)), '%Y-%m-%d 23:59:59'))
+		</if>
+		GROUP BY DATE_FORMAT(p.pay_time,'%Y-%m-%d')
+	</select>
+```
+
