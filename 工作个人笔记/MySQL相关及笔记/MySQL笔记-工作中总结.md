@@ -332,3 +332,32 @@ UNSIGENEDD修饰的字段不能为负数
 	</select>
 ```
 
+### 18，MySQL修改密码
+
+方法一：注意localhost跟据实际情况可改为"%"
+
+```sql
+update mysql.user set authentication_string=password('123qwe') where user='root' and Host = 'localhost';
+```
+
+方法二：
+
+```sql
+alter user 'root'@'localhost' identified by '123';
+```
+
+方法三：
+
+```sql
+set password for 'root'@'localhost'=password('123');
+```
+
+上面每个执行完最后要刷新
+
+```sql
+flush privileges;
+```
+
+### 19，MySQL修改端口号
+
+https://www.cnblogs.com/strive-study/p/5071147.html
