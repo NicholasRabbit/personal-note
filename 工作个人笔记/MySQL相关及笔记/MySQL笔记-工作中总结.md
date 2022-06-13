@@ -361,3 +361,7 @@ flush privileges;
 ### 19，MySQL修改端口号
 
 https://www.cnblogs.com/strive-study/p/5071147.html
+
+### 20，MySQL取余数
+
+SELECT  MOD(1, 7);

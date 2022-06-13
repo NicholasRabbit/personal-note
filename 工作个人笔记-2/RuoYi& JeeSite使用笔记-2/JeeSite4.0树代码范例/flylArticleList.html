@@ -1,0 +1,123 @@
+<% layout('/layouts/default.html', {title: '文章管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa icon-notebook"></i> ${text('文章管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('flyl:flylArticle:edit')){ %>
+					<a href="${ctx}/flyl/flylArticle/form" class="btn btn-default btnTool" title="${text('新增文章')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+				<a href="#" class="btn btn-default" id="btnSetting" title="${text('设置')}"><i class="fa fa-navicon"></i></a>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${flylArticle}" action="${ctx}/flyl/flylArticle/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+			<#form:hidden path="cateId" class="isReset"/>
+				<div class="form-group">
+					<label class="control-label">${text('文章标题')}：</label>
+					<div class="control-inline">
+						<#form:input path="title" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('标题颜色')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="titleColour" dictType="colour_sort" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('标题字型')}：</label>
+					<div class="control-inline">
+						<#form:input path="titlefontType" maxlength="2" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('作者')}：</label>
+					<div class="control-inline">
+						<#form:input path="author" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('关键字')}：</label>
+					<div class="control-inline">
+						<#form:input path="keyword" maxlength="200" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('状态')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="status" dictType="sys_search_status" blankOption="true" class="form-control isQuick"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("文章ID")}', name:'id', index:'a.id', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/flyl/flylArticle/form?id='+row.id+'" class="btnList" data-title="${text("编辑文章")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("文章标题")}', name:'title', index:'a.title', width:150, align:"left"},
+		/*{header:'${text("标题颜色")}', name:'titleColour', index:'a.title_colour', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('colour_sort')}, val, '${text("未知")}', true);
+		}},*/
+		/*{header:'${text("标题大小")}', name:'titlefontSize', index:'a.titlefont_size', width:150, align:"left"},*/
+		/*{header:'${text("标题字型")}', name:'titlefontType', index:'a.titlefont_type', width:150, align:"left"},*/
+		{header:'${text("完整标题")}', name:'fullTitle', index:'a.full_title', width:150, align:"left"},
+		{header:'${text("副标题")}', name:'subhead', index:'a.subhead', width:150, align:"left"},
+		{header:'${text("简介")}', name:'intro', index:'a.intro', width:150, align:"left"},
+		/*{header:'${text("文章内容")}', name:'content', index:'a.content', width:150, align:"left"},*/
+		{header:'${text("作者")}', name:'author', index:'a.author', width:150, align:"left"},
+		/*{header:'${text("来源")}', name:'copyFrom', index:'a.copy_from', width:150, align:"left"},*/
+		{header:'${text("关键字")}', name:'keyword', index:'a.keyword', width:150, align:"left"},
+		{header:'${text("标签")}', name:'tag', index:'a.tag', width:150, align:"left"},
+		{header:'${text("是否置顶")}', name:'ontop', index:'a.ontop', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("是否推荐")}', name:'iselite', index:'a.iselite', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("状态")}', name:'status', index:'a.status', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_search_status')}, val, '${text("未知")}', true);
+		}},
+		/*{header:'${text("上传文件地址")}', name:'filesPath', index:'a.files_path', width:150, align:"left"},*/
+		/*{header:'${text("模板地址")}', name:'tempPath', index:'a.temp_path', width:150, align:"left"},*/
+		/*{header:'${text("缩略图")}', name:'thumb', index:'a.thumb', width:150, align:"left"},*/
+		{header:'${text("缩略图")}', name:'thumb', index:'a.thumb', width:150, align:"center", frozen:true, formatter: function(val, obj, row, act){
+				return '<img src="'+row.thumb+'" style="width:40px;height:40px;"> ';
+		}},
+		{header:'${text("操作")}', name:'actions', width:120, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('flyl:flylArticle:edit')){ %>
+				actions.push('<a href="${ctx}/flyl/flylArticle/form?id='+row.id+'" class="btnList" title="${text("编辑文章")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				if (row.status == Global.STATUS_NORMAL){
+					actions.push('<a href="${ctx}/flyl/flylArticle/disable?id='+row.id+'" class="btnList" title="${text("停用文章")}" data-confirm="${text("确认要停用该文章吗？")}"><i class="glyphicon glyphicon-ban-circle"></i></a>&nbsp;');
+				} else if (row.status == Global.STATUS_DISABLE){
+					actions.push('<a href="${ctx}/flyl/flylArticle/enable?id='+row.id+'" class="btnList" title="${text("启用文章")}" data-confirm="${text("确认要启用该文章吗？")}"><i class="glyphicon glyphicon-ok-circle"></i></a>&nbsp;');
+				}
+				actions.push('<a href="${ctx}/flyl/flylArticle/delete?id='+row.id+'" class="btnList" title="${text("删除文章")}" data-confirm="${text("确认要删除该文章吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>
