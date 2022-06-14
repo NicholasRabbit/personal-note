@@ -278,9 +278,13 @@ SELECT CAST("2022-02-03" AS datetime);
 
 ### 15，COALESCE(...)用法
 
-COALESCE(expr,expr, ....) ：  里面参数有多个，作用是返回第一个非空表达式
+(1) COALESCE(expr,expr, ....) ：  里面参数有多个，作用是返回第一个非空表达式
 
 例：SELECT   COALESCE (NULL, NULL, CURRENT_DATE)  :  返回当前日期
+
+(2)如果COALESCE(expr1, expr2)只有两个参数，用法和IFNULL相同
+
+例：COALESCE(NULL, 0)  ,  IFNULL(NULL, 0);
 
 其它用法参照：https://developer.aliyun.com/article/261901
 
