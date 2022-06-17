@@ -369,3 +369,7 @@ https://www.cnblogs.com/strive-study/p/5071147.html
 ### 20，MySQL取余数
 
 SELECT  MOD(1, 7);
+
+### 21，UUID生成
+
+SELECT REPLACE( UUID(), '-', '' );

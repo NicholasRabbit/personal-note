@@ -19,3 +19,32 @@ spring:
     password: 123456
 ```
 
+### 二，yaml文件配置不同版本MySQL驱动
+
+```yaml
+# mysql驱动包, MySQL 5.x版本
+driver-class-name: com.mysql.jdbc.Driver           
+url: jdbc:mysql://localhost:3306/mybatis_plus?characterEncoding=utf-8&useSSL=false
+#对应MySQL 8.x以上版本,8版本以上还要配置时区
+driver-class-name: com.mysql.cj.jdbc.Driver 
+url: jdbc:mysql://localhost:3306/mybatis_plus?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+```
+
+### 三，使用测试注意事项
+
+```java
+/**
+ * 使用测试类注意事项
+ * 1，高版本的SpringBoot(2.2.2以上)测试类要和主启动类的包路径相同，只导入spring-boot-starter-test依赖就行，不用导入junit依赖；
+ * 2，注意@Test引入的包的路径，不是junit(import org.junit.Test;),而是springboot的（import org.junit.jupiter.api.Test）
+ *   如果不对则会导致@Autowired无法自动注入
+ * 3，较旧版本的SpringBoot（例2.1.1）不能用 org.junit.jupiter.api.Test，只能和junit联用，注意版本我呢提
+ * */
+@SpringBootTest
+public class MyBatisPlusTest001 {
+
+    @Autowired
+    private UserDao userDao;
+}
+```
+

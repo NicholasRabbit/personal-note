@@ -1,4 +1,9 @@
 
+truncate -s 0 base-mall-admin.out  : 清空日志文件
+
+nohup java -jar base-mall-admin.jar > base-mall-admin.out &   ：后台发布项目
+
+
 hostnamectl / hostnamectl status : 查询主机信息
 
 hostnamectl set-hostname "tom" : 修改主机名字，即命令行的改为 root@tom

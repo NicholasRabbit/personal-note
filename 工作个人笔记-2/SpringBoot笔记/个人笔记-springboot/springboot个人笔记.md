@@ -1,5 +1,3 @@
-## 个人学习SpringBoot的笔记
-
 ### 一，入门知识
 
 #### 1, @SpringBootApplication注解
@@ -476,3 +474,14 @@ public class WebMvcAutoConfiguration {
 默认名是message.properties，放到类路径下，但不建议用 。
 
 ![image-20211129205538965](note_images/image-20211129205538965.png)
+
+### 十，yaml文件配置不同版本MySQL驱动
+
+```yaml
+# mysql驱动包, MySQL 5.x版本
+driver-class-name: com.mysql.jdbc.Driver           
+url: jdbc:mysql://localhost:3306/mybatis_plus?characterEncoding=utf-8&useSSL=false
+#对应MySQL 8.x以上版本,8版本以上还要配置时区
+driver-class-name: com.mysql.cj.jdbc.Driver 
+url: jdbc:mysql://localhost:3306/mybatis_plus?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
+```
