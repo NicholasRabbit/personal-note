@@ -48,3 +48,15 @@ public class MyBatisPlusTest001 {
 }
 ```
 
+### 四，注意service层自动写的方法，要修改返回值
+
+```java
+@Override
+    public User getUserById(Long id) {
+        //return null;  //idea默认是返回null，注意检查
+        return userMapper.getUserById(id);
+    }
+```
+
+
+
