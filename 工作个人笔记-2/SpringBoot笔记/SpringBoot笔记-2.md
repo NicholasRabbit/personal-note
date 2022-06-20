@@ -60,3 +60,28 @@ public class MyBatisPlusTest001 {
 
 
 
+### 五，SpringBoot开启定时任务
+
+1，在主启动类加@EnableScheduling注解；
+
+```java
+@SpringBootApplication
+@EnableScheduling
+public class Application extends SpringBootServletInitializer {}
+```
+
+2，在执行定时任务的类上加@Component或@Service都行，表示这是一个组件
+
+```java
+@Service
+public class DeleteScheduleService {
+    private final static Logger logger = LoggerFactory.getLogger(DeleteScheduleService.class);
+    @Scheduled(cron="*/5 * 4-22 * * ?")  //
+    public void deleteUserNoPay(){
+        logger.info("删除过期用户定时任务开始===========>" + DateUtils.getDateTime());
+        logger.info("删除过期用户定时任务结束===========>" + DateUtils.getDateTime());
+    }
+}
+```
+
+参考文章：https://cloud.tencent.com/developer/article/1445905
