@@ -69,8 +69,17 @@ where
 ```
 
 ```sql
-DATE_FORMAT(a.time,'%Y-%m-%d %H:%i:%S') AS "time"
+DATE_FORMAT(a.time,'%Y-%m-%d %H:%i:%S') AS "time"	
 ```
+
+注意CONCAT(..)返回的是字符串，一般按一下写法，把年和月分开比较，并用AND链接
+
+```sql
+....
+AND (DATE_FORMAT( fmpr.pay_time, '%Y' )= #{year} and DATE_FORMAT( fmpr.pay_time, '%m' )= #{month}  )
+```
+
+
 
 #### 7 ,resultMap字段对应注意事项
 
@@ -186,7 +195,7 @@ UPDATE flyl_user SET total_sales = total_sales + 10
 WHERE id IN ( SELECT id FROM flyl_user  )
 ```
 
-错误写法汇报错： You can't specify target table 'result' for update in FROM clause  
+错误写法会报错： You can't specify target table 'result' for update in FROM clause  
 
 ### 12，查询一年的数据，再按月划分
 
@@ -366,10 +375,11 @@ flush privileges;
 
 https://www.cnblogs.com/strive-study/p/5071147.html
 
-### 20，MySQL取余数
+### 20，MySQL常用查询
 
-SELECT  MOD(1, 7);
+SELECT  MOD(1, 7)  ：取余数
 
-### 21，UUID生成
+SELECT REPLACE( UUID(), '-', '' )  ：UUID生成 ：
 
-SELECT REPLACE( UUID(), '-', '' );
+### 21，
+
