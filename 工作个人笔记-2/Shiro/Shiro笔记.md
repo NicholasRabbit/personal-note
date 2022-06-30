@@ -1,15 +1,15 @@
 ### 1，第一个简单范例所用jar包
 
-![](F:\Learning\Computer\Shiro\Shiro笔记附图\shiro所用基本jar包.png)
+![](note-images/shiro所用基本jar包.png)
 
 + 以及shiro基本jar包
 + shiro官方范例在“shiro-source\shiro-root-1.2.6-source-release\shiro-root-1.2.6\samples”里面
 
-![shiro基本jar包](Shiro笔记附图\shiro基本jar包.png)
+![shiro基本jar包](note_images/shiro基本jar包.png)
 
 ### 2，shiro的工作原理及流程
 
-![shiro工作原理流程](F:\Learning\Computer\Shiro\Shiro笔记附图\shiro工作原理流程.png)
+![shiro工作原理流程](note-images/shiro工作原理流程.png)
 
 ### 3，在web.xml里配置的的DelegatingFilterProxy注意事项
 
@@ -22,11 +22,11 @@
 </filter>
 ```
 
-![webxml配置](F:\Learning\Computer\Shiro\Shiro笔记附图\webxml配置.png)
+![webxml配置](note-images/webxml配置.png)
 
 ### 4，shiro配置细节
 
-![shiro配置细节](F:\Learning\Computer\Shiro\Shiro笔记附图\shiro配置细节.png)
+![shiro配置细节](note-images/shiro配置细节.png)
 
 ### 5，shiro采取第一次匹配优先的方式
 
@@ -34,11 +34,11 @@
 
 如果list.jsp = anon 表示它可以匿名访问，在浏览器地址栏输入：.../list.jsp可以访问到该页面，而不会跳转到loginl.jsp。但是如果把list.jsp移动到/** = authc下面，则不可访问了，因为它被/** = authc 覆盖了
 
-![第一次访问优先](F:\Learning\Computer\Shiro\Shiro笔记附图\第一次访问优先.png)
+![第一次访问优先](note-images/第一次访问优先.png)
 
 ### 6，shiro架构
 
-![shiro架构](F:\Learning\Computer\Shiro\Shiro笔记附图\shiro架构.png)
+![shiro架构](note-images/shiro架构.png)
 
 ### 7,  shiro认证流程
 
@@ -56,7 +56,7 @@
 
 ### 8，配置MD5
 
-![](F:\Learning\Computer\Shiro\Shiro笔记附图\spring的文件配置md5.png)
+![](note-images/spring的文件配置md5.png)
 
 
 
