@@ -11,7 +11,7 @@
 4,SpringBoot部署项目使用nuhup命令出现异常：
   忽略输入并把输出追加到"nohup.out"
   解决办法:
-  (1) nohup java -jar do_iptable.jar >./log.txt 2>&1 &
+  (1) nohup java -jar do_iptable.jar >./log.txt 2>&1 & 
 	上面表示把项目日志输出到当前目录的log.txt文件里，
 	2>&1” 表示 错误和输出都传到nohup.out文件中，默认状态只把输出输出到nohup.out文件中
 	nohup 命令默认输出到nohup.out文件中
