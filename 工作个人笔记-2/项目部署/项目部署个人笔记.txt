@@ -1,3 +1,4 @@
+		
 1,打成的war包名就是项目访问的名，是ServletContext的path
   例如， ssm.war
   localhost:8080/ssm
@@ -11,33 +12,42 @@
   忽略输入并把输出追加到"nohup.out"
   解决办法:
   (1) nohup java -jar do_iptable.jar >./log.txt 2>&1 &
-  上面表示把项目日志输出到当前目录的log.txt文件里，
-  2>&1” 表示 错误和输出都传到nohup.out文件中，默认状态只把输出输出到nohup.out文件中
-  nohup 命令默认输出到nohup.out文件中
-  (2)执行完此命令会生成一个进程号，
+	上面表示把项目日志输出到当前目录的log.txt文件里，
+	2>&1” 表示 错误和输出都传到nohup.out文件中，默认状态只把输出输出到nohup.out文件中
+	nohup 命令默认输出到nohup.out文件中
+	
+	其它部署命令范例（天宇微服务）：
+	truncate -s 0 base-mall-admin.out ： 清空日志文件
+	nohup java -jar base-mall-admin.jar > base-mall-admin.out &  ： 后台部署
+
+
+  (2)找到项目端口号，
   例如：3054
-  (3)查询进程
-  netstat -ntlp | grep 3054 
+  (3)查询端口号进程
+  netstat -ntlp | grep 8001 ：例如进程号为 123456
   (4)关闭服务需直接终结进程
-  kill 9 3054
+  kill -9 123456 ：强制终止123456进程
+
+  
 
 
 5, SSM项目中，如果使用Maven构建项目的话，在pom.xml文件中<plugin>--><path>标签规定项目访问路径
-        <groupId>com.thinkgem.jeesite</groupId>
-	<artifactId>jeesite</artifactId>
-	<version>1.2.7</version>
-	<packaging>war</packaging>
-	<!-- tomcat7插件 -->
-	<plugin>
-		<groupId>org.apache.tomcat.maven</groupId>
-		<artifactId>tomcat7-maven-plugin</artifactId>
-		<version>${tomcat.version}</version> 
-		<configuration>
-			<port>${webserver.port}</port>
-			<path>/${project.artifactId}</path>   
-			<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
-		</configuration>
-	</plugin>
+<groupId>com.thinkgem.jeesite</groupId>
+<artifactId>jeesite</artifactId>
+<version>1.2.7</version>
+<packaging>war</packaging>
+<!-- tomcat7插件 -->
+<plugin>
+<groupId>org.apache.tomcat.maven</groupId>
+<artifactId>tomcat7-maven-plugin</artifactId>
+<version>${tomcat.version}</version> 
+<configuration>
+	<port>${webserver.port}</port>
+	<path>/${project.artifactId}</path>   
+	<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+</configuration>
+</plugin>
+
 6, 把SpringBoot项目通过Maven达成war包发布的话，SpringBoot内部配置文件application.yml中规定的端口号
    以及项目访问根路径都不起作用了，因为使用的是外部Tomcat服务器，按照外部规定的来。只有达成jar包时，
    使用内嵌Tomcat的情况下才起作用。
