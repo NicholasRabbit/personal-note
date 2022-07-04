@@ -381,5 +381,5 @@ SELECT  MOD(1, 7)  ：取余数
 
 SELECT REPLACE( UUID(), '-', '' )  ：UUID生成 ：
 
-### 21，
+### 
 
