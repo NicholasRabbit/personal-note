@@ -381,5 +381,42 @@ SELECT  MOD(1, 7)  ：取余数
 
 SELECT REPLACE( UUID(), '-', '' )  ：UUID生成 ：
 
-### 
+### 21，MySQL设置远程访问
+
+```sql
+use mysql;
+update user set user.Host='%' where user.User='root';
+flush privileges;
+```
+
+
+
+### 22，设置导入脚本文件的大小
+
+```sql
+-- 第一步查询原导入文件的大小限制，单位为byte
+SHOW VARIABLES LIKE '%max_allowed_packet%';
+```
+
+修改方法有两种:
+
+第一种：修改配置文件
+
+可以编辑my.cnf来修改（windows下my.ini）,在[mysqld]段或者mysql的server配置段进行修改。
+
+```
+代码如下:
+max_allowed_packet = 20M
+如果找不到my.cnf可以通过
+代码如下:
+mysql --help | grep my.cnf
+去寻找my.cnf文件。
+linux下该文件在/etc/下。
+```
+
+第二种：命令行修改，重启mysql服务后才会生效，重启也不管用，后台待查。
+
+```sql
+SET GLOBAL max_allowed_packet = 2 * 1024 * 1024 * 10;  -- 设置最大20MB
+```
 
