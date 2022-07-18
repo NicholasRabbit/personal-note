@@ -420,3 +420,49 @@ linux下该文件在/etc/下。
 SET GLOBAL max_allowed_packet = 2 * 1024 * 1024 * 10;  -- 设置最大20MB
 ```
 
+### 23，MySQL判断两个经纬度之间的距离
+
+主要使用point来转化计算。
+
+```sql
+SELECT
+	( st_distance ( point ( longitude, latitude ), point ( 114.540352, 37.085315 )) / 0.0111 ) AS distance 
+FROM
+	sys_store;
+```
+
+参考资料:  https://www.cnblogs.com/Soy-technology/p/10981124.html
+
+```txt
+情况一：
+　　数据库：只有point类型的location字段
+　　实体类：有经纬度字段(double)、originLoction字段（存放string类型的数据库location字段：POINT(123.462202 41.804471)     ）
+ 单位：km
+查询方圆100千米以内的数据..
+
+SELECT
+　　*,
+　　AsText(location) as originLoction,
+　　(st_distance(location, point(116.397915,39.908946))*111) AS distance
+FROM
+　　oc_district
+HAVING
+　　distance<100
+ORDER BY
+　　distance limit 100;
+
+情况二：
+　　数据库：有经度纬度字段，但是没有point字段
+　　实体类：有经纬度字段(double)、originLoction字段（存放string类型的数据库location字段：POINT(123.462202 41.804471)     ）
+以米m为单位
+查询方圆5000m以内的数据
+SELECT
+　　*,
+　　(st_distance (point (lng,lat),point (116.3424590000,40.0497810000))*111195/1000 ) as juli
+FROM
+　　oc_district
+WHERE
+　　juli <=5000
+ORDER BY juli ASC
+```
+
