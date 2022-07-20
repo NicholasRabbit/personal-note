@@ -73,7 +73,7 @@ public class FilterEmojiUtil extends EmojiParser {
     }
  
     /**
-     * 判断是否包含emoji表情
+     * 判断是否包含emoji表情,无效！！
      *
      * @param source 原字符串
      *               // @param slipStr emoji表情替换成的字符串
