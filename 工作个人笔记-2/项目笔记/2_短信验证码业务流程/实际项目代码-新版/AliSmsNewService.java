@@ -41,8 +41,8 @@ public class AliSmsNewService {
         try {
             client = AliSmsNewService.createClient(accessKeyId, accessKeySecret);
             SendSmsRequest sendSmsRequest = new SendSmsRequest()
-                    .setSignName("斑马爱分类")
-                    .setTemplateCode("SMS_236880385")
+                    .setSignName("斑马爱分类")  //这里对应阿里的签名名称
+                    .setTemplateCode("SMS_236880385")  //签名模板名称
                     .setPhoneNumbers(phoneNumber)
                     .setTemplateParam("{\"code\":\""+ code +"\"}");
             resp = client.sendSms(sendSmsRequest);
