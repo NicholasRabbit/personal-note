@@ -466,3 +466,15 @@ WHERE
 ORDER BY juli ASC
 ```
 
+### 24，查询出重复的记录
+
+```sql
+-- 查询语法格式
+Select * From 表 Where 重复字段 In (Select 重复字段 From 表 Group By 重复字段 Having Count(*)>1);
+-- 两种方式显示结果不同
+-- 第一种方式
+SELECT erp_id, count( erp_id ) FROM goods_spu GROUP BY erp_id  HAVING count(*) > 1;
+-- 第二种方式
+SELECT erp_id  FROM goods_spu  WHERE erp_id IN ( SELECT erp_id FROM goods_spu GROUP BY erp_id HAVING count(*) > 1 );
+```
+
