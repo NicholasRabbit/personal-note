@@ -381,5 +381,100 @@ SELECT  MOD(1, 7)  ：取余数
 
 SELECT REPLACE( UUID(), '-', '' )  ：UUID生成 ：
 
-### 
+### 21，MySQL设置远程访问
+
+```sql
+use mysql;
+update user set user.Host='%' where user.User='root';
+flush privileges;
+```
+
+
+
+### 22，设置导入脚本文件的大小
+
+```sql
+-- 第一步查询原导入文件的大小限制，单位为byte
+SHOW VARIABLES LIKE '%max_allowed_packet%';
+```
+
+修改方法有两种:
+
+第一种：修改配置文件
+
+可以编辑my.cnf来修改（windows下my.ini）,在[mysqld]段或者mysql的server配置段进行修改。
+
+```
+代码如下:
+max_allowed_packet = 20M
+如果找不到my.cnf可以通过
+代码如下:
+mysql --help | grep my.cnf
+去寻找my.cnf文件。
+linux下该文件在/etc/下。
+```
+
+第二种：命令行修改，重启mysql服务后才会生效，重启也不管用，后台待查。
+
+```sql
+SET GLOBAL max_allowed_packet = 2 * 1024 * 1024 * 10;  -- 设置最大20MB
+```
+
+### 23，MySQL判断两个经纬度之间的距离
+
+主要使用point来转化计算。
+
+```sql
+SELECT
+	( st_distance ( point ( longitude, latitude ), point ( 114.540352, 37.085315 )) / 0.0111 ) AS distance 
+FROM
+	sys_store;
+```
+
+参考资料:  https://www.cnblogs.com/Soy-technology/p/10981124.html
+
+```txt
+情况一：
+　　数据库：只有point类型的location字段
+　　实体类：有经纬度字段(double)、originLoction字段（存放string类型的数据库location字段：POINT(123.462202 41.804471)     ）
+ 单位：km
+查询方圆100千米以内的数据..
+
+SELECT
+　　*,
+　　AsText(location) as originLoction,
+　　(st_distance(location, point(116.397915,39.908946))*111) AS distance
+FROM
+　　oc_district
+HAVING
+　　distance<100
+ORDER BY
+　　distance limit 100;
+
+情况二：
+　　数据库：有经度纬度字段，但是没有point字段
+　　实体类：有经纬度字段(double)、originLoction字段（存放string类型的数据库location字段：POINT(123.462202 41.804471)     ）
+以米m为单位
+查询方圆5000m以内的数据
+SELECT
+　　*,
+　　(st_distance (point (lng,lat),point (116.3424590000,40.0497810000))*111195/1000 ) as juli
+FROM
+　　oc_district
+WHERE
+　　juli <=5000
+ORDER BY juli ASC
+```
+
+### 24，查询出重复的记录
+
+```sql
+-- 查询语法格式
+Select * From 表 Where 重复字段 In (Select 重复字段 From 表 Group By 重复字段 Having Count(*)>1);
+-- 两种方式显示结果不同
+-- 第一种方式
+SELECT erp_id, count( erp_id ) FROM goods_spu GROUP BY erp_id  HAVING count(*) > 1;
+-- 第二种方式
+SELECT erp_id  FROM goods_spu  WHERE erp_id IN ( SELECT erp_id FROM goods_spu GROUP BY erp_id HAVING count(*) > 1 );
+```
 
