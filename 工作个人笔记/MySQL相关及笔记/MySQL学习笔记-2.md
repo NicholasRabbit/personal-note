@@ -62,3 +62,34 @@ INSERT、UPDATE、DELETE；
 常量视图。
 ```
 
+### 三，存储过程的创建
+
+1，存储过程是MySQL内部执行的一段sql语句，可以被外部调用
+
+2，存储过程执行语句一般规定好语句结束符号，因为存储过程中执行的mysql语句默认一句sql的结束符是分号“;”，而为了避免执行多个语句时出现错误就规定好存储过程的结束符，以示区分，一般以"$"或"//"作为语句结束符，也可以用其他的符号，注意，当存储过程结束后要恢复mysql默认的结束符。
+
+```mysql
+-- 创建存储过程范例
+DELIMITER $
+CREATE PROCEDURE select_all()
+BEGIN 
+	SELECT * FROM emp;
+	SELECT * FROM dept;  -- 可以执行多个sql语句
+END $   -- 这里表示存储过程执行结束
+DELIMITER ;  -- 恢复员MySQL的结束符，注意分号不要挨着前面的关键字。
+```
+
+3，查询存储过程
+
+```mysql
+SHOW PROCEDURE STATUS LIKE 'select_a%';  -- 模糊查询
+```
+
+4，调用存储过程
+
+```mysql
+CALL select_all();
+```
+
+
+
