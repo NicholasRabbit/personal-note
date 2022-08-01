@@ -18,7 +18,7 @@
 	
 	# 其它部署命令范例（天宇微服务）：
 	truncate -s 0 base-mall-admin.out ： 清空日志文件
-	nohup java -jar base-mall-admin.jar > base-mall-admin.out &  ： 后台部署
+	nohup java -jar base-mall-admin.jar > base-mall-admin.out &  tail -f base-mall-admin.out ： 后台部署并查看日志
 
 	# 注意，输完上面的命令后，终端是不打印日志的！
 
