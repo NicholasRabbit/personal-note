@@ -53,7 +53,7 @@
    
    关闭例外的端口，设置完毕要重启
    firewall-cmd --zone=public --remove-port=8080/tcp --permanent
-   firewall-cmd --reload #重启firewall
+   firewall-cmd --reload #重启firewall，注意阿里云服务器还要登陆页面设置放行端口
 
 如果系统没有防火墙
 yum install firewalld
