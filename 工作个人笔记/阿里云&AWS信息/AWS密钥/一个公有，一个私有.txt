@@ -1,0 +1,1 @@
+aws-key配置到putty上
