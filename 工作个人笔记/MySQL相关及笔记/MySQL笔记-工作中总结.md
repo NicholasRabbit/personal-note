@@ -478,3 +478,34 @@ SELECT erp_id, count( erp_id ) FROM goods_spu GROUP BY erp_id  HAVING count(*) >
 SELECT erp_id  FROM goods_spu  WHERE erp_id IN ( SELECT erp_id FROM goods_spu GROUP BY erp_id HAVING count(*) > 1 );
 ```
 
+### 25，ANY_VALUE(  )函数
+
+1.MySQL5.7之后，sql_mode中ONLY_FULL_GROUP_BY模式默认设置为打开状态。
+
+2.ONLY_FULL_GROUP_BY的语义就是**确定select target list中的所有列的值都是明确语义**，简单的说来，在此模式下，target list中的值要么是来自于**聚合函数（sum、avg、max等）的结果**，要么是来自于**group by list中的表达式的值**
+
+3.MySQL提供了**any_value()**函数来抑制ONLY_FULL_GROUP_BY值被拒绝
+
+4.**any_value()会选择被分到同一组的数据里第一条数据的指定列值作为返回数据**
+
+### 26，LOCATE(substr, str)函数
+
+LOCATE(substr,str), LOCATE(substr,str,pos)
+
+ 第一个语法返回substr在字符串str 的第一个出现的位置。第二个语法返回子符串 substr 在字符串str，从pos处开始的第一次出现的位置。如果substr 不在str 中，则返回值为0 。		 								
+
+```
+mysql> SELECT LOCATE('bar', 'foobarbar');
++---------------------------------------------------------+
+| LOCATE('bar', 'foobarbar')                              |
++---------------------------------------------------------+
+| 4                                                       |
++---------------------------------------------------------+
+1 row in set (0.00 sec)
+```
+
+ //更多请阅读：https://www.yiibai.com/mysql/mysql_function_locate.html 
+
+### 27，REPALCE(...)函数使用
+
+SELECT    **REPLACE**( UUID(), '-', '' )  ：UUID生成 
