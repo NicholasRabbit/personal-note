@@ -2,7 +2,7 @@
 
 1，vue项目里访问路径等参数设置好后，在vue项目根目录运行：npm  run build  ，打包编译项目生成dist目录；
 
-2，设置nginx.conf，以天宇项目为例
+2，设置nginx.conf，以天宇项目为例。把dist目录内的全部文件放到nginx设置好的项目根目录“root /usr/local/src/vue/”下面，注意是目录内的文件，不知dist目录。
 
 ```properties
  server {
