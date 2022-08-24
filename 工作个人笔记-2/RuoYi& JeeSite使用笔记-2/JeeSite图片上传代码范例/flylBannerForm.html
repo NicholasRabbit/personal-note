@@ -81,10 +81,10 @@
 							<div class="col-sm-10">
 								<#form:fileupload id="uploadImage" returnPath="true"  filePathInputId="imageUrl"  bizKey="${flylBanner.id}" bizType="flylBanner_image"
 									uploadType="image" class="form-control required"  readonly="false" preview="true" maxUploadNum="1"/>
-							</div>
+							</div>							<!--required表示为必填-->
 						</div>
 					</div>
-					<#form:hidden path="imageUrl"/>
+					<#form:hidden path="imageUrl"/>  <!--这里是表示编辑页面回显图片-->
 				</div>
 			</div>
 			<div class="box-footer">
