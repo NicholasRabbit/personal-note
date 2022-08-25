@@ -1,9 +1,9 @@
+一，项目发布相关
+truncate -s 0 base-mall-admin.out  : 清空日志文件，不是删除
 
-truncate -s 0 base-mall-admin.out  : 清空日志文件
+nohup java -jar base-mall-admin.jar > base-mall-admin.out & tail -f base-mall-admin.out ： 后台启动jar包项目，并打印日志
 
-nohup java -jar base-mall-admin.jar > base-mall-admin.out &   ：后台发布项目
-
-
+二，查询系统信息等
 hostnamectl / hostnamectl status : 查询主机信息
 
 hostnamectl set-hostname "tom" : 修改主机名字，即命令行的改为 root@tom
@@ -22,7 +22,16 @@ cat /root/.bash_history : 查看操作记录
 
 cat ~/.bash_history : 查看操作记录
 
-truncate -s 0 base-mall-admin.out  : 清空日志文件内容，但不删除
+三，虚拟内存，swap相关
 
-nohup java -jar base-mall-admin.jar > base-mall-admin.out &  ： 后台启动jar包项目，并打印日志
+swapon -s : 查看虚拟内存的位置
+
+swapoff -a : 停止交换分区
+
+
+
+
+
+
+
 

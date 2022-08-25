@@ -105,4 +105,59 @@ notify-keyspace-events Ex
 
 应用范例：优惠券的过期功能，后台新建一条优惠券数据，保存到数据库的同时也保存到Redis，并设置过期时间，redis中数据将过期时会发布一条消息到后台服务的RedisMessageListener(个人写的)监听器，监听器中进行操作，把数据库内对应的优惠券信息设置为已过期。
 
-(3)具体配置监听器代码网上查询
+(3)具体配置监听器代码如下或网上查询
+
+```java
+/**
+ * redis过期监听
+ * 1、自动取消订单
+ * 2、自动收货
+ */
+@Component
+public class RedisKeyExpirationListener implements MessageListener {
+
+	private RedisTemplate<String, String> redisTemplate;
+	private RedisConfigProperties redisConfigProperties;
+	private OrderInfoService orderInfoService;
+
+	public RedisKeyExpirationListener(RedisTemplate<String, String> redisTemplate,
+									  RedisConfigProperties redisConfigProperties,
+									  OrderInfoService orderInfoService){
+		this.redisTemplate = redisTemplate;
+		this.redisConfigProperties = redisConfigProperties;
+		this.orderInfoService = orderInfoService;
+	}
+	@Override
+	public void onMessage(Message message, byte[] bytes) {
+		RedisSerializer<?> serializer = redisTemplate.getValueSerializer();
+		String channel = String.valueOf(serializer.deserialize(message.getChannel()));
+		String body = String.valueOf(serializer.deserialize(message.getBody()));
+		//key过期监听
+		if(StrUtil.format("__keyevent@{}__:expired", redisConfigProperties.getDatabase()).equals(channel)){
+			//订单自动取消
+			if(body.contains(MallConstants.REDIS_ORDER_KEY_IS_PAY_0)) {
+				body = body.replace(MallConstants.REDIS_ORDER_KEY_IS_PAY_0, "");
+				String[] str = body.split(":");
+				String wxOrderId = str[1];
+				TenantContextHolder.setTenantId(str[0]);
+				OrderInfo orderInfo = orderInfoService.getById(wxOrderId);
+				if(orderInfo != null && CommonConstants.NO.equals(orderInfo.getIsPay())){//只有待支付的订单能取消
+					orderInfoService.orderCancel(orderInfo);
+				}
+			}
+			//订单自动收货
+			if(body.contains(MallConstants.REDIS_ORDER_KEY_STATUS_2)) {
+				body = body.replace(MallConstants.REDIS_ORDER_KEY_STATUS_2, "");
+				String[] str = body.split(":");
+				String orderId = str[1];
+				TenantContextHolder.setTenantId(str[0]);
+				OrderInfo orderInfo = orderInfoService.getById(orderId);
+				if(orderInfo != null && OrderInfoEnum.STATUS_2.getValue().equals(orderInfo.getStatus())){//只有待收货的订单能收货
+					orderInfoService.orderReceive(orderInfo);
+				}
+			}
+		}
+	}
+}
+```
+
