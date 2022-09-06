@@ -69,3 +69,15 @@ export CATALINA_HOME_8081 CATALINA_BASE_8081
 conf/logging.properties中修改如下
 
 java.util.logging.ConsoleHandler.encoding = GBK
+
+### 5，放到Tomcat中的页面中文乱码
+
+修改Tomcat的conf/server.xml文件，新增URIEncoding="UTF-8"，注意html页面的编码格式也必须是UTF-8
+
+```xml
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" URIEncoding="UTF-8" />
+
+```
+
