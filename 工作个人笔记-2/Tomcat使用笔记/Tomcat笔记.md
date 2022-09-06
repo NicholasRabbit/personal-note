@@ -72,12 +72,44 @@ java.util.logging.ConsoleHandler.encoding = GBK
 
 ### 5，放到Tomcat中的页面中文乱码
 
-修改Tomcat的conf/server.xml文件，新增URIEncoding="UTF-8"，注意html页面的编码格式也必须是UTF-8
+1，修改Tomcat的conf/server.xml文件，新增URIEncoding="UTF-8"，注意html页面的编码格式也必须是UTF-8
 
 ```xml
 <Connector port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" URIEncoding="UTF-8" />
+...
+<!--下面这个源文件如果注释了，就不用修改-->
+<Connector port="8009" protocol="AJP/1.3" redirectPort="8443" URIEncoding="UTF-8"/>
+```
+
+其他解决方案：
+
+2， 设置 tomcat中 catalina.bat (jvm的编码)
+
+set "JAVA_OPTS=%JAVA_OPTS% %JSSE_OPTS%"
+-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8 
+
+4， 设置tomcat的 web.xml (我的是108行左右)修改为下面所示 
+
+```xml
+<servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+        	<param-name>fileEncoding</param-name>
+        	<param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>listings</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
 ```
 
