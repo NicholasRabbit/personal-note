@@ -85,3 +85,9 @@ public class DeleteScheduleService {
 ```
 
 参考文章：https://cloud.tencent.com/developer/article/1445905
+
+### 六，yml文件里没有配置数据库链接信息报错
+
+报错内容：Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured
+
+原因：maven项目的pom.xml里引入了Druid，MySQL等依赖，但是applicaiton.yml里没有配置数据库链接信息，因此报错，如果不需要链接数据库就不要引入这些依赖
