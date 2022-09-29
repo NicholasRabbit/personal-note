@@ -75,7 +75,16 @@ vi 中的复制粘贴问题
 
 vm.swappiness=70
 
- 
+###  5，Linux查找执行程序所在位置
+
+以nginx为例
+
+```shell
+ps -aux | grep nginx : 找到nginx的执行目录
+./nginx -t : 在nginx目录下执行，显示其配置文件nginx.conf位置
+```
+
+如果nginx.conf中没有项目信息，则根据nginx.conf中的设置进一步查找。
 
  
 
