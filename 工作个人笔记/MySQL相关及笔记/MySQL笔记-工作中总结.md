@@ -468,15 +468,43 @@ ORDER BY juli ASC
 
 ### 24，查询出重复的记录
 
+用途：可用在in（）中删除
+
 ```sql
 -- 查询语法格式
 Select * From 表 Where 重复字段 In (Select 重复字段 From 表 Group By 重复字段 Having Count(*)>1);
--- 两种方式显示结果不同
+-- 两种方式显示结果相同，显示效果不一样而已
 -- 第一种方式
 SELECT erp_id, count( erp_id ) FROM goods_spu GROUP BY erp_id  HAVING count(*) > 1;
 -- 第二种方式
 SELECT erp_id  FROM goods_spu  WHERE erp_id IN ( SELECT erp_id FROM goods_spu GROUP BY erp_id HAVING count(*) > 1 );
 ```
+
+查询出重复记录，删除后只留一条
+
+参考：https://blog.csdn.net/n950814abc/article/details/82284838
+
+个人范例：天宇项目删除重名的药品，只留一条：
+
+```sql
+DELETE 
+FROM
+	disease_value 
+WHERE
+	disease_name IN (
+	SELECT
+		a.disease_name  -- 
+	FROM
+	 ( SELECT disease_name FROM `disease_value` GROUP BY disease_name HAVING count(*) > 1 ) as a
+	)
+	and id not in ( 
+	 select b.id from (
+		 SELECT id FROM `disease_value` GROUP BY disease_name HAVING count(*) > 1
+	 ) as b
+	);
+```
+
+
 
 ### 25，ANY_VALUE(  )函数
 
@@ -509,3 +537,7 @@ mysql> SELECT LOCATE('bar', 'foobarbar');
 ### 27，REPALCE(...)函数使用
 
 SELECT    **REPLACE**( UUID(), '-', '' )  ：UUID生成 
+
+### 28，数据库的字段不要用数据库的关键字
+
+read是个关键字
