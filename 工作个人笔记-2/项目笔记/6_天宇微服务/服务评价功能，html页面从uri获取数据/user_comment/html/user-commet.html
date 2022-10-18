@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--suppress CssUnusedSymbol, JSUnresolvedLibraryURL -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <title>评价</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="../css/star-main.css" media="all" type="text/css"/>
+    <script type="text/javascript" src="../jquery-1.7/jquery-1.7.2.js"></script>
+<body>
+<div class="container">
+	
+	
+    <div class="page-header">
+        <h2 style="color: crimson;">请您对本次购药进行评价</h2>
+    </div>
+    <!-- <form action="http://127.0.0.1:6003/api/ma/usercomment/save" method="post"> -->
+    	<div class="panel panel-default">
+		  <div class="panel-heading" style="font-size: 2rem;">满意度&nbsp;<span style="color:red;">*</span>：</div>
+		  <div class="panel-body">
+		  	  		  <input name="starNum" id="starNum" type="hidden"/>
+                      <div class="starability-container">
+	                       <fieldset class="starability-slot">
+		                        <input type="radio" id="rate_1_0_1_5" name="star" value="5" /> 
+		                        <label for="rate_1_0_1_5" title="5星"></label>
+		                        <input type="radio" id="rate_1_0_1_4" name="star" value="4" /> 
+		                        <label for="rate_1_0_1_4" title="4星"></label>
+		                        <input type="radio" id="rate_1_0_1_3" name="star" value="3" /> 
+		                        <label for="rate_1_0_1_3" title="3星"></label>
+		                        <input type="radio" id="rate_1_0_1_2" name="star" value="2" /> 
+		                        <label for="rate_1_0_1_2" title="2星"></label>
+		                        <input type="radio" id="rate_1_0_1_1" name="star" value="1" /> 
+		                        <label for="rate_1_0_1_1" title="1星"></label>
+	                       </fieldset>
+                      </div>
+                      <span style="font-size: 2rem;line-height: 2.9rem;padding: 1rem;font-style: oblique;" id="starStr"></span>
+		  </div>
+		</div>
+
+        
+		<div class="page-header">
+            <h3>评价：</h3>
+        </div>
+        <textarea id="content" name="content" 
+        	class="form-control" rows="16" style="min-width: 90%;font-size: 3rem;height: 28rem !important;"></textarea>
+		
+		<br/>
+		
+		<p class="submit_btn">
+			<button type="submit" class="btn btn-primary btn-lg btn-block" onclick="evaluation();">
+　　　　　　　提交　　　　　　　　
+			</button>
+			<button type="button" class="btn btn-default btn-lg btn-block"  onclick="closed();">
+　　　　　　　关闭　　　　　　　　
+			</button>
+		</p>
+    <!-- </form> -->
+</div>
+</body>
+
+
+<!--获取url中的数据-->
+<script>
+	
+	/*(1)当前页面的url地址是：‘http://myftp.free.idcfengye.com/user_comment/html/user-commet.html?orderNo=1437207644866609152&refereeStoreId=1000’
+	  使用下面的方法可获取地址中的数据，以下用到了jquery组件，也可用js的方法来获取，已验证
+	*/
+
+	$.Get = function (name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+    }
+
+   var orderNo=$.Get("orderNo");
+   var refereeStoreId=$.Get("refereeStoreId");
+   alert("orderNo==>" + orderNo);
+   alert("refereeStoreId==>" + refereeStoreId);
+
+
+
+</script>
+
+<script type="text/javascript">
+    /*(2)使用JS的方法来获取,未验证*/
+	function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return r[2]; return null;
+    }
+</script>
+
+
+
+<script>
+	
+	
+	$('[name="star"]').bind("click",function(){
+		console.log($(this)[0].value)
+		$("#starNum").val($(this)[0].value)
+		var starNum = $(this)[0].value;
+		if(starNum == 1) $("#starStr").text("差");
+		if(starNum == 2) $("#starStr").text("一般");
+		if(starNum == 3) $("#starStr").text("优");
+		if(starNum == 4) $("#starStr").text("良");
+		if(starNum == 5) $("#starStr").text("满意");
+	})
+	
+	
+
+	// 提交评论
+	function evaluation() {
+		//评价等级
+
+		var customerEvaluationLevel = $('#starNum').val();
+		//alert(customerEvaluationLevel);
+		
+		if (customerEvaluationLevel == undefined || customerEvaluationLevel == null || customerEvaluationLevel == '') {
+			alert('请将满意度选好再提交哦！');
+			return false;
+		}
+
+		//
+			$.ajax({
+		type: "POST",
+		/* contentType: "application/json", 
+		dataType: "json", */ //json格式设置
+		url: 'http://127.0.0.1:6003/api/ma/usercomment/save?orderNo='+ $.Get("orderNo"),
+		async: false, // 使用同步的方法
+		data: {
+			content:$('#content').val(),
+			star: $('#starNum').val()
+		},
+		success: function (result) {
+			alert("提交成功，谢谢您的反馈！❤");
+			console.log(result)
+
+    	}
+});
+	}
+	
+	//关闭
+	function closed() {
+		window.close();
+	}
+	
+  
+</script>
+
+
+
+
+
+<style>
+	.page-header{
+		padding-bottom: 1px !important;
+    	margin: 18px 0 20px !important;
+	}
+	.submit_btn{
+		width: 100%;
+	}
+	.textarea.form-control{
+		height: 28rem !important;
+	}
+	h3{
+		font-size: 22px;
+	}
+	
+	h2{
+		font-size: 19px;
+	}
+</style>
+
+</html>
+
+
+
