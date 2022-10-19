@@ -500,7 +500,7 @@ WHERE
 	and id not in ( 
 	 select b.id from (
 		 SELECT id FROM `disease_value` GROUP BY disease_name HAVING count(*) > 1
-	 ) as b
+	 ) as b    
 	);
 ```
 
