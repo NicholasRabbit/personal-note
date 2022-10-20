@@ -541,3 +541,16 @@ SELECT    **REPLACE**( UUID(), '-', '' )  ：UUID生成
 ### 28，数据库的字段不要用数据库的关键字
 
 read是个关键字
+
+### 29，查询一个表的最后修改时间
+
+```sql
+SELECT
+	'sys_user_role',
+	UPDATE_TIME 
+FROM
+	INFORMATION_SCHEMA.TABLES 
+WHERE
+	TABLE_SCHEMA = 'base_upms';
+```
+
