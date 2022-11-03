@@ -257,3 +257,48 @@ npm install --registry=https://registry.npm.taobao.org  ： 执行安装依赖
 npm  run  dev  :  启动项目
 
 #### 2，若依使用jwt的验证流程
+
+1)用户登录的时候，后端就把登录信息存到了redis里，key是uuid，值是当前用户信息对象
+
+```java
+public class SysLoginService{
+    //......
+    return tokenService.createToken(loginUser);
+}
+public class TokenService{
+	 public String createToken(LoginUser loginUser)
+    {
+        String token = IdUtils.fastUUID();  //这里是uuid不是jwt的token
+        loginUser.setToken(token);
+        setUserAgent(loginUser);
+        refreshToken(loginUser);   //在这里把用户信息存进redis
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(Constants.LOGIN_USER_KEY, token);
+        return createToken(claims);
+    }
+    
+    public void refreshToken(LoginUser loginUser)
+    {
+        loginUser.setLoginTime(System.currentTimeMillis());
+        loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
+        // 根据uuid将loginUser缓存
+        String userKey = getTokenKey(loginUser.getToken());   //给uuid拼接一个前缀
+        redisCache.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
+    }
+}
+```
+
+2) 若依在过滤器中刷新token的有效期，因为每个请求都要经过过滤器（或者使用拦截器也行，两者功能相似）
+
+```java
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
+{
+    //....
+     protected void doFilterInternal(){
+         LoginUser loginUser = tokenService.getLoginUser(request);  //获取登录用户
+     }
+}
+```
+
+3）实际返回给前端的jwt  token 中只是redis  key的加密信息，包含了“login_tokens:uuid”，后端解析token，从中获取uuid，再从redis中获取真正重要的用户信息。这样实现了不在jwt  token中放敏感信息的要求。
