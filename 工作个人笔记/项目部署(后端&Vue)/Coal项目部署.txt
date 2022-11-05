@@ -1,2 +1,0 @@
-1,注意：
-  Coal项目打成的war包内嵌tomcat,因此使用java -jar zykj-coal-admin.war启动
