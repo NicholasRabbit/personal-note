@@ -34,7 +34,17 @@ top -bn 1 -i -c : 详细查看
 vmstat : 采集当前cpu状态  https://www.sijitao.net/1925.html
 vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次 
 
+五，ls命令常用选项
+    ls *.txt ：仅列出目录中的 .txt 文件：
+    ls -s ： 按文件大小列出
+    ls -t ： 按时间和日期排序 
+    ls -X ： 按扩展名排序 
+    ls -S ： 按文件大小排序 
+    ls -ls ： 带有文件大小的长格式 
 
+	使用范例：
+	ls -Xlh : 按类型，单位为M展示文件
+	ls -lh *.out : 展示out后缀的文件
 
 
 

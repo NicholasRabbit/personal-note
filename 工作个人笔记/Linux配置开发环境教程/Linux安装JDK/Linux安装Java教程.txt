@@ -10,6 +10,10 @@ rpm -e --nodeps + java包名 ：如果上条有查询结果，执行此命令卸载
 
 	添加如下内容：
 
+	vim编辑器输入外部命令并打印结果
+	cd /usr/java/jdk1.8.0-144
+	:r !pwd 
+	
 	a. JAVA_HOME=/usr/java/jdk1.8.0-144
 	   
 	   JRE_HOME=$JAVA_HOME/jre
