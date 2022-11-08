@@ -72,6 +72,8 @@ java.util.logging.ConsoleHandler.encoding = GBK
 
 ### 5，放到Tomcat中的页面中文乱码
 
+解决方案
+
 1，修改Tomcat的conf/server.xml文件，新增URIEncoding="UTF-8"，注意html页面的编码格式也必须是UTF-8
 
 ```xml

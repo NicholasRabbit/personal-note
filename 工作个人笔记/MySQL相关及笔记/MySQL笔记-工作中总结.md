@@ -554,3 +554,31 @@ WHERE
 	TABLE_SCHEMA = 'base_upms';
 ```
 
+### 30，Count()和DISTINCT()连用，jeesite手动设置分页范例
+
+```sql
+<!--public List<SearchLogs> getSearchLogs(SearchLogs searchLogs);-->
+    <select id="getSearchLogs" resultType="com.jeesite.modules.solr.entity.SearchLogs">
+        SELECT
+          DISTINCT
+            keyword,
+            member_id
+        FROM
+            `search_logs`
+        WHERE
+            member_id = #{memberId}
+            AND keyword IS NOT NULL
+    </select>
+
+    <!--public List<SearchLogs> getSearchLogsCount(SearchLogs searchLogs);-->
+    <select id="getSearchLogsCount" resultType="java.lang.long">
+        SELECT
+          COUNT( DISTINCT keyword, member_id )
+        FROM
+            `search_logs`
+        WHERE
+            member_id = #{memberId}
+            AND keyword IS NOT NULL
+    </select>
+```
+
