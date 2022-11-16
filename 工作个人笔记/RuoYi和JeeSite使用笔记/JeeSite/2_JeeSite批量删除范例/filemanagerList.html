@@ -1,0 +1,213 @@
+<% layout('/layouts/default.html', {title: '文件管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa icon-docs"></i> ${text('文件管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('fileadmin') ){ %>
+				<a href="${ctx}/fileadmin/fileAdminFolder/form" id="btnNewFolder" class="btn btn-default addTabPage" title="${text('新建文件夹')}"
+				   data-layer="true" data-layer-width="950" data-layer-height="390"><i class="fa fa-folder-o"></i> ${text('新建文件夹')}</a>
+				<a href="${ctx}/fileadmin/fileAdminFolder/filemanagerform" id="btnUploadFile" class="btn btn-default addTabPage" title="${text('上传文件')}"
+				   data-layer="true" data-layer-width="950" data-layer-height="430"><i class="fa fa-upload"></i> ${text('上传文件')}</a>
+				
+				<!--1，页面设置好批量删除按钮-->
+				<a href="javascript:" id="btnDeleteFile" class="btn btn-default" title="${text('删除')}"><i class="fa fa-trash-o"></i> ${text('批量删除')}</a>
+
+
+
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${filemanager}" action="${ctx}/fileadmin/fileAdminFolder/filemanagerListData" method="post" class="form-inline "
+			data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+			<#form:hidden path="groupType"/>
+			<#form:hidden path="folderId"/>
+			<#form:hidden path="sharedId"/>
+			<div class="form-group">
+				<label class="control-label">${text('名称')}：</label>
+				<div class="control-inline">
+					<#form:input path="fileName" maxlength="500" class="form-control width-120"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label">${text('审核状态')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="verifyStatus" dictType="approval_state" blankOption="true" class="form-control isQuick"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('上传时间')}：</label>
+				<div class="control-inline">
+					<#form:input path="startTime" readonly="true" maxlength="20" class="form-control laydate width-datetime"
+					dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,onpicked:function(){createDate_lte.click()}});"/>
+					&nbsp;--&nbsp;
+					<#form:input path="endTime" readonly="true" maxlength="20" class="form-control laydate width-datetime"
+					dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+				</div>
+			</div>
+
+		
+
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+				<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+			</div>
+		</#form:form>
+		<table id="dataGrid"></table>
+		<div id="dataGridPage"></div>
+	</div>
+</div>
+</div>
+<% } %>
+<script>
+	// 初始化DataGrid对象
+	$('#dataGrid').dataGrid({
+		searchForm: $("#searchForm"),
+		columnModel: [
+			{header:'${text("名称")}', name:'fileName', index:'a.file_name', width:300, align:"left", frozen:true, formatter: function(val, obj, row, act){
+					var html = [];
+					if (row.fileType == 'folder'){
+						html.push('<i class="fa fa-folder-o"></i> &nbsp;');
+						html.push('<a href="javascript:" onclick="enterFileFolder(\''+row.folderId+'\')">'+(val||row.id)+'</a>');
+					}else{
+						console.log(row)
+						var urls = row.filePath
+						var urlsr = urls.split('.')
+						if(row.fileType == 'image'){
+							html.push('<i class="fa fa-file-text-o"></i> &nbsp;');
+							html.push('<a href="${ctx}/fileadmin/fileAdminFolder/getFileDetail?path='+row.filePath+'"  data-layer="true" data-layer-width="950" data-layer-height="530" class="addTabPage">'+(val||row.id)+'</a>');
+						}else{
+							var url = 'http://hg.xuzhilin.com:8980/onlinePreview?url=' + encodeURIComponent(Base64.encode('http://hg.xuzhilin.com:8335'+row.filePath));
+							html.push('<i class="fa fa-file-text-o"></i> &nbsp;');
+							html.push('<a target="_blank" href="'+ url +'" >'+(val||row.id)+'</a>');
+						}
+
+
+
+					}
+					return html.join('');
+				}},
+			{header:'${text("文件类型")}', name:'fileType', sortable:false, width:80, align:"center", formatter: function(val, obj, row, act){
+					return val == 'image' ? '${text("图片")}' : val == 'media' ? '${text("媒体")}' : val == 'file' ? '${text("文档")}' : '';
+				}},
+			{header:'${text("文件大小")}', name:'fileSizeFormat', sortable:false, width:100, align:"center"},
+			{header:'${text("排序")}', name:'sorts', sortable:false, width:100, align:"center", formatter: function(val, obj, row, act){
+					var html = [];
+				if (row.fileType != 'folder'){
+						html.push('<a href="${ctx}/fileadmin/fileAdminUpload/form?id='+row.id+'" class="addTabPage"  data-layer="true" data-layer-width="950" data-layer-height="430">'+(val-10000)+'</a>');
+					}else {
+					return val;
+				}
+					return html.join('');
+				}},
+			{header:'${text("审核状态")}', name:'verifyStatus', sortable:false, width:100, align:"center", formatter: function(val, obj, row, act){
+					return val == '0' ? '${text("待审核")}' : val == '1' ? '${text("已通过")}' : val == '2' ? '${text("未通过")}' : '';
+				}},
+			{header:'${text("上传者")}', name:'createByName', index:'a.create_by', width:110, align:"center"},
+			{header:'${text("上传时间")}', name:'createDate', index:'a.create_date', width:130, align:"center"},
+// 		{header:'${text("备注")}', name:'remarks', index:'a.remarks', width:130, align:"left"},
+			{header:'${text("操作")}', name:'actions', width:140, sortable:false, title:false, formatter: function(val, obj, row, act){
+					var actions = [];
+					if (row.fileType == 'folder'){
+						<% if(isBlank(filemanager.sharedId)){ %>
+					actions.push('<a href="${ctx}/fileadmin/fileAdminFolder/form?id='+row.folderId+'" class="addTabPage" title="${text("编辑文件夹")}" data-layer="true" data-layer-width="950" data-layer-height="430"><i class="fa fa-pencil"></i></a>&nbsp;');
+						actions.push('<a href="${ctx}/fileadmin/fileAdminFolder/delete?id='+row.folderId+'&status=1" class="btnList" title="${text("删除文件夹")}" data-confirm="${text("确认要删除该文件夹吗？")}" data-confirm-success="delFun()"><i class="fa fa-trash-o"></i></a>&nbsp;');
+						<% } %>
+					}else{
+							actions.push('<a href="${ctx}/fileadmin/fileAdminUpload/form?id='+row.id+'" class="addTabPage" title="${text("排序")}" data-layer="true" data-layer-width="950" data-layer-height="430"><i class="fa fa-pencil"></i></a>&nbsp;');
+							actions.push('<a href="'+row.filePath+'"><i class="fa fa-download"></i></a>&nbsp;');
+							<% if(isBlank(filemanager.sharedId)){ %>
+						actions.push('<a href="${ctx}/fileadmin/fileAdminUpload/save?id='+row.id+'&status=1" class="btnList" title="${text("删除文件")}" data-confirm="${text("确认要删除该文件吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+							<% } %>
+					if (row.verifyStatus =='0'){
+					actions.push('<a href="${ctx}/fileadmin/fileAdminUpload/save?id='+row.id+'&verifyStatus=1" class="btnList" title="${text("通过")}" data-confirm="${text("确认审核通过该文件吗？")}"><i class="glyphicon glyphicon-ok-circle"></i></a>&nbsp;');
+					actions.push('<a href="${ctx}/fileadmin/fileAdminUpload/save?id='+row.id+'&verifyStatus=2" class="btnList" title="${text("拒绝")}" data-confirm="${text("确认拒绝该文件吗？")}"><i class="glyphicon glyphicon-ban-circle"></i></a>&nbsp;');
+					}
+					if (row.verifyStatus =='1'){
+						actions.push('<a href="${ctx}/fileadmin/fileAdminUpload/save?id='+row.id+'&verifyStatus=2" class="btnList" title="${text("拒绝")}" data-confirm="${text("确认拒绝该文件吗？")}"><i class="glyphicon glyphicon-ban-circle"></i></a>&nbsp;');
+					}
+					if (row.verifyStatus =='2'){
+						actions.push('<a href="${ctx}/fileadmin/fileAdminUpload/save?id='+row.id+'&verifyStatus=1" class="btnList" title="${text("通过")}" data-confirm="${text("确认审核通过该文件吗？")}"><i class="glyphicon glyphicon-ok-circle"></i></a>&nbsp;');
+					}
+					if (row.fileExtension =='xls'||row.fileExtension =='xlsx'||row.fileExtension =='doc'||row.fileExtension =='docx'){
+						actions.push('<a href="${ctx}/fileadmin/fileAdminUpload/excelToPdf?id='+row.id+'" class="btnList" title="${text("EXCEL WORD转PDF")}" data-confirm="${text("确认将该文件转为PDF？")}"><i class="glyphicon glyphicon-ok-circle"></i></a>&nbsp;');
+					}
+					}
+					return actions.join('');
+					}}
+					],
+					multiboxonly: true,	// 单击复选框时再多选
+					showCheckbox: true,	// 是否显示复选框
+						// 加载成功后执行事件
+					ajaxSuccess: function(data){
+					var parentCode = js.val(data, 'otherData.folder.parentCode');
+					log(parentCode)
+		if (parentCode && parentCode != ''<% if(isNotBlank(filemanager.sharedId)){ %> && parentCode == '${filemanager.folderId}'<% } %>){
+			$('#dataGrid .jqgfirstrow').after('<tr class="ui-widget-content jqgrow ui-row-ltr pointer"'
+					+' onclick="enterFileFolder(\''+parentCode+'\')" title="${text("上级文件夹")}">'
+							+'<td role="gridcell" class="ui-state-default jqgrid-rownum" style="text-align:center;width: 30px;"'
+					+' aria-describedby="dataGrid_rn"><i class="icon-action-undo"></i></td>'
+							+'<td role="gridcell" style="text-align:center;width: 25px;" aria-describedby="dataGrid_cb">#</td>'
+							+'<td colspan="6"><i class="fa fa-folder-o"></i> &nbsp;<a href="javascript:">..</a></td></tr>');
+					}
+					var groupType = $('#groupType').val(), folderId = $('#folderId').val();
+					$('#btnNewFolder').data('href', $('#btnNewFolder').attr('href') + '?groupType='+groupType+'&parentCode='+folderId);
+					$('#btnUploadFile').data('href', $('#btnUploadFile').attr('href') + '?groupType='+groupType+'&folderId='+folderId);
+				}
+			});
+	function enterFileFolder(folderId){
+		$('#folderId').val(folderId);
+		$('#searchForm').submit();
+	}
+	$('#btnMoveFile').click(function(){
+		var ids = $('#dataGrid').dataGrid('getSelectRows');
+		if (ids.length <= 0){
+			js.showMessage('请选择要移动的文件');
+			return false;
+		}
+		var groupType = $('#groupType').val(), folderId = $('#folderId').val();
+		$('#btnMoveFile').data('href', $('#btnMoveFile').attr('href')
+				+'?groupType='+groupType+'&folderId='+folderId
+				+'&ids='+ids.join(','));
+	});
+	$('#btnShareFile').click(function(){
+		var ids = $('#dataGrid').dataGrid('getSelectRows');
+		if (ids.length <= 0){
+			js.showMessage('请选择要移动的文件');
+			return false;
+		}
+		$('#btnShareFile').data('href', $('#btnShareFile').attr('href')
+				+'?ids='+ids.join(','));
+	});
+	
+	
+	/*
+	2，使用JQuery绑定上面的“批量删除按钮”进行操作
+	*/
+	$('#btnDeleteFile').click(function(){
+		var ids = $('#dataGrid').dataGrid('getSelectRows');  //这里使用的是dataGrid组件，获取选中行的id
+		if (ids.length <= 0){
+			js.showMessage('请选择要删除的文件');
+			return false;
+		}
+		js.confirm('确认要删除你选中的文件吗？', function(data){
+			//这里写调用后台的接口
+			js.ajaxSubmit("${ctx}/fileadmin/fileAdminFolder/deleteBatch", {
+				ids: ids.join(',')  //把表单每行的id用都好拼接起来，传给后台。
+			}, function(data){
+				js.showMessage(data.message);
+				page();
+			});
+		});
+		return false;
+	});
+
+	function delFun(){
+		parent.$('body').find('.box-header').find('#btnRefresh').click()
+	}
+</script>

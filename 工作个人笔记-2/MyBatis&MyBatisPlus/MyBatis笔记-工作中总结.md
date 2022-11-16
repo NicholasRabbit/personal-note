@@ -24,3 +24,15 @@ query代表User对象
 <!--正确写法-->
 AND (DATE_FORMAT( fctr.create_time, '%Y' )= #{year} and DATE_FORMAT( fctr.create_time, '%m' )= #{month}  )
 ```
+
+### 3，、\<if\> 和\<foreach\>嵌套使用
+
+```xml
+<if test="folderList != null">
+    and up.folder_id in
+    <foreach collection="folderList" item="fl" open="(" separator="," close=")">
+        #{fl.id}
+    </foreach>
+</if>
+```
+

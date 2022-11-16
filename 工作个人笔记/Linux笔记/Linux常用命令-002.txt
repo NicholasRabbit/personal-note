@@ -46,6 +46,8 @@ vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次
 	ls -Xlh : 按类型，单位为M展示文件
 	ls -lh *.out : 展示out后缀的文件
 
+	du -sh fileName : (disk usage)查看文件的大小（s:代表目录总大小，h: human readable,换算成kb,mb等单位）
+
 
 
 

@@ -582,3 +582,40 @@ WHERE
     </select>
 ```
 
+### 31，查看sql语句的执行时间
+
+方法一：
+
+使用Mysql自带的 Query Profiler工具，需要mysql版本5.0.37以上。
+
+1）首先查看mysql中的profile是否开启，看profiling那行是否是on，没有则开启
+
+```sql
+show variables like "%profiling%";
+set profiling = 1;    -- 设置开启 
+```
+
+2）输入一个sql语句范例，然后执行
+
+```sql
+show profiles;   -- 查询所有近期执行的语句
+show profile for query 8;  -- 查询显示指定的编号的语句的执行时间
+```
+
+3）执行完关闭，（可不关）
+
+```sql
+set profiling=0;
+```
+
+
+
+方法二： timestampdiff来查看执行时间。
+
+**这种方法有一点要注意，就是三条sql语句要尽量连一起执行，不然误差太大，根本不准**
+
+```
+set @d=now();
+select * from comment;
+select timestampdiff(second,@d,now());
+```
