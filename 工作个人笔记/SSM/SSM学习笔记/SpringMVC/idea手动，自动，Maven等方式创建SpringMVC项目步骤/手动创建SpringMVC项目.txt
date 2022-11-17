@@ -1,0 +1,2 @@
+就是创建一个JavaEE的Web项目，配置好Tomcat就行。
+因为SpringMVC底层就是Servlet，所以创建方法一样。

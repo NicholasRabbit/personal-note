@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<context:component-scan base-package="com.atguigu.controller"></context:component-scan>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<mvc:default-servlet-handler/>
+	
+	<mvc:annotation-driven />
+	
+	<!-- 
+		处理文件，将客户端上传的File文件，处理为MultipartFile
+		注意：文件解析器的bean中id必须设置为multipartResolver
+	 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置文件解析的编码，注意：一定要和页面的pageEncoding保持一致 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 设置最大上传文件大小 -->
+		<property name="maxUploadSize" value="88888888"></property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.NullPointerException">error</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- <mvc:interceptors>
+		默认拦截所有请求
+		<bean class="com.atguigu.interceptor.FirstInterceptor"></bean>
+		<bean class="com.atguigu.interceptor.SecondInterceptor"></bean>
+		此方式要求拦截器类上必须加注解@Component
+		<ref bean="firstInterceptor"/>
+		
+		设置自定义拦截方式
+		<mvc:interceptor>
+			<bean></bean>
+			<mvc:mapping path=""/>
+			<mvc:exclude-mapping path=""/>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+
+</beans>

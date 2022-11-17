@@ -1,0 +1,4 @@
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/ssm?allowMultiQueries=true     #在这里进行配置
+jdbc.user=root
+jdbc.password=nicholas1200

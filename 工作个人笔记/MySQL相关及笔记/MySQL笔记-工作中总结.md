@@ -619,3 +619,7 @@ set @d=now();
 select * from comment;
 select timestampdiff(second,@d,now());
 ```
+
+### 32，查看创建视图的语句
+
+SHOW CREATE VIEW order_info_v;
