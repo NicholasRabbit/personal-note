@@ -623,3 +623,21 @@ select timestampdiff(second,@d,now());
 ### 32，查看创建视图的语句
 
 SHOW CREATE VIEW order_info_v;
+
+### 33，截取字符串SUBSTRING_INDEX()用法
+
+截取字符串
+
+SUBSTRING_INDEX('abc_ttt_ccc','_',1)  ：  取指定分隔符之前的字符串，指原字符串中的多个下划线下标从1开始，是几就取几之前的字符串。下标可以是负数，表示从相反方向算，即截取右边的字符串
+
+例：SELECT SUBSTRING_INDEX('abc_ttt_ccc_ddd','_',2);   结果：abc_ttt
+
+​		SELECT SUBSTRING_INDEX('abc_ttt_ccc_ddd','_',-1);  结果：ddd
+
+也可以嵌套使用截取中间的字符串
+
+SELECT SUBSTRING_INDEX( SUBSTRING_INDEX( 'abc_ttt_ccc_ddd', '_', 3 ), '_', -1);  结果 : ccc
+
+先截取获得abc_ttt_ccc，再根据-1下标获得ccc
+
+参考https://cloud.tencent.com/developer/article/1406531
