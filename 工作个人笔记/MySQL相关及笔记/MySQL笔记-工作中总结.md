@@ -1,5 +1,11 @@
 #### 1， MyBatis使用truncate语句时是用的<update>标签
 
+```xml
+<update>
+truncate table ....
+</update>
+```
+
 
 
 #### 2， MySQL通配符

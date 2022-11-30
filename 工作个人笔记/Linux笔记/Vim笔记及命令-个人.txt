@@ -1,0 +1,8 @@
+1, :set fileencoding ：vim查看编码格式
+
+2, putty设置vim编辑器使用数字小键盘方法
+   Terminal--> Features --> Disable application keypad mode，勾选此项
+
+3, vim中批量替换命令
+   :%s/abc/xyz  把文件中所有的abc替换为xyz
+   
