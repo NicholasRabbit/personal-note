@@ -141,3 +141,10 @@ HTTP的动词（或是Method）是在协议头中，所以，其主要用于控�
 前者是Linux系统用，后者是win系统用，追踪请求跳跃的路有数
 
 traceroute   www.baidu.com
+
+### 3, wirseshark抓包工具
+
+学习tcp协议三次握手的时候可以用来检测网络中包的传输等。
+
+
+
