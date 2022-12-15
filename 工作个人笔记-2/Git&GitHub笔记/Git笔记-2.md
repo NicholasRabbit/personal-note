@@ -114,3 +114,52 @@ ssh -T git@gitee.com
 
 ```
 
+### 4，git强制融合，拉取
+
+l强制融合，提交，拉取
+
+```
+git merge master --allow-unrelated-histories
+git pull origin master --allow-unrelated-histories
+```
+
+### 5，设置本地仓库同时提交gitee，github
+
+前提条件，两个仓库有相同的公钥。以本地有 gitee仓库，同步到github为例
+
+1，在本地已有的gitee仓库中添加github的仓库:  
+
+```shell
+git remote add origin-github git@github.com:NicholasRabbit/datastructure.git
+```
+
+2，强制拉取github的仓库到本地，注意github默认分支为main，可修改为master
+
+```shell
+git pull origin-github master --allow-unrelated-histories
+```
+
+3，本地手动融合好文件后，直接提交到github
+
+```shell
+git add -A
+git commit -m ""
+git push -u origin-github master
+```
+
+以上为个人范例，其他参考
+
+https://cloud.tencent.com/developer/article/1774890
+
+https://zhuanlan.zhihu.com/p/346400298
+
+### 6，git查看用户名
+
+显示name的方法：
+
+```
+git config user.name
+git config --list12
+```
+
+或者查看`~/.gitconfig`文件。

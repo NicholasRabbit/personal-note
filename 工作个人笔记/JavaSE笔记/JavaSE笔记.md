@@ -33,6 +33,30 @@ Path:%JAVA_HOME%\bin;%JRE_HOME%\bin;C:\WINDOWS\system32;
 
 ```
 
-### 3，JVM中的栈内存
+#### 3，JVM中的栈内存
 
 JVM会为每个方法分配一块栈内存，每个栈中的空间都是独立的，这就是为什么一个类中的多个方法中可以命名相同名字的变量，因为“出了大括号就不认识”。
+
+#### 4，Java的IO流输出的文件的换行符
+
+windows平台的换行符为/r/n;
+
+linux平台的换行符为/n;
+java程序会将不同平台用户输入的换行符转换成特定系统的换行符。可以通过如下命令来获取当前系统的换行符：
+
+例：
+
+```java
+private Writer writer;
+writer.write("\r\n");  //windows系统
+```
+
+一般使用以下通用的写法，可自动得到当前系统的换行符，因为上面写死的话，换系统运行就会出错。
+
+```java
+writer.write(System.getProperty("line.separator"));
+```
+
+#### 5，手动使用EditPlus写代码，编译java问题
+
+注意有时候，多个xxx.java 文件，只编译主测试类，其它的不会自动编译，要删除原来的class 文件。
