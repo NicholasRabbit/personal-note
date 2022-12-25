@@ -1,9 +1,0 @@
-1，MIT
-https://openlearning.mit.edu/
-
-2，MIT CS course roadmap:
-http://catalog.mit.edu/degree-charts/computer-science-engineering-course-6-3/
-https://www.eecs.mit.edu/academics/undergraduate-programs/curriculum/6-3-computer-science-and-engineering/
-
-3，国内收集MIT CS课程的网站；
-https://www.yuque.com/guigumentor/guigu/computer
