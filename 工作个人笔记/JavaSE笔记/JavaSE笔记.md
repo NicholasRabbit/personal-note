@@ -60,3 +60,16 @@ writer.write(System.getProperty("line.separator"));
 #### 5，手动使用EditPlus写代码，编译java问题
 
 注意有时候，多个xxx.java 文件，只编译主测试类，其它的不会自动编译，要删除原来的class 文件。
+
+#### 6，重写equals()，hashCode()方法相关
+
+**重点：向Set, HashMap中存数据要重写equals()和hashCode()方法。**其它类型的集合中具体情况具体分析。
+
+* 1,为什么重写equals()方法？
+* (1)两个对象是靠equals()方法判断是否相等的，而默认继承自Object父类的是比较引用内存地址。
+* (2)而HashMap的key实际就是HashSet，就是靠equals(..)判断是否相等，例：HashMap<User,Object>的key是用户自定义的User的话，User必须重写equals
+* 常用的Map<String,Object>中String已重写equals(..)方法。
+* 2,放到HashSet, HashMap中的对象为什么重写equals()之后必须重写 hashCode()方法？
+* 因为Set判断对象是否相等是同时判断equals()和hashCode()是否相等，缺一个条件不可。同理HashMap的key(即也是HashSet)。
+
+代码参照个人JavaSE 的：EqualsAndHashCodeTest.java
