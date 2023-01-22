@@ -73,3 +73,8 @@ writer.write(System.getProperty("line.separator"));
 * 因为Set判断对象是否相等是同时判断equals()和hashCode()是否相等，缺一个条件不可。同理HashMap的key(即也是HashSet)。
 
 代码参照个人JavaSE 的：EqualsAndHashCodeTest.java
+
+#### 7，运算符优先级
+
+算数运算符(+-x/)的优先级高于关系运算符( <, >,!=, == )，关系运算符高于逻辑运算符(| ，&，||，&&)。
+

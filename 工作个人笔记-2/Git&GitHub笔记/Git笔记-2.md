@@ -116,7 +116,7 @@ ssh -T git@gitee.com
 
 ### 4，git强制融合，拉取
 
-l强制融合，提交，拉取
+强制融合，提交，拉取
 
 ```
 git merge master --allow-unrelated-histories
@@ -125,7 +125,7 @@ git pull origin master --allow-unrelated-histories
 
 ### 5，设置本地仓库同时提交gitee，github
 
-前提条件，两个仓库有相同的公钥。以本地有 gitee仓库，同步到github为例
+**前提条件:**两个仓库有相同的公钥。以本地有 gitee仓库，同步到github为例
 
 1，在本地已有的gitee仓库中添加github的仓库:  
 
