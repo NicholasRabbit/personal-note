@@ -91,5 +91,7 @@ SHOW PROCEDURE STATUS LIKE 'select_a%';  -- 模糊查询
 CALL select_all();
 ```
 
+### 四，使用Navicat备份数据库
 
+Navicat的“自动运行”里可以设置自动备份，是被分到本地，不是备份到服务器。
 
