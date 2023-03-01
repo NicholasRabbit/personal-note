@@ -17,3 +17,23 @@ apply(boolean condition, String applySql, Object... params)
 
 - 例: `apply("date_format(dateColumn,'%Y-%m-%d') = {0}", "2008-08-08")`--->`date_format(dateColumn,'%Y-%m-%d') = '2008-08-08'")`
 
+#### 2，MyBatis Plus开启日志打印
+
+```yaml
+# mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      where-strategy: not_empty
+      insert-strategy: not_empty
+      update-strategy: not_null
+  type-handlers-package: com.by4cloud.platform.common.data.handler
+  configuration:
+    jdbc-type-for-null: 'null'
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #开启日志打印
+```
+
