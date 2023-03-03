@@ -37,3 +37,9 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #开启日志打印
 ```
 
+### 3，Lambdaquery()用法
+
+```java
+List<SysUser> userList = userService.list(new QueryWrapper<SysUser>().lambda()			.eq(deptId!=null,SysUser::getDeptId,deptId).like(StrUtil.isNotBlank(name),SysUser::getName,name));
+```
+
