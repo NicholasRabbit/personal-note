@@ -95,3 +95,14 @@ CALL select_all();
 
 Navicat的“自动运行”里可以设置自动备份，是被分到本地，不是备份到服务器。
 
+### 五，DDL语句，增加一列等
+
+语法格式：
+
+```sql
+ALTER TABLE 表名 ADD 【COLUMN】 字段名 字段类型 【FIRST|AFTER 字段名】;
+-- 范例
+ALTER TABLE jc_gate_state ADD `tm_code` VARCHAR ( 64 ) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '提煤单编号';
+```
+
+参照宋红康课堂教案
