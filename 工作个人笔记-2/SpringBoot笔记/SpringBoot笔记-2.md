@@ -92,7 +92,7 @@ public class DeleteScheduleService {
 
 原因：maven项目的pom.xml里引入了Druid，MySQL等依赖，但是applicaiton.yml里没有配置数据库链接信息，因此报错，如果不需要链接数据库就不要引入这些依赖
 
-### 七，@Cacheable的使用
+### 七，@Cacheable,@CacheEvict的使用
 
 ```java
 /**
