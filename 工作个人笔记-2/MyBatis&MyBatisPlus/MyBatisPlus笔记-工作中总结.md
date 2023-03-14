@@ -37,9 +37,29 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #开启日志打印
 ```
 
-### 3，Lambdaquery()用法
+#### 3，Lambdaquery()用法
 
 ```java
 List<SysUser> userList = userService.list(new QueryWrapper<SysUser>().lambda()			.eq(deptId!=null,SysUser::getDeptId,deptId).like(StrUtil.isNotBlank(name),SysUser::getName,name));
+```
+
+#### 4，updateQuery用法
+
+```java
+List<Integer> typeList = new ArrayList<>();
+            typeList.add(1);
+            typeList.add(2);
+            UpdateWrapper<YySetting> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("id",yySetting.getId());
+            updateWrapper.in("type",typeList);
+            updateWrapper.set("daily_status",1);
+            baseMapper.update(null,updateWrapper);
+
+```
+
+对应的sql
+
+```sql
+    update yy_setting set daily_status = 1 where del_flag = '0' and (id = 1635560867120164866 and type in (1, 2))
 ```
 
