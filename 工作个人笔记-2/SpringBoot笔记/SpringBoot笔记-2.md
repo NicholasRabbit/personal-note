@@ -94,6 +94,23 @@ public class DeleteScheduleService {
 
 ### 七，@Cacheable,@CacheEvict的使用
 
+@Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
+unless = "#result==null"表示返回值是null时不加入缓存。缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
+
+@CacheEvict使整个value或cacdeNames所指的缓存失效设置方法
+
+```java
+ @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
+//这里指CacheConstants.COAL_FILED缓存中的#jcCoalFiled.id失效，allEntries默认为false，
+```
+
+```java
+@CacheEvict(cacheNames = CacheConstants.EQUIPMENT_BY_CODE, allEntries = true)
+//设置allEntries = true让整个缓存失效，无需指定key属性值。
+```
+
+
+
 ```java
 /**
      * 根据 闸机编码获取
@@ -127,9 +144,21 @@ public class DeleteScheduleService {
     public R getById(@PathVariable("id" ) Long id) {
         return R.ok(jcCoalFiledService.getById(id));
     }
+	
+	//缓存失效机制
+	@Operation(summary = "修改煤场表" , description = "修改煤场表" )
 	@CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
     public R updateById(@RequestBody JcCoalFiled jcCoalFiled) {
         return R.ok(jcCoalFiledService.updateById(jcCoalFiled));
+    }
+
+    @Operation(summary = "通过id删除煤场表" , description = "通过id删除煤场表" )
+    @SysLog("通过id删除煤场表" )
+    @DeleteMapping("/{id}" )
+    @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
+    @PreAuthorize("@pms.hasPermission('wrzs_jccoalfiled_del')" )
+    public R removeById(@PathVariable Long id) {
+        return R.ok(jcCoalFiledService.removeById(id));
     }
 
 ```
