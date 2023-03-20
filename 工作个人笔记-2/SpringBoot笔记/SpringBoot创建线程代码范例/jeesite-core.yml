@@ -1,0 +1,13 @@
+
+...........
+
+
+#公用线程配置
+async:
+  executor:
+    thread:
+      core_pool_size: 10
+      max_pool_size: 10
+      queue_capacity: 3000
+      name:
+        prefix: asnyc-executor

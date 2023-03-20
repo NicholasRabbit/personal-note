@@ -101,7 +101,11 @@ unless = "#result==null"表示返回值是null时不加入缓存。缓存中找�
 
 ```java
  @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
-//这里指CacheConstants.COAL_FILED缓存中的#jcCoalFiled.id失效，allEntries默认为false，
+//1,这里指CacheConstants.COAL_FILED缓存中的#jcCoalFiled.id失效，allEntries默认为false，
+//2,每次查询，只要没找到key，就会走方法内语句重新查询后，把结果放入缓存
+//3,如果key有多个名字拼接成，当查询同一个前缀的时候，后面没参数，就不会走方法的语句查询
+// 例，"1:equipment_by_multi_args::1631094382482067457:1:1631179092117839873:null:2"
+// 如果查部门1631094382482067457,后面没参数，就不走方法语句。
 ```
 
 ```java
