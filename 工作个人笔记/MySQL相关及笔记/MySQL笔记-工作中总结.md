@@ -663,3 +663,22 @@ Date显示范围是1601-01-01 到 9999-01-01；DateTime显示范围是1601-01-01
 当业务需求中只需要精确到天时，可以用Date这个时间格式，当业务需求中需要精确到秒时，可以用DateTime这个时间格式。
 
 4、后台取值的区别
+
+### 35，多个表创建视图
+
+个人范例：使用union连接表，也可使用外连接等。
+
+```sql
+drop view if exists scene_name_v;
+create VIEW scene_name_v as select a.id,a.code,a.name,a.dept_id from 
+(
+SELECT b.id,b.code,b.name,b.dept_id FROM `jc_coal_filed` as b 
+union 
+select c.id,c.code,c.name,c.dept_id from jc_coal_bunker as c
+union 
+select d.id,d.code,d.name,d.dept_id from jc_coal_weighhouse as d 
+) as a ;
+```
+
+
+
