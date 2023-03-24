@@ -1,0 +1,4 @@
+Linux安装MYSQL8.0
+https://blog.csdn.net/cst522445906/article/details/129165658
+按此教程安装完成后，还要打开防火墙端口，设置开机启动
+具体教程可按程序样的5.7教程，两个版本做法一样
