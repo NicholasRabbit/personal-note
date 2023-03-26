@@ -29,3 +29,7 @@ public void doSome(){
 为什么要反转控制？
 
 因为对于较复杂的对象，期内功能较多，每次都new的话，用完再销毁，反复操作太浪费资源，所以统一交给Spring容器管理对象的创建，销毁等生命周期的各个阶段。
+
+### 2，@RequestBody和@RequestParam的区别
+
+ @RequestBody主要用来接收前端传递给后端的json字符串中的数据的(请求体中的数据的)；GET方式无请求体，所以使用@RequestBody接收数据时，前端不能使用GET方式提交数据，而是用POST方式进行提交。在后端的同一个接收方法里，@RequestBody与@RequestParam()可以同时使用，@RequestBody最多只能有一个，而@RequestParam()可以有多个。 

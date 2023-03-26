@@ -647,3 +647,38 @@ SELECT SUBSTRING_INDEX( SUBSTRING_INDEX( 'abc_ttt_ccc_ddd', '_', 3 ), '_', -1); 
 先截取获得abc_ttt_ccc，再根据-1下标获得ccc
 
 参考https://cloud.tencent.com/developer/article/1406531
+
+### 34, date和datetime类型的区别
+
+显示格式的区别
+
+Date显示格式：YYYY-MM-DD；DateTime显示格式：YYYY-MM-DD HH:mm:ss。
+
+2、显示范围的区别
+
+Date显示范围是1601-01-01 到 9999-01-01；DateTime显示范围是1601-01-01 00:00:00 到 9999-12-31 23:59:59。
+
+3、应用场景的区别
+
+当业务需求中只需要精确到天时，可以用Date这个时间格式，当业务需求中需要精确到秒时，可以用DateTime这个时间格式。
+
+4、后台取值的区别
+
+### 35，多个表创建视图
+
+个人范例：使用union连接表，也可使用外连接等。
+
+```sql
+drop view if exists scene_name_v;
+create VIEW scene_name_v as select a.id,a.code,a.name,a.dept_id from 
+(
+SELECT b.id,b.code,b.name,b.dept_id FROM `jc_coal_filed` as b 
+union 
+select c.id,c.code,c.name,c.dept_id from jc_coal_bunker as c
+union 
+select d.id,d.code,d.name,d.dept_id from jc_coal_weighhouse as d 
+) as a ;
+```
+
+
+

@@ -1,7 +1,0 @@
-askdell@sina.com
-密码同阿里云
-
-
-使用教程
-1，启动putty->SSH->Auth: Browse选择生成的密钥对
-2，登陆账户是ec2-user，不用密码

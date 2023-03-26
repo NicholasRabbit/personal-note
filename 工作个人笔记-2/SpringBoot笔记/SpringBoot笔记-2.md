@@ -91,3 +91,79 @@ public class DeleteScheduleService {
 报错内容：Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured
 
 原因：maven项目的pom.xml里引入了Druid，MySQL等依赖，但是applicaiton.yml里没有配置数据库链接信息，因此报错，如果不需要链接数据库就不要引入这些依赖
+
+### 七，@Cacheable,@CacheEvict的使用
+
+@Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
+unless = "#result==null"表示返回值是null时不加入缓存。缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
+
+@CacheEvict使整个value或cacdeNames所指的缓存失效设置方法
+
+```java
+ @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
+//1,这里指CacheConstants.COAL_FILED缓存中的#jcCoalFiled.id失效，allEntries默认为false，
+//2,每次查询，只要没找到key，就会走方法内语句重新查询后，把结果放入缓存
+//3,如果key有多个名字拼接成，当查询同一个前缀的时候，后面没参数，就不会走方法的语句查询
+// 例，"1:equipment_by_multi_args::1631094382482067457:1:1631179092117839873:null:2"
+// 如果查部门1631094382482067457,后面没参数，就不走方法语句。
+```
+
+```java
+@CacheEvict(cacheNames = CacheConstants.EQUIPMENT_BY_CODE, allEntries = true)
+//设置allEntries = true让整个缓存失效，无需指定key属性值。
+```
+
+
+
+```java
+/**
+     * 根据 闸机编码获取
+     *
+     * @param code 闸机编码
+     * @return res
+     */
+    @Override
+    @Cacheable(value = CacheConstants.GATE_STATE_BY_CODE, key = "#code", unless = "#result==null")
+    public JcGateState getByCode(String code) {
+        return lambdaQuery().eq(JcGateState::getEquipmentCode, code).one();
+    }
+
+    /**
+     *  根据设备编号更新车牌号
+     * @param jcGateState
+     * @return
+     */
+    @Override
+    @CacheEvict(value = CacheConstants.GATE_STATE_BY_CODE,key = "#jcGateState.equipmentCode")  //更新缓存
+    public boolean updateByCode(JcGateState jcGateState) {
+        return lambdaUpdate().eq(JcGateState::getEquipmentCode,jcGateState.getEquipmentCode())
+                .update(jcGateState);
+    }
+```
+
+例二
+
+```java
+	@Cacheable(value = CacheConstants.COAL_FILED, key = "#id", unless = "#result.data==null")
+    public R getById(@PathVariable("id" ) Long id) {
+        return R.ok(jcCoalFiledService.getById(id));
+    }
+	
+	//缓存失效机制
+	@Operation(summary = "修改煤场表" , description = "修改煤场表" )
+	@CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
+    public R updateById(@RequestBody JcCoalFiled jcCoalFiled) {
+        return R.ok(jcCoalFiledService.updateById(jcCoalFiled));
+    }
+
+    @Operation(summary = "通过id删除煤场表" , description = "通过id删除煤场表" )
+    @SysLog("通过id删除煤场表" )
+    @DeleteMapping("/{id}" )
+    @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
+    @PreAuthorize("@pms.hasPermission('wrzs_jccoalfiled_del')" )
+    public R removeById(@PathVariable Long id) {
+        return R.ok(jcCoalFiledService.removeById(id));
+    }
+
+```
+

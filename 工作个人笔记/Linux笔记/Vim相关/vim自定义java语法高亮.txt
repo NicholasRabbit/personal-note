@@ -1,0 +1,3 @@
+1,cd /usr/share/vim/syntax  打开此目录
+2,vi java.vim 
+3,在java.vim中找到syntax keyword java Type，添加String,Integer等等关键字
