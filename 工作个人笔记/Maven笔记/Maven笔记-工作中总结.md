@@ -1,5 +1,4 @@
-1, Maven配合SSM框架使用时规定各个相关组件的版本
-==========
+#### 1, Maven配合SSM框架使用时规定各个相关组件的版本
 		<properties>
 		<!-- main version setting -->
 		<spring.version>4.1.9.RELEASE</spring.version>     //Spring框架的版本
@@ -42,4 +41,42 @@
 		<downloadSources>true</downloadSources>
 		
 	</properties>
-===================================
+
+#### 2，Maven引入项目中lib本地依赖步骤
+
+以SpringBoot项目为例，设置完成后在打成的jar包里有jna.jar等依赖。
+
+例，pom.xml
+
+```xml
+<!--引用本地lib依赖，-->
+		<dependency>
+			<groupId>com.sun</groupId>
+			<artifactId>jna</artifactId>
+			<version>3.0.9</version>
+			<scope>system</scope>
+             <!--这里写${project.basedir}/..报错，原因待查-->
+			<systemPath>${pom.basedir}/lib/jna.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jna.examples</groupId>
+			<artifactId>examples</artifactId>
+			<version>3.0.9</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/lib/examples.jar</systemPath>
+		</dependency>
+
+
+<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope> <!--要加此行-->
+				</configuration>
+			</plugin>
+    </plugins>    
+</build>    
+```
+
