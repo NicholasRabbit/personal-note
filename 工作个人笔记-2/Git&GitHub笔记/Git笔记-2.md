@@ -167,3 +167,25 @@ git config --list12
 ### 7，git切换分支注意提交
 
 Git有多个分支的话，在本地其中一个分支的文件做修改，而没有提交的话，别的分支也同步显示该文件的修改，只有提交了，别的分支才不显示
+
+### 8，git查看提交历史
+
+git reflog : 查看简单日志
+
+git log : 查看日志全部信息
+
+git log --oneline : 按行查看提交日志 （**常用，跟idea显示效果一样**）
+
+git log --graph : 使用拓扑图查看日志，
+
+git  log  --oneling  --graph : 两个命令可以合用
+
+git  log --rerverse --oneline : 时间正序查看提交日志
+
+git  blame  Readme.md : 查看指定文件的提交历史
+
+git log --author=Linus --oneline -5  : 查看指定提交者的历史
+
+https://git-scm.com/docs/git-log
+
+https://www.runoob.com/git/git-commit-history.html
