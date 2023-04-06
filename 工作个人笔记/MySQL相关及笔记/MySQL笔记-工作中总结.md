@@ -1,3 +1,7 @@
+#### 0，MySQL的编码使用注意
+
+新建数据库时使用utf8mb4(相当于别处真正的utf8)不要使用utf8，MySQL的 “utf8”只支持每个字符最多三个字节，而真正的UTF-8是每个字符最多四个字节 
+
 #### 1， MyBatis使用truncate语句时是用的<update>标签
 
 ```xml
@@ -115,7 +119,18 @@ AND (DATE_FORMAT( fmpr.pay_time, '%Y' )= #{year} and DATE_FORMAT( fmpr.pay_time,
 #### 8, MySql增加时间间隔
 
 ```sql
-date_add(NOW(), interval 1 HOUR)  -- 在现在时间上增加一个小时
+DATE_ADD(NOW(), INTERVAL 1 HOUR)  -- 在现在时间上增加一个小时
+DATE_SUB( NOW(), INTERVAL 1 HOUR ); -- 减少一个小时
+-- 其它单位
+-- INTERVAL 1 YEAR
+-- INTERVAL 1 MONTH
+-- INTERVAL 1 DAY
+-- INTERVAL 1 HOUR
+-- INTERVAL 1 MINUTE
+-- INTERVAL 1 SECOND
+
+-- 测试
+SELECT DATE_ADD( NOW(), INTERVAL 1 HOUR ) 
 ```
 
 #### 9, group by 的用法
@@ -680,5 +695,28 @@ select d.id,d.code,d.name,d.dept_id from jc_coal_weighhouse as d
 ) as a ;
 ```
 
+### 36，多看官方文档
 
+官方文档[MySQL帮助文档](./MySQL帮助文档/refman-5.7-en.a4.pdf)
+
+### 37，查看MySQL中数据库及各表的所占大小
+
+1, 查询指定库的每个表的大小
+
+```sql
+SELECT table_name AS "Table",
+ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)"
+FROM information_schema.TABLES
+WHERE table_schema = "platformx_boot_wrzs"  -- 库名字
+ORDER BY (data_length + index_length) DESC;
+```
+
+2，查询MySQL中每个库的大小，下面sql不需要改变量
+
+```sql
+SELECT table_schema AS "Database", 
+ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS "Size (MB)" 
+FROM information_schema.TABLES 
+GROUP BY table_schema;
+```
 
