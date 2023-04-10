@@ -63,3 +63,52 @@ List<Integer> typeList = new ArrayList<>();
     update yy_setting set daily_status = 1 where del_flag = '0' and (id = 1635560867120164866 and type in (1, 2))
 ```
 
+#### 5，MyBatisPlus手写方法使用分页
+
+Mapper
+
+```java
+@Mapper
+public interface VisitRecordMapper extends PlatformBaseMapper<VisitRecord> {
+    public abstract IPage<List<VisitRecord>> findList(IPage<VisitRecord> page,@Param(Constants.WRAPPER) Wrapper<VisitRecord> queryWrapper);
+}    
+```
+
+映射文件mapper.xml
+
+```xml
+<select id="findList" resultType="com.by4cloud.platform.visitor.entity.VisitRecord">
+          SELECT v.*, b.visitor_count FROM visit_record AS v
+	      LEFT JOIN
+	        ( SELECT main_record_id, COUNT( 0 ) AS visitor_count
+	            FROM `visit_record`
+	            WHERE main_record_id IS NOT NULL
+	            GROUP BY main_record_id ) AS b ON v.id = b.main_record_id
+	            ${ew.customSqlSegment} 
+      </select>
+
+```
+
+Service层
+
+```java
+@Override
+    public  IPage<List<VisitRecord>> findList(IPage<VisitRecord> page, Wrapper<VisitRecord> queryWrapper) {
+        return visitRecordMapper.findList(page,queryWrapper);
+    }
+```
+
+Controller层
+
+````java
+@GetMapping("/page" )
+    @PreAuthorize("@pms.hasPermission('visitor_visitrecord_view')" )
+    public R getVisitRecordPage(Page page, VisitRecord visitRecord) {
+        QueryWrapper<VisitRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNull("v.main_record_id");
+        queryWrapper.eq("v.status","2");  //可以自己添加条件
+        return  R.ok(visitRecordService.findList(page,queryWrapper));
+
+    }
+````
+
