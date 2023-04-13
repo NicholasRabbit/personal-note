@@ -720,3 +720,24 @@ FROM information_schema.TABLES
 GROUP BY table_schema;
 ```
 
+### 38，find_ind_set用法
+
+```sql
+SELECT FIND_IN_SET('y','x,y,z');
++--------------------------+
+| FIND_IN_SET('y','x,y,z') |
++--------------------------+
+|                        2 |
++--------------------------+
+```
+
+### 39 ，MySQL的String比较时注意null
+
+null跟mysql的日期字段无法比较，导致结果查不出来
+
+如下例，null 跟“2022-02-02”字符串无法比较，即不小于，不等于，不大于，无法比较
+
+```sql
+AND (daily_status < #{dailyStatus} OR daily_status IS NULL )
+```
+

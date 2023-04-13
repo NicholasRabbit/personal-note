@@ -50,7 +50,10 @@ vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次
 
 六，历史命令
     histtory : 显示最近输入的历史命令
-	Ctrl + R : 输入此命令后会显示reverse-i-search，输入关键字母可在历史命令中搜索 
+	Ctrl + R : 输入此命令后会显示reverse-i-search，输入关键字母可在历史命令中搜索
+	
+七，查看版本
+	cat /etc/os-release ：查看当前系统版本（CentOS适用，其它未知）
 
 
 
