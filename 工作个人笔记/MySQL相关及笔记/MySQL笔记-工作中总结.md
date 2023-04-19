@@ -1,3 +1,33 @@
+#### -1，项目配置文件链接不同版本的MySQL
+
+```properties
+#mysql 5.7
+jdbc.url=jdbc:mysql://localhost:3306/jeesite_1.2?useUnicode=true&characterEncoding=utf-8
+#mysql 8.0
+jdbc.url=jdbc:mysql://localhost:3306/jeesite_1.2?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+```
+
+注意mysql的驱动也要变更
+
+```xml
+<!-- jdbc driver mysql 5.7-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.driver.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- mysql 8.0 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.20</version>
+		</dependency>
+```
+
+
+
 #### 0，MySQL的编码使用注意
 
 新建数据库时使用utf8mb4(相当于别处真正的utf8)不要使用utf8，MySQL的 “utf8”只支持每个字符最多三个字节，而真正的UTF-8是每个字符最多四个字节 
