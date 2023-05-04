@@ -54,6 +54,9 @@ vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次
 	
 七，查看版本
 	cat /etc/os-release ：查看当前系统版本（CentOS适用，其它未知）
+八，文件查看
+
+	file * / file hello.txt : 查看当前目录下所有文件或指定文件的类型。
 
 
 

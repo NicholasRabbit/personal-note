@@ -5,6 +5,8 @@
 jdbc.url=jdbc:mysql://localhost:3306/jeesite_1.2?useUnicode=true&characterEncoding=utf-8
 #mysql 8.0
 jdbc.url=jdbc:mysql://localhost:3306/jeesite_1.2?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+#或者，具体参数含义待分析
+jdbc:mysql://192.168.0.159:3306/platformx_boot_wrzs?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true
 ```
 
 注意mysql的驱动也要变更

@@ -55,7 +55,7 @@
 
 	(2)后台继续运行项目写法：
 	nohup java -jar ruoyi-admin.jar  --server.port=9090 > tempLog.txt : 定义端口号，并在后台运行，日志输出到tempLog.txt
-	或 ： nohup java -jar ruoyi-admin.jar & tail -f nohup.out :发布后查看日志
+	或 ： nohup java -jar ruoyi-admin.jar  > log.out & tail -f nohup.out :发布后查看日志
 
 	2,防火墙设置自定义的9090例外，否则外部无法访问
 	firewall-cmd --zone=public --add-port=9090/tcp --permanent

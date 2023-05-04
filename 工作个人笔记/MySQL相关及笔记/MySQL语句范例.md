@@ -1,9 +1,10 @@
-1,自动生成UUID
+#### 1,自动生成UUID
+
   select uuid();  带破折号“-”
   向表内插入时需把破折号去掉
   insert into t_emp (id,name) values(replace(UUID(), "-", ""),'Tom');
 
-2,复制表做法：
+#### 2,复制表做法：
 
 第一种，这个语句其实只是把select语句的结果建一个表，所以新表不会有主键，索引。
 create t_copy as (select * from t_old);
@@ -19,14 +20,17 @@ insert into t_copy select * from t_old;
 第四种，两种表结构不一样
 insert into t_copy(id,ename...) select id,ename...from t_old;
 
-3, 查询日期函数，注意每个函数经度不一样
+#### 3, 查询日期函数，注意每个函数经度不一样
+
 +---------------------+------------+-----------+
 | now()               | curdate()  | curtime() |
 +---------------------+------------+-----------+
 | 2021-12-13 11:09:52 | 2021-12-13 | 11:09:52  |
 +---------------------+------------+-----------+
 
-4, find_in_set用法,参考文章：https://www.cnblogs.com/xiaoxi/p/5889486.html
+#### 4, find_in_set用法
+
+参考文章：https://www.cnblogs.com/xiaoxi/p/5889486.html
 例：SELECT dept_id FROM sys_dept WHERE dept_id = 116 OR find_in_set( 116, ancestors )  ： 指在表中ancestors字段中找到含有“116”的数据的
 (1)第一个用法，找出字段中含有该值的数据
 首先举个例子来说：
@@ -38,10 +42,12 @@ select * from article where FIND_IN_SET('4',type)
 select find_in_set('b','a,b,c,d') : 结果是：2,(MySQL下标从1开始)
 select find_in_set('x','a,b,c,d') : 没有则返回：0
 
-5, case when 用法
+#### 5, case when 用法
+
 SELECT
 	CASE
 		
+
 		WHEN lmt.task_status = 0 THEN
 		'1' 
 		WHEN lmt.task_status = 1 THEN
@@ -50,4 +56,11 @@ SELECT
 		'0'
 	END AS band_state,
 
+#### 6, 插入时主键冲突改为更新
+
+id为主键
+
+```sql
+INSERT INTO emp ( id, name,nickname ) VALUES ( 1, "Hans","CiCi" ) ON DUPLICATE KEY UPDATE name = "Hans",nickname = "CiCi";
+```
 

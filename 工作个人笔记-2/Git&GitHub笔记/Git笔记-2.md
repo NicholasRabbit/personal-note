@@ -189,3 +189,9 @@ git log --author=Linus --oneline -5  : 查看指定提交者的历史
 https://git-scm.com/docs/git-log
 
 https://www.runoob.com/git/git-commit-history.html
+
+
+
+### 9，Linux终端设置git颜色高亮
+
+ git config --global color.ui true
