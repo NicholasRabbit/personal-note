@@ -44,10 +44,9 @@ select find_in_set('x','a,b,c,d') : 没有则返回：0
 
 #### 5, case when 用法
 
-SELECT
-	CASE
-		
+例一：
 
+	SELECT CASE		
 		WHEN lmt.task_status = 0 THEN
 		'1' 
 		WHEN lmt.task_status = 1 THEN
@@ -55,6 +54,14 @@ SELECT
 		WHEN lmt.task_status is null THEN
 		'0'
 	END AS band_state,
+
+例二：当id=1时，location为“China”，否则为"USA"
+
+```sql
+SELECT id,name,nickname,
+( CASE id WHEN ( SELECT id FROM emp WHERE id = 1 ) THEN 'China' ELSE 'USA' END ) location 
+FROM emp
+```
 
 #### 6, 插入时主键冲突改为更新
 

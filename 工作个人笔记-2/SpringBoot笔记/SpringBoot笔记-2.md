@@ -116,12 +116,7 @@ unless = "#result==null"表示返回值是null时不加入缓存。缓存中找�
 
 
 ```java
-/**
-     * 根据 闸机编码获取
-     *
-     * @param code 闸机编码
-     * @return res
-     */
+   //根据 闸机编码获取
     @Override
     @Cacheable(value = CacheConstants.GATE_STATE_BY_CODE, key = "#code", unless = "#result==null")
     public JcGateState getByCode(String code) {
@@ -130,8 +125,6 @@ unless = "#result==null"表示返回值是null时不加入缓存。缓存中找�
 
     /**
      *  根据设备编号更新车牌号
-     * @param jcGateState
-     * @return
      */
     @Override
     @CacheEvict(value = CacheConstants.GATE_STATE_BY_CODE,key = "#jcGateState.equipmentCode")  //更新缓存

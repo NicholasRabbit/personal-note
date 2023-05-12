@@ -739,7 +739,7 @@ select d.id,d.code,d.name,d.dept_id from jc_coal_weighhouse as d
 SELECT table_name AS "Table",
 ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)"
 FROM information_schema.TABLES
-WHERE table_schema = "platformx_boot_wrzs"  -- 库名字
+WHERE table_schema = "platformx_boot_wrzs"  -- 这里写所要查询的库名字
 ORDER BY (data_length + index_length) DESC;
 ```
 
@@ -752,7 +752,7 @@ FROM information_schema.TABLES
 GROUP BY table_schema;
 ```
 
-### 38，find_ind_set用法
+### 38，find_in_set用法
 
 ```sql
 SELECT FIND_IN_SET('y','x,y,z');
@@ -771,5 +771,20 @@ null跟mysql的日期字段无法比较，导致结果查不出来
 
 ```sql
 AND (daily_status < #{dailyStatus} OR daily_status IS NULL )
+```
+
+### 40，查看锁表，解锁
+
+注意：把“sleep”的进程终止之后，才算是把表解锁了。如果只是执行UNLOCK TALBES命令还不管用。
+
+```sql
+-- 查看锁住的表
+SHOW OPEN TABLES WHERE in_use > 0;
+-- 查看进程
+SHOW PROCESSLIST;
+-- 终止进程
+KILL <上一步中的id>;
+-- 解锁
+UNLOCK TABLES;
 ```
 
