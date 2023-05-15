@@ -786,5 +786,17 @@ SHOW PROCESSLIST;
 KILL <上一步中的id>;
 -- 解锁
 UNLOCK TABLES;
+-- 查看未提交的事务
+SELECT * FROM information_schema.INNODB_TRX;
+-- 查看等待事务进程等信息	
+SELECT
+	a.id,
+	a.USER,
+	a.HOST,
+	b.trx_started,
+	b.trx_query 
+FROM
+	information_schema.PROCESSLIST a
+	RIGHT OUTER JOIN information_schema.innodb_trx b ON a.id = b.trx_mysql_thread_id;
 ```
 
