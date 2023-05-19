@@ -195,3 +195,7 @@ https://www.runoob.com/git/git-commit-history.html
 ### 9，Linux终端设置git颜色高亮
 
  git config --global color.ui true
+
+### 10，测试链接
+
+ ssh -T git@[github](https://so.csdn.net/so/search?q=github&spm=1001.2101.3001.7020).com 

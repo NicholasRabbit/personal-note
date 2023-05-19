@@ -80,3 +80,10 @@
 </build>    
 ```
 
+#### 3，Maven查看jar包在哪个依赖引入
+
+选好依赖，点击Show dependencies. 在显示图中搜索名称，找到后双击即可跳转到pom文件中引入的位置。
+
+![1684318561173](note-images/1684318561173.png)
+
+https://blog.csdn.net/song854601134/article/details/130521462

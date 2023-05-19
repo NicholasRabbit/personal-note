@@ -94,10 +94,29 @@ public class DeleteScheduleService {
 
 ### 七，@Cacheable,@CacheEvict的使用
 
-@Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
+(1)  @Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
 unless = "#result==null"表示返回值是null时不加入缓存。缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
 
-@CacheEvict使整个value或cacdeNames所指的缓存失效设置方法
+(2) @CacheEvict使整个value或cacdeNames所指的缓存失效设置方法
+
+(3) 注意失效方法被同一个类内的方法调用时无法起作用，需用别的类里的方法调用。
+
+```java
+public class A {
+	public void doSome(){
+        expireInvalidGateCache("ABC"); //这里调用无效，无法失效内存
+    }
+    //失效道闸设备列表中指定的设备
+    @Override
+    @CacheEvict(value = CacheConstants.GATE_STATE_BY_CODE, key = "#code")
+    public boolean expireInvalidGateCache(String code){
+        return true;
+    }    
+}   
+
+```
+
+使用范例：
 
 ```java
  @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")

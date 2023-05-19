@@ -2,15 +2,29 @@
 
 新项目先执行
 
-npm install --registry=https://registry.npm.taobao.org
-
-然后执行：
-
-npm  run  serve
+```bash
+# 1，安装依赖
+# 1.1 方法一  把设置镜像和安装集中到一个命令里
+npm install  --registry=https://registry.npmmirror.com  #官方镜像，需代理
+# 或者
+npm install  --registry=https://registry.npm.taobao.org  #淘宝镜像
+# 1.2 方法二
+npm config set registry https://registry.npm.taobao.org # 设置链接镜像
+npm config get registry # 检查是否修改成功
+npm i
+# 2，启动，根据项目的文档选择不同启动命令
+npm run dev 
+#或者
+npm  run  serve 
+```
 
 构建项目进行部署
 
-npm  run build  :  打包项目，项目再dist文件夹里，打包完把该文件夹内的使用nginx部署即可。
+```bash
+npm  run build  # 打包项目，项目再dist文件夹里，打包完把该文件夹内的使用nginx部署即可。
+```
+
+
 
 #### 2，Vue项目后台新增菜单注释事项
 
