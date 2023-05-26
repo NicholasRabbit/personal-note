@@ -179,3 +179,19 @@ public class A {
 
 ```
 
+### 八，@PostMapping等不写uri如何调用
+
+@PostMapping，@PutMapping, @DeleteMapping等不写uri，默认来对应的请求类型访问对应注解所在方法。
+
+```java
+@RequestMapping("/category" )
+public class ProductCategoryController {
+    
+    @PutMapping  //这里没写uri则来put请求默认访问此方法
+    public R updateById(@RequestBody ProductCategory productCategory) {
+        return R.ok(productCategoryService.updateById(productCategory));
+    }
+}
+
+```
+

@@ -106,3 +106,9 @@ ALTER TABLE jc_gate_state ADD `tm_code` VARCHAR ( 64 ) COLLATE utf8mb4_general_c
 ```
 
 参照宋红康课堂教案
+
+### 六，decimal数据类型用法
+
+price  decimal(6,2) : 表示有效数值一共6位，小数点精度是2位。
+
+参考：https://www.cnblogs.com/owenma/p/7097602.html
