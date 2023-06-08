@@ -71,3 +71,25 @@ id为主键
 INSERT INTO emp ( id, name,nickname ) VALUES ( 1, "Hans","CiCi" ) ON DUPLICATE KEY UPDATE name = "Hans",nickname = "CiCi";
 ```
 
+#### 7, date_format用法
+
+年月日 ：  %Y-%m-%d  ，分钟用 "i" 表示，秒用大写"S"表示
+
+```sql
+SELECT
+	DATE_FORMAT( bor.start_time, '%Y-%m-%d' ) as day  -- 把日期按指定格式展示
+where
+	DATE_FORMAT( bor.start_time, '%Y-%m-%d' ) >= CONCAT(2021,'-',12)  -- 也可当作条件查询
+```
+
+```sql
+DATE_FORMAT(a.time,'%Y-%m-%d %H:%i:%S') AS "time"	
+```
+
+注意CONCAT(..)返回的是字符串，一般按一下写法，把年和月分开比较，并用AND链接
+
+```sql
+....
+AND (DATE_FORMAT( fmpr.pay_time, '%Y' )= #{year} and DATE_FORMAT( fmpr.pay_time, '%m' )= #{month}  )
+```
+
