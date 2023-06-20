@@ -199,3 +199,5 @@ https://www.runoob.com/git/git-commit-history.html
 ### 10，测试链接
 
  ssh -T git@[github](https://so.csdn.net/so/search?q=github&spm=1001.2101.3001.7020).com 
+
+ ssh -T gitee@gitee.com
