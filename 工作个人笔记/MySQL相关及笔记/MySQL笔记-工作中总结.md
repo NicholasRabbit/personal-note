@@ -832,3 +832,10 @@ Date显示范围是1601-01-01 到 9999-01-01；DateTime显示范围是1601-01-01
 3、应用场景的区别
 
 当业务需求中只需要精确到天时，可以用Date这个时间格式，当业务需求中需要精确到秒时，可以用DateTime这个时间格式。
+
+### 43，between ... and范围
+
+between...and...:前后都包括
+
+SELECT * FROM `goods_info`  WHERE price BETWEEN 10 AND 15;  //包括10和15
+
