@@ -97,9 +97,7 @@ public class DeleteScheduleService {
 (1)  @Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
 unless = "#result==null"表示返回值是null时不加入缓存。缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
 
-(2) @CacheEvict使整个value或cacdeNames所指的缓存失效设置方法
-
-(3) 注意失效方法被同一个类内的方法调用时无法起作用，需用别的类里的方法调用。
+(2) @Cacheable和@CacheEvict被同一个类内的方法调用时无法起作用，需用别的类里的方法调用。因为这两个注解基于Spring [AOP](https://so.csdn.net/so/search?q=AOP&spm=1001.2101.3001.7020)代理类，内部方法调用是不走代理的
 
 ```java
 public class A {
@@ -126,6 +124,8 @@ public class A {
 // 例，"1:equipment_by_multi_args::1631094382482067457:1:1631179092117839873:null:2"
 // 如果查部门1631094382482067457,后面没参数，就不走方法语句。
 ```
+
+(3) @CacheEvict使整个value或cacdeNames所指的缓存失效设置方法
 
 ```java
 @CacheEvict(cacheNames = CacheConstants.EQUIPMENT_BY_CODE, allEntries = true)
@@ -179,7 +179,57 @@ public class A {
 
 ```
 
-### 八，@PostMapping等不写uri如何调用
+### 八，@Transactional失效原因
+
+方法被本类内部调用，加了@Transactional注解也不起作用
+
+```java
+public class ProductPlanOutputMainServiceImpl ...{
+    @Override
+	public R saveOrUpdatePlanBatch(ProductPlanOutputMain productPlanOutputMain) {	
+		//调用加本类中事务注解的方法，即使报错也不回滚
+        return saveOrUpdateDailyPlan(productPlanOutputMain);
+	}
+    //加事务注解
+    @Transactional(rollbackFor = Exception.class)
+	public R saveOrUpdateDailyPlan(ProductPlanOutputMain productPlanOutputMain){
+		R r = productPlanOutputMainService.saveOrUpdatePlan(productPlanOutputMain);
+		r.setCode(1);
+		if(r.getCode() == 1){
+			throw new RuntimeException("保存计划失败");
+		}
+}
+```
+
+修改方法，把这个事务方法放到别的类，由Controller直接调用
+
+```java
+@Service
+public class PlanServiceImpl implements PlanService {
+    @Override
+	@Transactional(rollbackFor = Exception.class)
+	public R saveOrUpdateDailyPlan(ProductPlanOutputMain productPlanOutputMain){
+		R r = productPlanOutputMainService.saveOrUpdatePlan(productPlanOutputMain);
+		r.setCode(1);
+		if(r.getCode() == 1){
+			throw new RuntimeException("保存计划失败");
+		}
+}
+```
+
+Controller直接调用
+
+```java
+@PostMapping(value = "/savePlan")
+    public R saveYearPlan(@RequestBody ProductPlanOutputMain productPlanOutputMain){
+		if(DateTypeConstants.DAY.equals(productPlanOutputMain.getType()) || DateTypeConstants.WEEK.equals(productPlanOutputMain.getType())){
+			return planService.saveOrUpdateDailyPlan(productPlanOutputMain);
+		}
+		return productPlanOutputMainService.saveOrUpdatePlanBatch(productPlanOutputMain);
+	}
+```
+
+### 九，@PostMapping等不写uri如何调用
 
 @PostMapping，@PutMapping, @DeleteMapping等不写uri，默认来对应的请求类型访问对应注解所在方法。
 
@@ -194,4 +244,6 @@ public class ProductCategoryController {
 }
 
 ```
+
+
 
