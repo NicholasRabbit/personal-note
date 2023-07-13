@@ -10,3 +10,25 @@
 
 ![1687245168365](note-images/1687245168365.png)
 
+#### 3，Pig5.0开始webSocket
+
+写好websocket页面<a href="Websocket">websocket页面代码范例</a>
+
+.env开启websocket
+
+```js
+# 是否开启websocket 消息接受,
+VITE_WEBSOCKET_ENABLE = true
+```
+
+vite.config.ts也要开启
+
+```javascript
+'/api': {
+    target: env.VITE_ADMIN_PROXY_PATH, // 目标服务器地址
+    ws: true, // 是否启用 WebSocket
+    changeOrigin: true, // 是否修改请求头中的 Origin 字段
+    rewrite: (path) => path.replace(/^\/api/, ''),
+}
+```
+
