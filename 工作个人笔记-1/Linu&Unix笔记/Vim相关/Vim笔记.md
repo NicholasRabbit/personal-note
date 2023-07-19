@@ -19,6 +19,7 @@ https://edyfox.codecarver.org/html/vim_fileencodings_detection.html
 Ctrl + o : 光标回退到上一个位置
 Ctrl + i : 光标前进到下一个位置
 :m +2或-1 ： 移动行，向下或向上移动指定行数
+:m 35 : 移到35行。注意：带正负号是移动行数，不带正负号是移到指定的行号处
 ```
 
 
