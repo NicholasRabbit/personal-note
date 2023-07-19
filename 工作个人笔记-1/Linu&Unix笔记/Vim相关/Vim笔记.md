@@ -18,6 +18,7 @@ https://edyfox.codecarver.org/html/vim_fileencodings_detection.html
 ```txt
 Ctrl + o : 光标回退到上一个位置
 Ctrl + i : 光标前进到下一个位置
+:m +2或-1 ： 移动行，向下或向上移动指定行数
 ```
 
 
