@@ -94,27 +94,14 @@ public class DeleteScheduleService {
 
 ### 七，@Cacheable,@CacheEvict的使用
 
-(1)  @Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
-unless = "#result==null"表示返回值是null时不加入缓存。缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
+- @Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
+  unless = "#result==null"表示返回值是null时不加入缓存。缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
 
-(2) @Cacheable和@CacheEvict被同一个类内的方法调用时无法起作用，需用别的类里的方法调用。因为这两个注解基于Spring [AOP](https://so.csdn.net/so/search?q=AOP&spm=1001.2101.3001.7020)代理类，内部方法调用是不走代理的
+- @CacheEvict使整个value或cacheNames所指的缓存失效设置方法
 
-```java
-public class A {
-	public void doSome(){
-        expireInvalidGateCache("ABC"); //这里调用无效，无法失效内存
-    }
-    //失效道闸设备列表中指定的设备
-    @Override
-    @CacheEvict(value = CacheConstants.GATE_STATE_BY_CODE, key = "#code")
-    public boolean expireInvalidGateCache(String code){
-        return true;
-    }    
-}   
+  ​    @CacheEvict注意失效方法被同一个类内的方法调用时无法起作用，需用别的类里的方法调用。
 
-```
-
-使用范例：
+-  @Cacheable是基于Spring [AOP](https://so.csdn.net/so/search?q=AOP&spm=1001.2101.3001.7020)代理类，内部方法调用是不走代理的，@Cacheable是不起作用的 
 
 ```java
  @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
@@ -125,8 +112,6 @@ public class A {
 // 如果查部门1631094382482067457,后面没参数，就不走方法语句。
 ```
 
-(3) @CacheEvict使整个value或cacdeNames所指的缓存失效设置方法
-
 ```java
 @CacheEvict(cacheNames = CacheConstants.EQUIPMENT_BY_CODE, allEntries = true)
 //设置allEntries = true让整个缓存失效，无需指定key属性值。
@@ -135,7 +120,12 @@ public class A {
 
 
 ```java
-   //根据 闸机编码获取
+/**
+     * 根据 闸机编码获取
+     *
+     * @param code 闸机编码
+     * @return res
+     */
     @Override
     @Cacheable(value = CacheConstants.GATE_STATE_BY_CODE, key = "#code", unless = "#result==null")
     public JcGateState getByCode(String code) {
@@ -144,6 +134,8 @@ public class A {
 
     /**
      *  根据设备编号更新车牌号
+     * @param jcGateState
+     * @return
      */
     @Override
     @CacheEvict(value = CacheConstants.GATE_STATE_BY_CODE,key = "#jcGateState.equipmentCode")  //更新缓存
@@ -171,7 +163,7 @@ public class A {
     @Operation(summary = "通过id删除煤场表" , description = "通过id删除煤场表" )
     @SysLog("通过id删除煤场表" )
     @DeleteMapping("/{id}" )
-    @CacheEvict(value = CacheConstants.COAL_FILED,key = "#jcCoalFiled.id")
+    @CacheEvict(value = CacheConstants.COAL_FILED,key = "#id")
     @PreAuthorize("@pms.hasPermission('wrzs_jccoalfiled_del')" )
     public R removeById(@PathVariable Long id) {
         return R.ok(jcCoalFiledService.removeById(id));
@@ -182,6 +174,10 @@ public class A {
 ### 八，@Transactional失效原因
 
 方法被本类内部调用，加了@Transactional注解也不起作用
+
+**原因：**
+
+ spring 在扫描bean的时候会扫描方法上是否包含@[Transactional](https://so.csdn.net/so/search?q=Transactional&spm=1001.2101.3001.7020)注解，如果包含，spring会为这个bean动态地生成一个子类（即代理类，proxy），代理类是继承原来那个bean的。此时，当这个有注解的方法被调用的时候，实际上是由代理类来调用的，代理类在调用之前就会启动transaction。然而，如果这个有注解的方法是被同一个类中的其他方法调用的，那么该方法的调用并没有通过代理类，而是直接通过原来的那个bean，所以就不会启动transaction，我们看到的现象就是@Transactional注解无效。 
 
 ```java
 public class ProductPlanOutputMainServiceImpl ...{
@@ -246,4 +242,63 @@ public class ProductCategoryController {
 ```
 
 
+
+###  十：
+
+### 1, Springboot的DAO层需加相关注解
+
+注意启动类要加@MapperScan
+
+![img](note-images/wpsB120.tmp.jpg) 
+
+**总结**@Mapper 一定要有，否则 Mybatis 找不到 mapper。 @Repository 可有可无，可以消去依赖注入的报错信息。 @MapperScan 可以替代 @Mapper。 @Component 和 @Repository 效果都是一样的，只是为了声明为bean
+
+### 2,  DOS窗口指定端口和项目访问根路径
+
+| java   -jar    springboot004-1.0-SNAPSHOT.jar  --server.port=8088   --server.context-path=/list |
+| ------------------------------------------------------------ |
+
+这里设置的优先级高于配置文件的优先级
+
+### 3,如果部署SpringBoot项目，自定义端口要记得Linux设置防火墙例外
+
+   firewall-cmd --zone=public --add-port=8088/tcp --permanent
+   firewall-cmd --reload
+   firewall-cmd --zone=public --list-port
+
+### 4, @ConfigurationProperties用法
+
+除了和@Component联用以外，还可以和@Bean联用
+
+```java
+@Configuration
+public class DruidConfig{
+    @Bean
+    @ConfigurationProperties("spring.datasource.druid.master")     //这个@ConfigurationProperties给形参druidPropertries注入值
+    public DataSource masterDataSource(DruidProperties druidProperties){
+        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
+        return druidProperties.dataSource(dataSource);
+    }
+    /*注意下文的@ConditionalOnPropetries注解用法，
+    havingVaule和name属性联用，当havingValue的值和name的值enabled对应的值相同时才加载配置，即havingValue="true", 配置文件中enabled="true" 
+    参考：https://www.cnblogs.com/secbro/p/12011522.html
+    */
+    @Bean
+    @ConfigurationProperties("spring.datasource.druid.slave")
+    @ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
+    public DataSource slaveDataSource(DruidProperties druidProperties)
+    {
+        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
+        return druidProperties.dataSource(dataSource);
+    }
+    
+}    
+```
+
+```yml
+application-druid.yml配置文件 
+slave:
+                # 从数据源开关/默认关闭
+                enabled: true
+```
 
