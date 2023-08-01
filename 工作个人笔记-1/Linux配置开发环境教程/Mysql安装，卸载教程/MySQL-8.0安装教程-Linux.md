@@ -1,3 +1,44 @@
+目前8.0安装教程哪个管用未知。
+
+#### MySQL8安装（Pig文档）
+
+参考：https://www.yuque.com/pig4cloud/pig/uhtamw4t9p19mynk
+
+先下载 Mysql rpm 安装包  mysql80-community-release-el7-7.noarch.rpm.zip(9 KB)
+
+```shell
+rpm -ivh mysql80-community-release-el7-7.noarch.rpm
+
+yum install -y mysql mysql-server
+
+# 修改配置文件
+vim /etc/my.cnf
+lower_case_table_names=1
+
+# 重启mysql
+systemctl restart mysqld
+
+# 查看默认密码
+grep password /var/log/mysqld.log
+
+
+# mysql client 链接 mysql
+alter user 'root'@'localhost' identified by 'ZxcRoot123!@#';
+set global validate_password.check_user_name=0;
+set global validate_password.policy=0;
+set global validate_password.length=1;
+alter user 'root'@'localhost' identified by 'root';
+
+# 修改为允许远程访问
+use mysql;
+update user set host = '%' where user = 'root';
+FLUSH PRIVILEGES;
+```
+
+
+
+
+
 #### MySQL 8.0安装教程
 
 Linux安装MYSQL8.0
@@ -74,10 +115,6 @@ PATH=$PATH:/usr/local/mysql/bin
  最后执⾏如下命令使环境变量⽣效 export 
 
  source ~/.bash_profile  
-
-
-
-
 
 #### MySQL Linux中设置跳过密码登录
 

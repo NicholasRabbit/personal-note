@@ -87,3 +87,91 @@
 ![1684318561173](note-images/1684318561173.png)
 
 https://blog.csdn.net/song854601134/article/details/130521462
+
+#### 4，Maven打包分离项目和外部依赖
+
+```xml
+<build>
+    .......
+<!--上线部署 JAR启动分离依赖lib和配置-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!--不打包资源文件-->
+					<excludes>
+						<exclude>*.**</exclude>
+					</excludes>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<!--jar包不包含唯一版本标识-->
+							<useUniqueVersions>false</useUniqueVersions>
+							<!--程序启动类application.java的路径-->
+							<mainClass>com.by4cloud.platform.scdd.App</mainClass>
+						</manifest>
+						<!-- 指定配置文件目录，这样jar运行时会去找到同目录下的config文件夹下查找 -->
+						<manifestEntries>
+							<Class-Path>config/</Class-Path>
+						</manifestEntries>
+					</archive>
+					<outputDirectory>scdd-running/</outputDirectory>
+				</configuration>
+			</plugin>
+			<!--拷贝依赖 copy-dependencies-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								scdd-running/lib/
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--拷贝资源文件 copy-resources-->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<!-- 指定参与构建的resoures-->
+									<includes>
+										<include>*.**</include>
+									</includes>
+								</resource>
+							</resources>
+							<outputDirectory>scdd-running/config</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+    </build>
+```
+

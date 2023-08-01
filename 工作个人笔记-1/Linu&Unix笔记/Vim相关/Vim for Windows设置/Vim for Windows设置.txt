@@ -1,0 +1,22 @@
+一，
+vim的设置方式和Linux中一样。设置vimrc即可
+vimc在安装的根目录下
+1，Windows 中默认共享剪贴板，因为就在windows系统中使用
+2，有java模板，后期可自行研究设置
+
+二，相关设置,vimrc中设置
+   set nobackup   取消备份
+   set noundofile  取消*.un~
+   注意，以上这俩写在最后才起作用，原因待查。
+   set number : 默认显示行号
+
+三，设置默认字体及大小
+  1，首先使用vim打开一个空文件
+    命令模式：
+    :set guifont  : 查看当前格式，一般最开始时控制，需要设置。
+  2，在菜单:Edit-->Select font中选中格式和大小
+    再执行，:set guifont
+    会出现字体格式名称和大小，例: Courier_New:h12: 后面的其它字不要,
+	然后再vimrc中添加下面的设置即可。
+	set guifont=Courier_New:h12:
+   
