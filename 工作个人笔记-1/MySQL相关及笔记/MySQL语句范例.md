@@ -93,3 +93,45 @@ DATE_FORMAT(a.time,'%Y-%m-%d %H:%i:%S') AS "time"
 AND (DATE_FORMAT( fmpr.pay_time, '%Y' )= #{year} and DATE_FORMAT( fmpr.pay_time, '%m' )= #{month}  )
 ```
 
+#### 8，select查询后，量表链接范例
+
+```sql
+SELECT
+    plan_a.plan_date,
+    plan_a.production_plan,
+    plan_a.actual_production,
+    plan_a.total_production_plan,
+    plan_a.total_actual_production,
+    plan_b.names,
+    plan_b.sum_production_plan,
+    plan_b.sum_actual_production,
+    plan_b.sum_total_production_plan,
+    plan_b.sum_total_actual_production
+FROM
+	--- select查询结果当作一个表
+	( 
+		SELECT plan_date, name,production_plan, actual_production, total_production_plan, total_actual_production 
+		FROM `product_plan_output` 
+            WHERE product_category_code = '0201' 
+            AND type = '3'  
+            AND comp_id = 1661650832598269953 
+	) AS plan_a
+	LEFT OUTER JOIN 
+	--- select查询结果当作另一个表
+	(
+		SELECT
+            plan_date,
+            GROUP_CONCAT( DISTINCT NAME ) AS NAMES,
+            SUM( production_plan ) AS sum_production_plan,
+            SUM( actual_production ) AS sum_actual_production,
+            SUM( total_production_plan ) AS sum_total_production_plan,
+            SUM( total_actual_production ) AS sum_total_actual_production 
+		FROM `product_plan_output` 
+	    WHERE product_category_code LIKE '020212%' 
+		AND type = '3' 
+		AND comp_id = 1661650832598269953 
+	    GROUP BY plan_date
+	) as plan_b 
+	on plan_a.plan_date = plan_b.plan_date
+```
+

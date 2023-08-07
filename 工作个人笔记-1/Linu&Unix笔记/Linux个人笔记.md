@@ -129,7 +129,35 @@ date -s  '2020-11-20 12:30:00' : 先手动设置软件时间为当前时间
 
 hwclock -w : 同步硬件时间为软件时间。即可永久设置Linux系统时间
 
- 
+###  8，Linux帮助命令man详解
+
+以下源自：《Linux C编程一站式学习 》
+
+#### Man Page
+
+Man Page是Linux开发最常用的参考手册，由很多页面组成，每个页面描述一个主题，这些页面被组织成若干个Section。FHS（Filesystem Hierarchy Standard）标准规定了Man Page各Section的含义如下：
+
+**表 3.1. Man Page的Section**
+
+| Section | 描述                                                         |
+| ------- | ------------------------------------------------------------ |
+| 1       | 用户命令，例如`ls(1)`                                        |
+| 2       | 系统调用，例如`_exit(2)`                                     |
+| 3       | 库函数，例如`printf(3)`                                      |
+| 4       | 特殊文件，例如`null(4)`描述了设备文件`/dev/null`、`/dev/zero`的作用 |
+| 5       | 系统配置文件的格式，例如`passwd(5)`描述了系统配置文件`/etc/passwd`的格式 |
+| 6       | 游戏                                                         |
+| 7       | 其它杂项，例如`bash-builtins(7)`描述了`bash`的各种内建命令   |
+| 8       | 系统管理命令，例如`ifconfig(8)`                              |
+
+注意区分用户命令和系统管理命令，用户命令通常位于`/bin`和`/usr/bin`目录，系统管理命令通常位于`/sbin`和`/usr/sbin`目录，一般用户可以执行用户命令，而执行系统管理命令经常需要`root`权限。系统调用和库函数的区别将在[第 2 节 “`main`函数和启动例程”](https://akaedu.github.io/book/ch19s02.html#asmc.main)说明。
+
+Man Page中有些页面有重名，比如敲`man printf`命令看到的并不是C函数`printf`，而是位于第1个Section的系统命令`printf`，要查看位于第3个Section的`printf`函数应该敲`man 3 printf`，也可以敲`man -k printf`命令搜索哪些页面的主题包含`printf`关键字。本书会经常出现类似`printf(3)`这样的写法，括号中的3表示Man Page的第3个Section，或者表示“我这里想说的是`printf`库函数而不是`printf`命令”。
+
+ **个人注：**
+
+例：Linux的不同Section有的命令重名，例如printf，C语言中有printf，Linux系统中也有，但C语言的库在 Section 3，因此查看使用: man  3 printf。不选Section 默认是1
+man  -k printf  : 查看所有的printf
 
  
 
@@ -137,6 +165,3 @@ hwclock -w : 同步硬件时间为软件时间。即可永久设置Linux系统�
 
  
 
- 
-
- 

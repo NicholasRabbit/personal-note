@@ -715,7 +715,7 @@ Date显示范围是1601-01-01 到 9999-01-01；DateTime显示范围是1601-01-01
 
 ### 35，多个表创建视图
 
-个人范例：使用union连接表，也可使用外连接等。
+个人范例：使用union连接表，也可使用外连接等，注意如果多个表要给起个别名。
 
 ```sql
 drop view if exists scene_name_v;
@@ -838,4 +838,3 @@ Date显示范围是1601-01-01 到 9999-01-01；DateTime显示范围是1601-01-01
 between...and...:前后都包括
 
 SELECT * FROM `goods_info`  WHERE price BETWEEN 10 AND 15;  //包括10和15
-

@@ -51,7 +51,7 @@ Terminal--> Features --> Disable application keypad mode，勾选此项
 ##### 5）查找
 
 ```txt
-忽略大小写,命令模式下输入
+查找设置忽略大小写,命令模式下输入
 :set ignorecase smartcase ，只对当前会话有效
 恢复按照大小写
 :set noignorecase
