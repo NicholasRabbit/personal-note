@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+            http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.by4cloud</groupId>
+		<artifactId>platform-boot-scdd</artifactId>
+		<version>5.0.0</version>
+	</parent>
+
+	<artifactId>platform-boot-scdd-biz</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<!--依赖省略 -->
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+			</plugin>
+			<!--上线部署 JAR启动分离依赖lib和配置-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!--不打包资源文件-->
+					<excludes>
+						<exclude>*.**</exclude>
+					</excludes>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<!--jar包不包含唯一版本标识-->
+							<useUniqueVersions>false</useUniqueVersions>
+							<!--程序启动类application.java的路径-->
+							<mainClass>com.by4cloud.platform.scdd.App</mainClass>
+						</manifest>
+						<!-- 指定配置文件目录，这样jar运行时会去找到同目录下的config文件夹下查找 -->
+						<manifestEntries>
+							<Class-Path>config/</Class-Path>  <!--这里指定好目录后，启动jar包不用再使用 “\-\-spring.config.location=./conig来指定配置文件位置了”-->
+						</manifestEntries>
+					</archive>
+					<outputDirectory>scdd-running/</outputDirectory>
+				</configuration>
+			</plugin>
+			<!--拷贝依赖 copy-dependencies-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+									scdd-running/lib/ <!--指定外部依赖的位置，jar包启动时不用在命令行指定了。-->
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--拷贝资源文件 copy-resources-->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<!-- 指定参与构建的resoures-->
+									<includes>
+										<include>*.**</include>
+									</includes>
+								</resource>
+							</resources>
+							<outputDirectory>scdd-running/config</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
