@@ -838,3 +838,11 @@ Date显示范围是1601-01-01 到 9999-01-01；DateTime显示范围是1601-01-01
 between...and...:前后都包括
 
 SELECT * FROM `goods_info`  WHERE price BETWEEN 10 AND 15;  //包括10和15
+
+### 44，如何读懂复杂sql?
+
+https://www.zhihu.com/question/326371178
+
+ 凡是sql都分为，select，from，where 3段，你复杂的sql也是这3段。 
+
+按着这三个部分逐一拆解分析即可。

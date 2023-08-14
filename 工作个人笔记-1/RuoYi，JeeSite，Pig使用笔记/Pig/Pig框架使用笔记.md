@@ -36,3 +36,13 @@ vite.config.ts也要开启
 }
 ```
 
+#### 4，请求方法@Inner(false)会令SecurityUtils失效
+
+```java
+   @PutMapping(value = "/updateApproval")
+	@Inner(value = false) //加此注解且value=false会令下面获取不到用户
+    public R updateApproval(@RequestBody ProductPlanOutputMain productPlanOutputMain){
+        productPlanOutputMain.setApprovalName(SecurityUtils.getUser().getName());
+    }
+```
+
