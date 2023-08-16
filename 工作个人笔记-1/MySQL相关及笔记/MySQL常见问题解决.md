@@ -9,7 +9,9 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 
 #### 2，Lock wait timeout exceeded
 
-出错原因，两个事务同时对一个表的同一行进行操作，其中一个事务等待超时。
+出错原因：
+1，两个事务同时对一个表的同一行进行操作，其中一个事务等待超时。
+2，操作数据库的方法中有死循环导致事务法务提交。
 
 解决办法：
 

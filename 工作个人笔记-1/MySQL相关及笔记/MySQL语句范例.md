@@ -93,7 +93,7 @@ DATE_FORMAT(a.time,'%Y-%m-%d %H:%i:%S') AS "time"
 AND (DATE_FORMAT( fmpr.pay_time, '%Y' )= #{year} and DATE_FORMAT( fmpr.pay_time, '%m' )= #{month}  )
 ```
 
-#### 8，select查询后，量表链接范例
+#### 8，select查询后，两表链接范例
 
 ```sql
 SELECT

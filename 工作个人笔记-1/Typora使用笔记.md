@@ -16,7 +16,7 @@ $$
 
 ### 2，链接本地文件
 
-写法和html的超链接一样，按Ctrl + 左击访问。
+第一种方法：写法和html的超链接一样，按Ctrl + 左击访问。<a href="SSM">查看SSM</a>
 
-<a href="SSM">查看SSM</a>
+第二种方法：写出相对路径。官方文档[MySQL帮助文档](./MySQL相关及笔记/MySQL帮助文档/refman-5.7-en.a4.pdf)
 

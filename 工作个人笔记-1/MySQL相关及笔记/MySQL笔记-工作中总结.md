@@ -846,3 +846,12 @@ https://www.zhihu.com/question/326371178
  凡是sql都分为，select，from，where 3段，你复杂的sql也是这3段。 
 
 按着这三个部分逐一拆解分析即可。
+
+### 45，外连接结果重复
+
+```sql
+SELECT * FROM dept AS d
+LEFT JOIN emp AS e ON d.deptno = e.deptno;
+```
+
+dept表的数据会重复，因为有多个员工属于同一个部门。平时项目多表连接时不要想当然，注意重复数据。
