@@ -1,4 +1,4 @@
-#### 1，Vue项目编译启动
+#### 1，Vue项目编译启动,打包部署
 
 新项目先执行
 
@@ -18,10 +18,22 @@ npm run dev
 npm  run  serve 
 ```
 
-构建项目进行部署
+构建打包项目进行部署
 
 ```bash
 npm  run build  # 打包项目，项目再dist文件夹里，打包完把该文件夹内的使用nginx部署即可。
+```
+
+其它打包方式，找到package.json或类似文件，点击build左边的蓝色按钮执行即可（IDE上显示）
+
+```json
+"scripts": {
+		"dev": "vite --force",
+		"build": "vite build",
+		"build:docker": "vite build --outDir ./docker/dist/",
+		"lint:eslint": "eslint --fix --ext .js,.ts,.vue ./src",
+		"prettier": "prettier --write ."
+	},
 ```
 
 
