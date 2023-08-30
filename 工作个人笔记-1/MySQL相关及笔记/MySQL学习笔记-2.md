@@ -95,6 +95,8 @@ CALL select_all();
 
 Navicat的“自动运行”里可以设置自动备份，是被分到本地，不是备份到服务器。
 
+参考：https://zhuanlan.zhihu.com/p/627215143
+
 ### 五，DDL语句，增加一列等
 
 语法格式：
