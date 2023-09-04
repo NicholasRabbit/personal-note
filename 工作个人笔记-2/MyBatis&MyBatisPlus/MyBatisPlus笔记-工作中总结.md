@@ -112,3 +112,13 @@ Controller层
     }
 ````
 
+#### 6，eq ()中\<if test = " xxx != null "\> 如何写
+
+```java
+return lambdaQuery()
+                // 类型
+                .eq(JcEquipment::getSceneType, sceneType)
+                // 场景id
+                .eq(!ObjectUtils.isEmpty(sceneId), JcEquipment::getSceneId, sceneId)  //eq(boolean,...)同理<if-test>
+```
+

@@ -36,13 +36,3 @@ AND (DATE_FORMAT( fctr.create_time, '%Y' )= #{year} and DATE_FORMAT( fctr.create
 </if>
 ```
 
-### 4，eq ()中if null如何写
-
-```java
-return lambdaQuery()
-                // 类型
-                .eq(JcEquipment::getSceneType, sceneType)
-                // 场景id
-                .eq(!ObjectUtils.isEmpty(sceneId), JcEquipment::getSceneId, sceneId)  //eq(boolean,...)同理<if-test>
-```
-
