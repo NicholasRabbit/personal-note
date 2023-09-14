@@ -167,3 +167,8 @@ public class RedisKeyExpirationListener implements MessageListener {
 }
 ```
 
+### 4, Redis在CLI界面动态查看日志
+
+找到redis-cli所在目录，执行： redis-cli  monitor。
+
+注意此命令占用资源，仅供临时查看使用。
