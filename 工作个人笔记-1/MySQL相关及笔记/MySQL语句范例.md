@@ -135,3 +135,18 @@ FROM
 	on plan_a.plan_date = plan_b.plan_date
 ```
 
+9 , CASE...WHEN根据数据转换输出
+
+```sql
+SELECT
+	CASE
+		province_tag 
+		WHEN '0' THEN
+		'省内' 
+		WHEN '1' THEN
+		'省外' ELSE '' 
+	END 
+FROM
+	`comp_information`
+```
+

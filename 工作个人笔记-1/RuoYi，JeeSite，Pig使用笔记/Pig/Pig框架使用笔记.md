@@ -48,3 +48,17 @@ vite.config.ts也要开启
     }
 ```
 
+#### 5，Pig首页区分权限设置方法
+
+1，找一个需要设置首页权限的角色，随便找到一个这个角色对应的菜单，在这个菜单下加个按钮，设置好权限。
+
+同时给该角色赋予此按钮权限。
+
+![1695021653908](note-images/1695021653908.png)
+
+2，前端页面设置好“v-auth”等其它相关设置。
+
+```javascript
+<div class="layout-padding-auto layout-padding-view" v-auth="'scdd_group_view'">
+```
+
