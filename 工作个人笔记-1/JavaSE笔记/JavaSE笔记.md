@@ -78,3 +78,18 @@ writer.write(System.getProperty("line.separator"));
 
 算数运算符(+-x/)的优先级高于关系运算符( <, >,!=, == )，关系运算符高于逻辑运算符(| ，&，||，&&)。
 
+#### 8，修改或增加jar包中的文件
+
+1,Viewing the Contents of a JAR File
+
+> jar tf project02.jar   or jar tvf project02.jar (t:table , f:file, v:display additional information)
+
+2,The Jar tool provides a u option which you can use to update the contents of an existing JAR file by modifying its manifest or by adding files.
+
+> jar uf project02.jar conf/log4j.xml    (add or update if exists the same file)
+
+3, You can use the -C option to "change directories" during execution of the command. For example:
+
+> jar -uf project02.jar -C conf application.yaml
+>
+> refers to : https://docs.oracle.com/javase/tutorial/deployment/jar/update.html
