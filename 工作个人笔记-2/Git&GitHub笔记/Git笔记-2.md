@@ -252,3 +252,17 @@ git config --global  core.quotePath false : 取消显示执行git status时显�
 Options-->Text: Locale(zh-cn) Character Set(UTF-8)。但是这样设置好后，中文仓库名就乱码了。原因待查。
 
 ![1695865148772](note-images/1695865148772.png)
+
+### 13,  some commits weren't shown 
+
+on github  contributions of personal profile
+
+Why is that? 
+
+Commits will appear on your contributions graph if they meet **all** of the following conditions:
+
+- The email address used for the commits is associated with your account on GitHub.com.
+- The commits were made in a standalone repository, not a fork.
+- The commits were made:
+  - In the repository's default branch
+  - In the `gh-pages` branch (for repositories with project sites)
