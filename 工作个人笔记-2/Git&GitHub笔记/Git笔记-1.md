@@ -11,6 +11,12 @@ git  config    user.name  tom：添加用户名tom
 git  config   user.name:  查看用户名   
 ```
 
+单个项目仓库内可单独设置不同的邮箱用户名，如果不设置就按全局的。
+
+优先级： 项目配置 > 配置文件配置 > 全局配置
+
+参考：https://zhuanlan.zhihu.com/p/379982981
+
 #### 2, 版本穿梭
 
 ```bash
