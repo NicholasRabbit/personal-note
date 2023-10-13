@@ -150,3 +150,16 @@ FROM
 	`comp_information`
 ```
 
+#### 9，增加列或修改列的参数
+
+```sql
+-- 增加列
+ALTER TABLE t_student ADD  contact_tel VARCHAR(40);
+-- 修改列数据的长度
+ALTER TABLE t_student MODIFY student_name VARCHAR(100) ;
+-- 修改列名，如sex字段名称感觉不好，想用gender那么就需要更爱列的名称
+ALTER TABLE t_student CHANGE sex gender CHAR(100) NOT NULL;
+-- 删除列
+ALTER TABLE t_student DROP contact_tel;
+```
+
