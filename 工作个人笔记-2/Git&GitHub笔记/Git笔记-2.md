@@ -266,3 +266,21 @@ Commits will appear on your contributions graph if they meet **all** of the foll
 - The commits were made:
   - In the repository's default branch
   - In the `gh-pages` branch (for repositories with project sites)
+
+### 14，设置不忽略指定目录文件
+
+有两种方式：
+
+第一种：可使用命令强制提交
+
+```bash
+git add --force /src/main/webapp/WEB-INF/lib/
+```
+
+第二种：或者在.gitignore文件里设置不忽略这个目录，注意：设置好之后需要先提交.gitignore的修改
+
+```bash
+# .gitignore文件设置
+!/src/main/webapp/WEB-INF/lib/*
+```
+
