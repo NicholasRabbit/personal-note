@@ -26,12 +26,6 @@ Ctrl + i : 光标前进到下一个位置
 ##### 3）文本编辑
 
 ```txt
-vim中批量替换命令
-:%s/abc/xyz  把文件中所有的abc替换为xyz
-:%s/abc/xyz/g  全部替换
-           /gi 忽略大小写
-           /gc 逐个确认
-
 yt" : 从当前位置复制到双引号",不包括"
 yf" : --------------------包括
 
@@ -48,9 +42,20 @@ putty设置vim编辑器使用数字小键盘方法
 Terminal--> Features --> Disable application keypad mode，勾选此项
 ```
 
-##### 5）查找
+##### 5）查找和替换
 
 ```txt
+Normal(命令模式)模式下，直接输入，不需要冒号":"
+/ word-name ： 向后查找
+? word-name : 向前查找
+按回车后用"n"向后查看匹配字符，"N"是向前查看
+
+vim中批量替换命令
+:%s/abc/xyz  把文件中所有的abc替换为xyz
+:%s/abc/xyz/g  全部替换
+           /gi 忽略大小写
+           /gc 逐个确认
+           
 查找设置忽略大小写,命令模式下输入
 :set ignorecase smartcase ，只对当前会话有效
 恢复按照大小写
