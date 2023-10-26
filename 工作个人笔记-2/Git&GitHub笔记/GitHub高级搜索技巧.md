@@ -98,5 +98,11 @@ https://github.com/thinkgem/jeesite/blob/master/src/main/java/com/thinkgem/jeesi
 
 例：location:Beijing language:Java  :  搜索北京地区的热门* *Java**高手* 
 
+### 八，指定语言
+
+```bash
+springboot stars:>1000 language:Java
+```
+
 
 
