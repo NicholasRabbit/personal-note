@@ -20,7 +20,8 @@ git  config   user.name:  查看用户名
 #### 2, 版本穿梭
 
 ```bash
-git reset --hard  9af65 : 版本穿梭
+git reset --hard  9af65 : 版本穿梭到9af65 版本号可通过 log命令查看
+ : 返回最新版本
 ```
 
 #### 3, 日志查看
