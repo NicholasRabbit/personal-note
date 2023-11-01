@@ -35,6 +35,21 @@ df): 删除到右括号，包括右括号
 dt) : 删除到下一个右括号前的所有内容。
 ```
 
+Delete multiple lines within a specific range.
+
+###### 3.1）根据范围删除行。
+
+```txt
+:2,15d : 删除指定范围的行（2-15行）。
+
+Others command
+:.,5d   deletes lines between the current line and the fifth line
+:.,$d   removes all lines starting from the current line till the end
+:%d     clears the entire file
+```
+
+
+
 ##### 4）其它设置
 
 ```txt
