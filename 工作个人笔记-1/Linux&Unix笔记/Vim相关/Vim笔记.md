@@ -4,7 +4,7 @@ https://edyfox.codecarver.org/html/vim_fileencodings_detection.html
 
 ### 2，常用命令
 
-##### 1）文件操作
+#### 1）文件操作
 
 ```txt
 :set fileencoding ：vim查看编码格式
@@ -13,7 +13,7 @@ https://edyfox.codecarver.org/html/vim_fileencodings_detection.html
 :saveas Hello.txt : 另存为
 ```
 
-##### 2）移动
+#### 2）移动
 
 ```txt
 Ctrl + o : 光标回退到上一个位置
@@ -23,7 +23,7 @@ Ctrl + i : 光标前进到下一个位置
 << 或 >>: 向左或右移动一个制表符
 ```
 
-##### 3）文本编辑
+#### 3）文本编辑
 
 ```txt
 yt" : 从当前位置复制到双引号",不包括"
@@ -37,7 +37,7 @@ dt) : 删除到下一个右括号前的所有内容。
 
 Delete multiple lines within a specific range.
 
-###### 3.1）根据范围删除行。
+##### 3.1）根据行号范围删除行。
 
 ```txt
 :2,15d : 删除指定范围的行（2-15行）。
@@ -48,16 +48,27 @@ Others command
 :%d     clears the entire file
 ```
 
+##### 3.2）根据行号范围复制
+
+直接用y替换上面删除命令中的d即可
+
+```txt
+:2,15y 复制2-15行
+:.,5y   copy lines between the current line and the fifth line
+:.,$y   copy all lines starting from the current line till the end
+:%y     copy the entire file
+```
 
 
-##### 4）其它设置
+
+#### 4）其它设置
 
 ```txt
 putty设置vim编辑器使用数字小键盘方法
 Terminal--> Features --> Disable application keypad mode，勾选此项
 ```
 
-##### 5）查找和替换
+#### 5）查找和替换
 
 ```txt
 Normal(命令模式)模式下，直接输入，不需要冒号":"
@@ -77,7 +88,7 @@ vim中批量替换命令
 :set noignorecase
 ```
 
-######  5.1)部分替换指定行的内容
+#####  5.1)部分替换指定行的内容
 
 ```bash
 :6,20S/foo/bar/g  把6-20行的所有foo替换为bar
