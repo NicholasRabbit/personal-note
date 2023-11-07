@@ -95,8 +95,10 @@ public class DeleteScheduleService {
 ### 七，@Cacheable,@CacheEvict的使用
 
 - @Cacheable(value/cacheNames = "缓存名，可以是String数组", key = "键名", unless = "#result==null")
-  unless = "#result==null"表示返回值是null时不加入缓存。缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
+  unless = "#result==null"表示返回值是null时不加入缓存。
 
+- 缓存中找不到的话会执行方法的具体查询语句，所以@CacheEvict不用放在新增方法上。
+  
 - @CacheEvict使整个value或cacheNames所指的缓存失效设置方法
 
   ​    @CacheEvict注意失效方法被同一个类内的方法调用时无法起作用，需用别的类里的方法调用。
