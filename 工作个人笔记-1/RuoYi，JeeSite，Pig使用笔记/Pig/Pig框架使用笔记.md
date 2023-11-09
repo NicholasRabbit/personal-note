@@ -62,3 +62,23 @@ vite.config.ts也要开启
 <div class="layout-padding-auto layout-padding-view" v-auth="'scdd_group_view'">
 ```
 
+#### 6, @Inner注解使用
+
+1，URI路径一定要写对
+
+```java
+//这里不要漏掉类上的路径"/information"	
+@GetMapping(value = "/information/getSortOrderMap/{compId}")  
+	public R<Map<Long,Integer>> getSortOrderMap(@PathVariable(value = "compId") Long compId, @RequestHeader(SecurityConstants.FROM) String from);
+
+```
+
+2, 加完此注解后，需要清空重新编译，必要时清空redis。同时原有的设计劝降的方法listScope(),pageScope()等一概不能用，会报错
+
+3，原来的方法的权限注解也不能用
+
+```java
+注释掉：    //@PreAuthorize("@pms.hasPermission('scdd_information_view')" )
+
+```
+
