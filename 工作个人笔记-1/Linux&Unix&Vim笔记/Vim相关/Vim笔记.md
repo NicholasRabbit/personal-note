@@ -70,22 +70,30 @@ Terminal--> Features --> Disable application keypad mode，勾选此项
 
 #### 5）查找和替换
 
+**查找**
+
 ```txt
 Normal(命令模式)模式下，直接输入，不需要冒号":"
 / word-name ： 向后查找
 ? word-name : 向前查找
 按回车后用"n"向后查看匹配字符，"N"是向前查看
 
+/hello\c : 加\c忽略大小写
+
+或者查找设置忽略大小写,命令模式下输入
+:set ignorecase smartcase ，只对当前会话有效
+恢复按照大小写
+:set noignorecase
+```
+
+**替换**
+
+```txt
 vim中批量替换命令
 :%s/abc/xyz  把文件中所有的abc替换为xyz
 :%s/abc/xyz/g  全部替换
            /gi 忽略大小写
            /gc 逐个确认
-            
-查找设置忽略大小写,命令模式下输入
-:set ignorecase smartcase ，只对当前会话有效
-恢复按照大小写
-:set noignorecase
 ```
 
 #####  5.1)部分替换指定行的内容
