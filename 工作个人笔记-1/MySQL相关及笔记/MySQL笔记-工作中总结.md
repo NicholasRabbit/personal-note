@@ -34,7 +34,13 @@ jdbc:mysql://192.168.0.159:3306/platformx_boot_wrzs?characterEncoding=utf8&zeroD
 
 新建数据库时使用utf8mb4(相当于别处真正的utf8)不要使用utf8，MySQL的 “utf8”只支持每个字符最多三个字节，而真正的UTF-8是每个字符最多四个字节 
 
-#### 1， MyBatis使用truncate语句时是用的<update>标签
+验证步骤：
+
+```sql
+SHOW CHARACTER SET WHERE Charset LIKE "utf%";   -- 可看到utf8的MaxLen是3
+```
+
+#### 1， MyBatis使用truncate语句时是用的\<update\>标签
 
 ```xml
 <update>

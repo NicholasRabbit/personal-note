@@ -114,3 +114,101 @@ ALTER TABLE jc_gate_state ADD `tm_code` VARCHAR ( 64 ) COLLATE utf8mb4_general_c
 price  decimal(6,2) : 表示有效数值一共6位，小数点精度是2位。
 
 参考：https://www.cnblogs.com/owenma/p/7097602.html
+
+### 七，Character Set and Collation
+
+**1， MySQL collation是一系列的rules，表示特定character set设置中的比较方式。一个Character Set下面可能右多个collocation比较规则，如果不设置则使用默认的比较规则。**
+
+字符串比较作用于字符串类型的列，如VARCHAR,CHAR,TEXT等。因此 Collation会影响到ORDER BY, Where, distinct, group by, having以及字符串索引。 
+
+查看Character Set及其默认的collocation: 
+
+```sql
+SHOW CHARACTER SET;
+SHOW CHARACTER SET WHERE Charset LIKE "utf%";  -- 可以加条件过滤
+```
+
+**2，MySQL允许在Server, Database, Table, Column四个层面设置各自的Character Set 和Collocation。这四个层面，越往下的权限越高。查看设置后编码见3**
+
+- 低层的设置未手动指定默认按上层的设置。
+
+- 如果临时修改一个高层面的Character, Collation 这两项设置，不影响已有的下层设置，只对新建的下层设置有效。如修改Database的设置不会影响已有的table
+
+2.1 整个Server设置方法：
+
+```sql
+>mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci  --未验证
+```
+
+2.2 Database层面：
+
+```sql
+CREATE DATABASE database_name CHARACTER SET utf8 COLLATE utf8_bin; -- 创建时设置
+ALTER DATABASE database_name CHARACTER SET utf8 COLLATE utf8_bin;  -- 创建后修改
+```
+
+2.3 Table层面：
+
+```sql
+CREATE TABLE TABLE_NAME (
+   ...
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
+如果都不想进行设置，可在查询时指定：
+
+```sql
+SELECT DISTINCT field1 COLLATE utf8mb4_general_ci FROM table1;
+SELECT field1, field2 FROM table1 ORDER BY field1 COLLATE utf8mb4_unicode_ci;
+
+-- 在每一个条件前加上binary关键字
+select * from user where binary username = 'admin' and binary password = 'admin';
+-- 将参数以binary('')包围
+select * from user where username like binary('admin') and password like binary('admin');
+```
+
+
+
+3，查看字符编码 Character Set，Collation。**
+
+**注意：查看只针对varchar字符串有效，int等查出结果为空**
+
+3.1 查看数据库：
+
+```sql
+SELECT
+	DEFAULT_CHARACTER_SET_NAME,DEFAULT_COLLATION_NAME
+FROM
+	information_schema.SCHEMATA 
+WHERE
+	schema_name = "student";  -- 数据库名称
+```
+
+3.2 查看表：
+
+```sql
+SELECT
+	CCSA.CHARACTER_SET_NAME, T.TABLE_COLLATION
+FROM
+	information_schema.`TABLES` T,
+	information_schema.`COLLATION_CHARACTER_SET_APPLICABILITY` CCSA 
+WHERE
+	CCSA.collation_name = T.table_collation 
+	AND T.table_schema = "student" 
+	AND T.table_name = "grade";  -- 表名称
+```
+
+3.3 查看列：
+
+```sql
+SELECT
+	CHARACTER_SET_NAME,COLLATION_NAME
+FROM
+	information_schema.`COLUMNS` 
+WHERE
+	table_schema = "student" 
+	AND table_name = "grade" 
+	AND column_name = "column_name";  -- 列名
+```
+
+参考：https://zhuanlan.zhihu.com/p/103448212
