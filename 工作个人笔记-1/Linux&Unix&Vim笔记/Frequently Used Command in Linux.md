@@ -1,9 +1,23 @@
-一，项目发布相关
-truncate -s 0 base-mall-admin.out  : 清空日志文件，不是删除
+#### 一，项目发布相关
+
+```shell
+truncate -s 0 base-mall-admin.out  : 清空日志文件里的内容，不是删除文件
 
 nohup java -jar base-mall-admin.jar > base-mall-admin.out & tail -f base-mall-admin.out ： 后台启动jar包项目，并打印日志
+```
 
-二，查询系统信息等
+#### 二，查找文件
+
+```shell
+find /your_dir -name file_name : 指定名字精确查找
+fine /your_dir -name foo* : 模糊查找
+```
+
+#### 三，查询系统信息，内存等
+
+##### 1) 系统信息
+
+```shell
 hostnamectl / hostnamectl status : 查询主机信息
 
 hostnamectl set-hostname "tom" : 修改主机名字，即命令行的改为 root@tom
@@ -21,41 +35,47 @@ last : 显示登录成功信息，具体选项可参照说明 man last
 cat /root/.bash_history : 查看操作记录
 
 cat ~/.bash_history : 查看操作记录
+```
 
-三，虚拟内存，swap相关
+##### 2) 虚拟内存，swap相关
 
 swapon -s : 查看虚拟内存的位置
 
 swapoff -a : 停止交换分区
 
-四，查看cpu，内存等信息
+#### 四，查看cpu，内存等信息
+
 top :  总体查看
 top -bn 1 -i -c : 详细查看
 vmstat : 采集当前cpu状态  https://www.sijitao.net/1925.html
 vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次 
 
-五，ls命令常用选项
-    ls *.txt ：仅列出目录中的 .txt 文件：
-    ls -s ： 按文件大小列出
-    ls -t ： 按时间和日期排序 
-    ls -X ： 按扩展名排序 
-    ls -S ： 按文件大小排序 
-    ls -ls ： 带有文件大小的长格式 
+#### 五，ls命令常用选项
+
+​    ls *.txt ：仅列出目录中的 .txt 文件：
+​    ls -s ： 按文件大小列出
+​    ls -t ： 按时间和日期排序 
+​    ls -X ： 按扩展名排序 
+​    ls -S ： 按文件大小排序 
+​    ls -ls ： 带有文件大小的长格式 
 
 	使用范例：
 	ls -Xlh : 按类型，单位为M展示文件
 	ls -lh *.out : 展示out后缀的文件
-
+	
 	du -sh fileName : (disk usage)查看文件的大小（s:代表目录总大小，h: human readable,换算成kb,mb等单位）
 
-六，历史命令
-    histtory : 显示最近输入的历史命令
-	Ctrl + R : 输入此命令后会显示reverse-i-search，输入关键字母可在历史命令中搜索
-	
-七，查看版本
-	cat /etc/os-release ：查看当前系统版本（CentOS适用，其它未知）
+#### 六，历史命令
+
+​    histtory : 显示最近输入的历史命令
+​	Ctrl + R : 输入此命令后会显示reverse-i-search，输入关键字母可在历史命令中搜索
+​	
+
+#### 七，查看版本
+
+​	cat /etc/os-release ：查看当前系统版本（CentOS适用，其它未知）
 八，文件类型查看
-	file * 或者 file hello.txt : 查看当前目录下所有文件或指定文件的类型。
+​	file * 或者 file hello.txt : 查看当前目录下所有文件或指定文件的类型。
 
 九，其它命令
 	factor  50 : 分解因式
@@ -63,7 +83,3 @@ vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次
 十，用户操作
    su root/tom : 切换用户
    su - tom : 完全切换，注意“-”前后有空格
-
-
-
-
