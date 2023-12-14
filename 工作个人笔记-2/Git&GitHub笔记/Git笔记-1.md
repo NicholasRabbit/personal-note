@@ -68,3 +68,5 @@ git  remote add origin http://{username}:{password}@101.43.18.244:3030/project_n
 #### 8,  idea的gitingore文件不起作用解决办法
 
 直接删了``.idea``和``*.iml``文，然后把``.gitignore``文件放到目录下重新打开项目
+
+9， 切换分支
