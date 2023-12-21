@@ -10,3 +10,4 @@ npm install --registry=https://registry.npm.taobao.org
 ```
 
 然后运行```npm run dev```不同项目后面可能不是dev，是serve或者其他的。
+
