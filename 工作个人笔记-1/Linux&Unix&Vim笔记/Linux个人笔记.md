@@ -4,6 +4,15 @@ passwd : 修改密码，后不加参数默认为当前用户修改
 
 passwd tom : 为用户tom修改密码。
 
+#### 2) CLI界面常用命令
+
+```shell
+Ctrl + PageUp/Down : 逐行移动命令行界面
+Shift + PageUp/Down : 按页移动命令行界面
+Ctrl + L: 清屏，不是清除历史
+clear : 清楚显示历史和Ctrl + L 不一样
+```
+
 ### 1，解决SSH端链接虚拟机慢的问题
 
 ```
