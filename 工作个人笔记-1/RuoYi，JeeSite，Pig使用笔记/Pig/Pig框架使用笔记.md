@@ -89,3 +89,47 @@ vite.config.ts也要开启
 后端接收：```Integer[] compIds```
 
 不用手动拆分，自动转换。参照“集团科技项目”
+
+#### 8, 加密密钥设置前后端要一致
+
+否则登录时密码不正确，即使输入对密码也显示不正确。
+
+前端 `.env`文件
+
+```javascript
+# 代码生成服务地址 (单体架构有效)
+VITE_SCDD_PROXY_PATH = http://localhost:6060
+# **********正式打包时更改密钥******************************************
+VITE_PWD_ENC_KEY='jznyabcdbybybyby'
+```
+
+后端`.yml`文件，**主项目，分项目都要设置**
+
+```yaml
+# 前端密码登录解密密钥
+gateway:
+  encodeKey: jznyabcdbybybyby
+```
+
+#### 9, Pig获取toke流程
+
+访问接口地址：`http://localhost:9999/admin/oauth2/token`
+
+1，首先指定终端类型，然后使用Base64加密。
+
+例，以使用的客户端id是abutment(scdd项目外调用的)为例，使用Base64加密` abutment:abutment`得到的密码放入Headers里，
+
+![1705903702748](note-images/1705903702748.png)
+
+![1705905246895](note-images/1705905246895.png)
+
+2，前端密码也需要加密放入到password的值里，pig加密使用的是AES算法。输入完成后直接调用接口就可以获取token，后期使用Postman等调用其它接口时把它放入Headers 
+
+```txt
+Authorization: Bearer 965ebc1f-3b73-4989-b3c0-bf835db69f66
+```
+
+![1705905454887](note-images/1705905454887.png)
+
+![1705905429947](note-images/1705905429947.png)
+
