@@ -2,6 +2,8 @@
 
 新项目先执行
 
+**(注意：2024-1-22时SSL证书到期，以后使用cnpm)**
+
 ```bash
 # 1，安装依赖
 # 1.1 方法一  把设置镜像和安装集中到一个命令里
@@ -9,7 +11,7 @@ npm install  --registry=https://registry.npmmirror.com  #官方镜像，需代�
 # 或者
 npm install  --registry=https://registry.npm.taobao.org  #淘宝镜像
 # 1.2 方法二
-npm config set registry https://registry.npm.taobao.org # 设置链接镜像
+npm config set registry https://registry.npmmirror.com # 设置链接镜像
 npm config get registry # 检查是否修改成功
 npm i
 # 2，启动，根据项目的文档选择不同启动命令
