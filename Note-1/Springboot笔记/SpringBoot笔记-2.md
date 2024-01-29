@@ -304,3 +304,13 @@ slave:
                 enabled: true
 ```
 
+### 5, @NumberFormat使用
+
+规定小数点精度
+
+```java
+    @Schema(description="实际产量")
+	@NumberFormat(style = NumberFormat.Style.NUMBER,pattern = "#.00") //精确到两位
+    private BigDecimal actualProduction;
+```
+
