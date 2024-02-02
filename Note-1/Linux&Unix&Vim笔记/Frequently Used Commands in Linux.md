@@ -81,5 +81,71 @@ vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次
 	factor  50 : 分解因式
 
 十，用户操作
-   su root/tom : 切换用户
-   su - tom : 完全切换，注意“-”前后有空格
+
+  ```shell
+su root/tom # 切换用户
+su - tom  # 完全切换，注意“-”前后有空格
+  ```
+
+
+
+#### Eight，Manipulate Text
+
+##### 1, sed
+
+<a href="https://www.gnu.org/software/sed/manual/sed.html#Introduction">sed introduction</a>
+
+```shell
+# To replace all the occurrences of "tom" to "lily" in file test.txt.
+# Caution: the orginal file won't be modified.
+# Don't forget the last forward slash in 's/tom/lily/'.
+sed 's/tom/lily/' test.txt  
+
+# '-i' means that the file has been modified. 
+sed -i 's/tom/lily/' test.txt 
+
+# To write the output to output.txt
+sed 's/Tom/Mark/' test.txt  > output.txt
+
+# To print a specific line
+sed -n '5p' test.txt
+
+# To print the first line of the first file and the last line of the last file.
+sed -n "1p ; $p" test.txt test1.txt test2.txt	
+
+#...
+```
+
+##### 2, awk / gawk
+
+```shell
+#
+
+```
+
+##### 3, grep
+
+```shell
+# To search any line that conatins "matt" in test.txt
+grep 'matt' test.txt
+grep -i 'mapp' test.txt  # -i : case insensitive
+
+# To search "matt" in the current directory and all of its subdirectories.
+grep -R 'matt'
+
+# Search and display the total number of times which the string 'matt' apprears in a file named test.txt
+grep -c 'matt' test.txt
+```
+
+#### Nine,  Administrate
+
+##### 1, ps 
+
+```shell
+# report a snapshot of current process
+ps 
+# To see every process on the system using standard syntax
+ps -e/-ef/-eF/-elf
+#...
+```
+

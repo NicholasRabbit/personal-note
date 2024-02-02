@@ -31,7 +31,13 @@ insert into t_copy(id,ename...) select id,ename...from t_old;
 #### 4, find_in_set用法
 
 参考文章：https://www.cnblogs.com/xiaoxi/p/5889486.html
-例：SELECT dept_id FROM sys_dept WHERE dept_id = 116 OR find_in_set( 116, ancestors )  ： 指在表中ancestors字段中找到含有“116”的数据的
+例：
+
+```sql
+SELECT dept_id FROM sys_dept WHERE dept_id = 116 OR find_in_set( 116, ancestors )  
+-- 指在表中ancestors字段中找到含有“116”的数据的
+```
+
 (1)第一个用法，找出字段中含有该值的数据
 首先举个例子来说：
 有个文章表里面有个type字段，它存储的是文章类型，有 1头条、2推荐、3热点、4图文等等 。

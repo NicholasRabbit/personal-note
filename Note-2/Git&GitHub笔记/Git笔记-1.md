@@ -65,12 +65,9 @@ git  remote add origin http://{username}:{password}@101.43.18.244:3030/project_n
 注意是复制http链接，不是ssh链接
 ```
 
-
-
-#### 9， 切换分支
+#### 9, 切换分支
 
 ```shell
-
 git checkout branch_name
 ```
 

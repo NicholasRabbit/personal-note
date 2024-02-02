@@ -760,17 +760,6 @@ FROM information_schema.TABLES
 GROUP BY table_schema;
 ```
 
-### 38，find_in_set用法
-
-```sql
-SELECT FIND_IN_SET('y','x,y,z');
-+--------------------------+
-| FIND_IN_SET('y','x,y,z') |
-+--------------------------+
-|                        2 |
-+--------------------------+
-```
-
 ### 39 ，MySQL的String比较时注意null
 
 null跟mysql的日期字段无法比较，导致结果查不出来
