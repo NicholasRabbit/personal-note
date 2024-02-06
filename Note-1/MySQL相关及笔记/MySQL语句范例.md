@@ -50,6 +50,8 @@ select find_in_set('x','a,b,c,d') : 没有则返回：0
 
 #### 5, case when 用法
 
+**1, select**
+
 例一：
 
 	SELECT CASE		
@@ -68,6 +70,68 @@ SELECT id,name,nickname,
 ( CASE id WHEN ( SELECT id FROM emp WHERE id = 1 ) THEN 'China' ELSE 'USA' END ) location 
 FROM emp
 ```
+
+**2, Update multiple rows with multiple conditions**
+
+```sql
+-- original sql
+UPDATE table_users
+SET cod_user = '622057'
+    , date = '12082014'
+WHERE user_rol = 'student'
+    AND cod_office = '17389551'; 
+
+UPDATE table_users
+SET cod_user = '2913659'
+    , date = '12082014'
+WHERE user_rol = 'assistant'
+    AND cod_office = '17389551'; 
+
+UPDATE table_users
+SET cod_user = '6160230'
+    , date = '12082014'
+WHERE user_rol = 'admin'
+    AND cod_office = '17389551'; 
+```
+
+Optimised SQL
+
+```sql
+UPDATE table_users
+    SET cod_user = (case when user_role = 'student' then '622057'
+                         when user_role = 'assistant' then '2913659'
+                         when user_role = 'admin' then '6160230'
+                    end),
+        date = '12082014'
+    WHERE user_role in ('student', 'assistant', 'admin') AND
+          cod_office = '17389551';
+```
+
+**3, MyBatis Demo:  **
+
+`SSM/RecycleOrderCollectionDao.xml`
+
+**4, An alternative approach**
+
+MySQL allows a more readable way to combine multiple updates into a single query. This seems to better fit the scenario you describe, is much easier to read, and avoids those difficult-to-untangle multiple conditions.
+
+```sql
+INSERT INTO table_users (cod_user, date, user_rol, cod_office)
+VALUES
+('622057', '12082014', 'student', '17389551'),
+('2913659', '12082014', 'assistant','17389551'),
+('6160230', '12082014', 'admin', '17389551')
+ON DUPLICATE KEY UPDATE
+ cod_user=VALUES(cod_user), date=VALUES(date)
+```
+
+This assumes that the `user_rol, cod_office` combination is a primary key. If only one of these is the *primary key*, then add the other field to the UPDATE list. If neither of them is a primary key (that seems unlikely) then this approach will always create new records - probably not what is wanted.
+
+However, this approach makes prepared statements easier to build and more concise.
+
+From <a href="https://stackoverflow.com/questions/25674737/update-multiple-rows-with-different-values-in-one-query-in-mysql">Update mutiple rows.</a>
+
+
 
 #### 6, 插入时主键冲突改为更新
 

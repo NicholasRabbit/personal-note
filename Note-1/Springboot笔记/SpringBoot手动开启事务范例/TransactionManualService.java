@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-//开启事务手动提交，用于多个表的同时保存
+//开启事务手动提交，用于多个表的同时保存（个人范例）。
 @Service
 public class TransactionManualService {
 
@@ -49,14 +49,8 @@ public class TransactionManualService {
             status = transactionManager.getTransaction(def);
 
             //业务代码==============
-            RecycleOrderAddress recycleOrderAddress = recycleOrder.getRecycleOrderAddress();
-            recycleOrderAddress.setId(UUIDUtil.fastUUId());
-            recycleOrderAddress.setOrderId(recycleOrder.getId());
-            recycleOrderAddress.setCreateTime(new Date());
-            count += recycleOrderAddressDao.insert(recycleOrderAddress);
-            recycleOrder.setAddressId(recycleOrderAddress.getId());     //设置订单的地址id为订单地址表的id，不关联用户的地址表，防止联动修改
-            count += recycleOrderDao.insert(recycleOrder);
-            count += recycleUserOrderDao.insert(recycleUserOrder);
+			//....
+
             //批量添加订单类型
             if(rocList.size() > 0)
                 count += recycleOrderCollectionDao.insertAllCollections(rocList);
