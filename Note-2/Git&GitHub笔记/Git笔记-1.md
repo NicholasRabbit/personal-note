@@ -20,9 +20,11 @@ git  config   user.name:  查看用户名
 #### 2, 版本穿梭
 
 ```bash
-git reset --hard  9af65 : 版本穿梭到9af65 版本号可通过 log命令查看
- : 返回最新版本
+git checkout 9af65 : 版本穿梭到9af65 版本号可通过 log命令查看
+git checkout c20e67(Head SHA) : 返回Head  
 ```
+
+Caution! Don't use `git reset` before you know what it means.
 
 #### 3, 日志查看
 
@@ -71,3 +73,4 @@ git  remote add origin http://{username}:{password}@101.43.18.244:3030/project_n
 git checkout branch_name
 ```
 
+10, git rebase
