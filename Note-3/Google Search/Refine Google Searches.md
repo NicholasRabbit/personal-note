@@ -4,9 +4,11 @@
 
 https://www.google.com/advanced_search
 
-https://www.freecodecamp.org/news/how-to-google-like-a-pro-10-tips-for-effective-googling/
+https://ahrefs.com/blog/google-advanced-search-operators/
 
-1. xxx   filetype:pdf  :  to search pdf files
+https://www.freecodecamp.org/news/how-to-google-like-a-pro-10-tips-for-effective-googling/>
+
+1. filetype:pdf  xxx  :  to search pdf files (Write it at the beginning when the sentence is too long.)
 2. site:github.com springboot ：  search for something within a website 
 3. xxx  -class : exclude class when you search for something
 4. xxx  imagesize:500x600 :  search images of a particular size 
@@ -28,7 +30,8 @@ https://github.com/XX-net/XX-Net/wiki/how-to-create-my-appids
 2. OR (\|)
 
    ```shell
-   Online course of Java | C++ #To search online course of Java or C++. 
+   #To search online course of Java or C++. You can also use "OR" instead of "|".
+   Online course of Java | C++ 
    ```
 
 3. \* : A asterisk. It means wild card in Google search. When using google, the searching result only matches the first ten words of you input. However, you can use asterisk "*", which is not counted by google, to replace some words. 
@@ -63,7 +66,7 @@ https://github.com/XX-net/XX-Net/wiki/how-to-create-my-appids
    define:unit test 
    #To search the definitions of "unit test".
    synonym:crucial 
-   #The synonyms of a word.
+   #To search synonyms of the word.
    inurl:unix 
    #Google will return only web pages with your keyword in the URL.
    cache:harpers.org 

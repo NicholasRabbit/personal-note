@@ -8,8 +8,9 @@
 
 参考：
 
-1，https://reflectoring.io/unit-testing-spring-boot/
-2，  [【保姆级教程】Spring Boot 单元测试_springboot单元测试教程_暗涧幽火的博客-CSDN博客](https://blog.csdn.net/wangxi06/article/details/114630426)  
+1.  [Unit Test-Martin Fowler](https://martinfowler.com/bliki/UnitTest.html)  
+2. https://reflectoring.io/unit-testing-spring-boot/
+3.  [【保姆级教程】Spring Boot 单元测试_springboot单元测试教程_暗涧幽火的博客-CSDN博客](https://blog.csdn.net/wangxi06/article/details/114630426)  
 
 - 单元测试只是针对的项目中最小的单元，即方法或单个类，进行测试，测试这个方法是否是执行你预期的功能。
 - 好的单元测试耗时仅几毫秒(A good unit test only takes milliseconds.)
@@ -28,3 +29,10 @@
 - 可重复，运行期不做更改，每次在不同环境运行得到的结果必须一致；
 - 自检查，测试应该在没有任何人工交互的情况下自动检测是否通过。
 
+#### 4, in memory database
+
+While writing unit test, you can use in-memory database(not Redis). The nice thing about these tools is that they allow you to use regular SQL to query them.
+
+<a href="https://martinfowler.com/bliki/InMemoryTestDatabase.html">In-memory Database (Marting Fowler)</a>
+
+<a href="http://hsqldb.org/">HSQLDB(Java In-memory Database)</a>
