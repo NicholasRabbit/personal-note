@@ -37,7 +37,7 @@ dt) : 删除到下一个右括号前的所有内容。
 
 Delete multiple lines within a specific range.
 
-##### 3.1）根据行号范围删除行。
+##### 3.1）Delete  Multiple Lines
 
 ```txt
 :2,15d : 删除指定范围的行（2-15行）。
@@ -48,7 +48,7 @@ Others command
 :%d     clears the entire file
 ```
 
-##### 3.2）根据行号范围复制
+##### 3.2）Copy Specific Lines
 
 直接用y替换上面删除命令中的d即可
 
@@ -57,6 +57,12 @@ Others command
 :.,5y   copy lines between the current line and the fifth line
 :.,$y   copy all lines starting from the current line till the end
 :%y     copy the entire file
+```
+
+##### 3.3)  Zone Deletion
+
+```shell
+di( :  # Move the cursor into () and delete (xxx)
 ```
 
 
@@ -99,10 +105,10 @@ vim中批量替换命令
 #####  5.1)部分替换指定行的内容
 
 ```bash
-:6,20S/foo/bar/g  把6-20行的所有foo替换为bar
-:6,10s/foo/bar/g | :14,18&& | :20,23&& | :28,31&&  多选行替换，“| :14,18&& ”可以跟一个或多个
-:10s/foo/bar/g  也可以指定某一行
-也可以用gi忽略大小写
+:6,20S/foo/bar/g  #把6-20行的所有foo替换为bar
+:6,10s/foo/bar/g | :14,18&& | :20,23&& | :28,31&&  #多选行替换，“| :14,18&& ”可以跟一个或多个
+:10s/foo/bar/g  #也可以指定某一行
+#也可以用gi忽略大小写
 ```
 
 ##### 5.2)一行内指定个数替换
