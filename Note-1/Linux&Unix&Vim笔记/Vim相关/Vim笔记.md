@@ -35,9 +35,9 @@ df): 删除到右括号，包括右括号
 dt) : 删除到下一个右括号前的所有内容。
 ```
 
-Delete multiple lines within a specific range.
+##### 3.1) Delete  Multiple Lines
 
-##### 3.1）Delete  Multiple Lines
+Delete multiple lines within a specific range.
 
 ```txt
 :2,15d : 删除指定范围的行（2-15行）。
@@ -48,7 +48,7 @@ Others command
 :%d     clears the entire file
 ```
 
-##### 3.2）Copy Specific Lines
+##### 3.2) Copy Specific Lines
 
 直接用y替换上面删除命令中的d即可
 
@@ -59,10 +59,11 @@ Others command
 :%y     copy the entire file
 ```
 
-##### 3.3)  Zone Deletion
+##### 3.3) Zone Deletion
 
 ```shell
 di( :  # Move the cursor into () and delete (xxx)
+	   # You can use any action such as "y,v" to replace "d".
 ```
 
 
@@ -74,9 +75,9 @@ putty设置vim编辑器使用数字小键盘方法
 Terminal--> Features --> Disable application keypad mode，勾选此项
 ```
 
-#### 5）查找和替换
+#### 5）Find and replace
 
-**查找**
+**Find**
 
 ```txt
 Normal(命令模式)模式下，直接输入，不需要冒号":"
@@ -92,7 +93,7 @@ Normal(命令模式)模式下，直接输入，不需要冒号":"
 :set noignorecase
 ```
 
-**替换**
+**replace**
 
 ```txt
 vim中批量替换命令
@@ -123,5 +124,13 @@ hello worold 把这hello这5个字符替换为x
 ```txt
 What is wrong ? 视图模式下选中替换整句话
 vf?rx : 首先光标移动到要替换的内容的头一个字母，选中直到问号“?”然后使用替换命令
+```
+
+##### 5.4) replace a word
+
+```shell
+# Given "C,Cell,Cathy". To relace the word which only contains a single C not the characters which include C.
+:%s /\<C\>/B/g  # replace the whole file
+:20,30s/\<C\>/B/g  # replace a word within a specific range of line.
 ```
 
