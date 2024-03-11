@@ -61,3 +61,7 @@ try {
 5，与外部其它系统交互：
 System.out很难做到与其它系统交互；
 日志框架则可以发送日志信息到Kafka，ElasticSearch等框架。
+
+### 七，接口防抖，Post的幂等性
+
+https://mp.weixin.qq.com/s/wBIOY_U-Vxy6tAzV4lhX2A

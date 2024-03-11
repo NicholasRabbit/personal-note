@@ -36,3 +36,8 @@ While writing unit test, you can use in-memory database(not Redis). The nice thi
 <a href="https://martinfowler.com/bliki/InMemoryTestDatabase.html">In-memory Database (Marting Fowler)</a>
 
 <a href="http://hsqldb.org/">HSQLDB(Java In-memory Database)</a>
+
+#### 5, TDD
+
+In Test driven development, you should write test first, and then write codes to pass the test. The last and darn important step is refactoring.
+

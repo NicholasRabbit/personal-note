@@ -68,7 +68,7 @@ di( :  # Move the cursor into () and delete (xxx)
 
 
 
-#### 4）其它设置
+#### 4）putty settings
 
 ```txt
 putty设置vim编辑器使用数字小键盘方法
@@ -119,14 +119,14 @@ hello worold 把这hello这5个字符替换为x
 5Rx<ESC> : 光标移至h上，输入此命令，最后按ESC键即可。
 ```
 
-##### 5.3)视图模式下选中替换
+##### 5.3)Replace a specific word in visual mode.
 
 ```txt
 What is wrong ? 视图模式下选中替换整句话
 vf?rx : 首先光标移动到要替换的内容的头一个字母，选中直到问号“?”然后使用替换命令
 ```
 
-##### 5.4) replace a word
+##### 5.4) Replace a word
 
 ```shell
 # Given "C,Cell,Cathy". To relace the word which only contains a single C not the characters which include C.
