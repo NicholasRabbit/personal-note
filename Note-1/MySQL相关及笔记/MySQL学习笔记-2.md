@@ -152,7 +152,9 @@ ALTER DATABASE database_name CHARACTER SET utf8 COLLATE utf8_bin;  -- 创建后�
 ```sql
 CREATE TABLE TABLE_NAME (
    ...
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci; -- 创建时设置
+
+ALTER TABLE product_plan_output CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;  -- 创建后修改
 ```
 
 如果都不想进行设置，可在查询时指定：
@@ -188,7 +190,7 @@ WHERE
 
 ```sql
 SELECT
-	CCSA.CHARACTER_SET_NAME, T.TABLE_COLLATION
+	CCSA.CHARACTER_SET_NAME, T.TABLE_COLLATION, T.TABLE_NAME
 FROM
 	information_schema.`TABLES` T,
 	information_schema.`COLLATION_CHARACTER_SET_APPLICABILITY` CCSA 
