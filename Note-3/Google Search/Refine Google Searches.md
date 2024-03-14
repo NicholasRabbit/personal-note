@@ -1,4 +1,4 @@
-### 一，Google Search Tips
+### 1，Google Search Tips
 
 ##### 1) advaced search
 
@@ -79,4 +79,17 @@ https://github.com/XX-net/XX-Net/wiki/how-to-create-my-appids
    #Results in a specific location.
    ```
 
-   
+
+
+
+### 2, Searching problems
+
+(1)  Could not visit scholar.google.com.
+
+```txt
+Your client does not have permission to get URL / from this server...
+```
+
+**Solution:** 
+1, Clear caches, cookies and storage of Chrome. 
+2, If the NO.1 didn't work, you should reinstall Chrome.

@@ -65,3 +65,13 @@ System.out很难做到与其它系统交互；
 ### 七，接口防抖，Post的幂等性
 
 https://mp.weixin.qq.com/s/wBIOY_U-Vxy6tAzV4lhX2A
+
+### 八，Using @DateTimeFormat in Controller.
+
+```java
+public JIMUReportVo getRailwayEntrustDayList(@DateTimeFormat(pattern = "yyyy-MM-dd") Date jEndDate) {
+    
+}
+
+```
+

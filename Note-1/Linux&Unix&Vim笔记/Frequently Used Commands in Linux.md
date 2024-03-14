@@ -1,4 +1,4 @@
-#### 一，项目发布相关
+#### 1，deployment
 
 ```shell
 truncate -s 0 base-mall-admin.out  : 清空日志文件里的内容，不是删除文件
@@ -6,16 +6,17 @@ truncate -s 0 base-mall-admin.out  : 清空日志文件里的内容，不是删�
 nohup java -jar base-mall-admin.jar > base-mall-admin.out & tail -f base-mall-admin.out ： 后台启动jar包项目，并打印日志
 ```
 
-#### 二，查找文件
+#### 2，find
 
 ```shell
 find /your_dir -name file_name : 指定名字精确查找
-fine /your_dir -name foo* : 模糊查找
+find /your_dir -name foo* : 模糊查找
+find /your_dir -iname _bar_ # iname: case insensitive.
 ```
 
-#### 三，查询系统信息，内存等
+#### 3，System, swap
 
-##### 1) 系统信息
+##### 1) System information
 
 ```shell
 hostnamectl / hostnamectl status : 查询主机信息
@@ -37,20 +38,21 @@ cat /root/.bash_history : 查看操作记录
 cat ~/.bash_history : 查看操作记录
 ```
 
-##### 2) 虚拟内存，swap相关
+##### 2) swap information
 
-swapon -s : 查看虚拟内存的位置
+```shell
+swapon -s # 查看虚拟内存的位置
+swapoff -a # 停止交换分区
+```
 
-swapoff -a : 停止交换分区
-
-#### 四，查看cpu，内存等信息
+#### 4，cpu, RAM 
 
 top :  总体查看
 top -bn 1 -i -c : 详细查看
 vmstat : 采集当前cpu状态  https://www.sijitao.net/1925.html
 vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次 
 
-#### 五，ls命令常用选项
+#### 5，ls
 
 ​    ls *.txt ：仅列出目录中的 .txt 文件：
 ​    ls -s ： 按文件大小列出
@@ -65,15 +67,19 @@ vmstat 1 10 : 每隔1秒采集一次cpu状态，采集10次
 	
 	du -sh fileName : (disk usage)查看文件的大小（s:代表目录总大小，h: human readable,换算成kb,mb等单位）
 
-#### 六，历史命令
+#### 6，History commands
 
-​    histtory : 显示最近输入的历史命令
-​	Ctrl + R : 输入此命令后会显示reverse-i-search，输入关键字母可在历史命令中搜索
-​	
+ ```shell
+histtory  # 显示最近输入的历史命令
+Ctrl + R  # 输入此命令后会显示reverse-i-search，输入关键字母可在历史命令中搜索
+ ```
 
-#### 七，查看版本
+#### 7，Kernel version
 
-​	cat /etc/os-release ：查看当前系统版本（CentOS适用，其它未知）
+```shell
+cat /etc/os-release ：查看当前系统版本（CentOS适用，其它未知）
+```
+
 八，文件类型查看
 ​	file * 或者 file hello.txt : 查看当前目录下所有文件或指定文件的类型。
 
@@ -87,9 +93,7 @@ su root/tom # 切换用户
 su - tom  # 完全切换，注意“-”前后有空格
   ```
 
-
-
-#### Eight，Manipulate Text
+#### 8，Manipulate Text
 
 ##### 1, sed
 
@@ -119,7 +123,7 @@ sed -n "1p ; $p" test.txt test1.txt test2.txt
 ##### 2, awk / gawk
 
 ```shell
-#
+#???
 
 ```
 
