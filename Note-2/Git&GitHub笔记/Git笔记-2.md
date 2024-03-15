@@ -54,10 +54,6 @@ git submodule update --init --recursive
 git clone --recurse-submodules  git@gitee.com:plms/spring-cloud.git（主仓库）
 ```
 
-
-
-
-
 ###  2，生成/添加SSH公钥 ，部署
 
  [SSH Key](https://gitee.com/help/labels/19) [SSH 公钥](https://gitee.com/help/labels/29) 
@@ -198,9 +194,12 @@ https://www.runoob.com/git/git-commit-history.html
 
 ### 10，测试链接
 
- ssh -T git@[github](https://so.csdn.net/so/search?q=github&spm=1001.2101.3001.7020).com 
+```shell
+ssh -T git@github.com
+ssh -vT git@github.com   # debug
+```
 
- ssh -T gitee@gitee.com
+
 
 ### 11，git彻底从历史中删除提交的大文件
 
